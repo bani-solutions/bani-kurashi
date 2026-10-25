@@ -9,7 +9,11 @@
 .host{min-height:calc(164px + env(safe-area-inset-top,0px))}main{padding-top:calc(184px + env(safe-area-inset-top,0px))}
 @media(max-width:360px){.brand-title{font-size:16px;letter-spacing:.025em}main{padding-top:calc(184px + env(safe-area-inset-top,0px))}}
 @media(forced-colors:active){.brand-title span{-webkit-text-stroke:0;text-shadow:none;color:CanvasText}}
-.portrait:active img{transform:scale(.94) rotate(-4deg)}.portrait:focus-visible{outline:3px solid #6b9d80;outline-offset:3px;border-radius:16px}#family-state{margin:0 0 8px!important;text-align:left;font-weight:500;font-size:12px;line-height:1.6}</style></head><body><main>
+.portrait:active img{transform:scale(.94) rotate(-4deg)}.portrait:focus-visible{outline:3px solid #6b9d80;outline-offset:3px;border-radius:16px}#family-state{margin:0 0 8px!important;text-align:left;font-weight:500;font-size:12px;line-height:1.6}/* Long replies grow inside the bubble; content follows the actual fixed header. */
+#host-message{max-height:none;overflow:visible}
+main{padding-top:calc(var(--host-height,164px) + 20px)}
+@media(max-width:360px){main{padding-top:calc(var(--host-height,164px) + 20px)}}
+</style></head><body><main>
 <header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" width="85" height="112"><span>バニ平</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div></header>
 <nav class="tabs" aria-label="リストを選ぶ"><button id="shopping" type="button" class="active" aria-pressed="true">買うもの</button><button id="todo" type="button" aria-pressed="false">ToDo</button></nav>
 <section class="card" aria-labelledby="heading"><div class="list-head"><h2 id="heading">買うもの</h2><div class="list-actions"><p id="count"></p><button type="button" id="copy-list" class="mini">リストをコピー</button></div></div><details class="tools"><summary>リストの操作</summary><div class="tools-panel"><button type="button" id="reorder" aria-pressed="false">並べ替え</button><button type="button" id="clear-done">完了分を一括削除</button><button type="button" id="clear-all" class="danger">すべて一括削除</button></div></details><div id="copy-panel" hidden><label for="copy-text" class="help">長押しして「すべて選択」→「コピー」</label><textarea id="copy-text" readonly aria-label="手動コピー用のリスト" rows="5"></textarea><button type="button" id="copy-close" class="mini">閉じる</button></div><ul id="items"></ul><form id="form"><div class="add-row"><input id="entry" aria-label="追加する項目" placeholder="買うものを入力" maxlength="300" required><button class="primary" id="add" type="submit">追加</button></div><label id="due-wrap" hidden>日時（任意）<input type="datetime-local" id="due" aria-label="ToDoの日時（任意）"></label></form><p id="status" role="status"></p><button id="undo" type="button" hidden>削除を取り消す</button></section>
@@ -124,6 +128,24 @@ if(/練習中|どちら|何を追加|確認して|ように教えて/.test(text)
 if(/元気|手伝える/.test(text))return 4;
 return 0;
 }
+function fitHostSpeech(){
+ var message=el('host-message'),host=document.querySelector('.host');
+ if(!message||!host)return;
+ var limit=Math.max(72,Math.floor(window.innerHeight*.35));
+ message.style.maxHeight='none';message.style.overflow='visible';message.style.fontSize='14px';
+ // Grow the bubble first; reduce only long replies, keeping a readable minimum.
+ for(var size=14;size>12&&message.scrollHeight>limit;size-=.5)message.style.fontSize=(size-.5)+'px';
+ if(message.scrollHeight>limit){message.style.maxHeight=limit+'px';message.style.overflow='auto'}
+ message.scrollTop=0;
+ document.documentElement.style.setProperty('--host-height',Math.ceil(host.getBoundingClientRect().height)+'px');
+}
+var speechLayoutFrame;
+function scheduleHostSpeech(){cancelAnimationFrame(speechLayoutFrame);speechLayoutFrame=requestAnimationFrame(fitHostSpeech)}
+if(window.MutationObserver)new window.MutationObserver(scheduleHostSpeech).observe(el('host-message'),{childList:true,characterData:true,subtree:true});
+if(window.ResizeObserver)new ResizeObserver(scheduleHostSpeech).observe(document.querySelector('.host'));
+if(window.addEventListener)window.addEventListener('resize',scheduleHostSpeech);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scheduleHostSpeech);
+if(window.requestAnimationFrame)scheduleHostSpeech();
 function speak(text){setLook(poseFor(text));el('host-message').textContent=text;try{localStorage.setItem('bani-kurashi-host-v1',JSON.stringify({text:text}))}catch(e){}el('host-image').classList.remove('speaking');void el('host-image').offsetWidth;el('host-image').classList.add('speaking');clearTimeout(speechTimer);speechTimer=setTimeout(function(){el('host-image').classList.remove('speaking')},1800)}
 function button(text,label,fn){var b=document.createElement('button');b.type='button';b.className='mini';b.textContent=text;b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b}
 function dueLabel(value){var d=new Date(value);return isNaN(d.getTime())?value:d.toLocaleString('ja-JP',{month:'numeric',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit'})}
