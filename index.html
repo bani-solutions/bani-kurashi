@@ -13,8 +13,92 @@
 <header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" width="85" height="112"><span>バニ平</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div></header>
 <nav class="tabs" aria-label="リストを選ぶ"><button id="shopping" type="button" class="active" aria-pressed="true">買うもの</button><button id="todo" type="button" aria-pressed="false">ToDo</button></nav>
 <section class="card" aria-labelledby="heading"><div class="list-head"><h2 id="heading">買うもの</h2><div class="list-actions"><p id="count"></p><button type="button" id="copy-list" class="mini">リストをコピー</button></div></div><details class="tools"><summary>リストの操作</summary><div class="tools-panel"><button type="button" id="reorder" aria-pressed="false">並べ替え</button><button type="button" id="clear-done">完了分を一括削除</button><button type="button" id="clear-all" class="danger">すべて一括削除</button></div></details><div id="copy-panel" hidden><label for="copy-text" class="help">長押しして「すべて選択」→「コピー」</label><textarea id="copy-text" readonly aria-label="手動コピー用のリスト" rows="5"></textarea><button type="button" id="copy-close" class="mini">閉じる</button></div><ul id="items"></ul><form id="form"><div class="add-row"><input id="entry" aria-label="追加する項目" placeholder="買うものを入力" maxlength="300" required><button class="primary" id="add" type="submit">追加</button></div><label id="due-wrap" hidden>日時（任意）<input type="datetime-local" id="due" aria-label="ToDoの日時（任意）"></label></form><p id="status" role="status"></p><button id="undo" type="button" hidden>削除を取り消す</button></section>
-<section class="card" aria-label="バニ平とおはなし"><div class="examples"><button type="button" data-example="買うものは何が残ってる？">買うものを確認</button><button type="button" data-example="ToDoは何が残ってる？">ToDoを確認</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平に話しかける" maxlength="1000" required><button class="primary" type="submit">送信</button></form><details class="history"><summary>これまでのおはなし</summary><div id="chatlog" role="log" aria-live="polite" aria-label="バニ平との会話"></div></details><p id="chat-status" role="status"></p><details class="history"><summary>使い方</summary><p class="help">「牛乳と卵を買うものに追加して」で登録できるバニ。項目の「編集」で文字や日時を変更、「リストの操作」で並べ替え・一括削除ができるバニ。無料の試作版のため自由な会話は練習中バニ。</p></details></section><section class="card" aria-labelledby="backup-heading"><h2 id="backup-heading">バックアップ</h2><div class="backup-actions"><button id="backup-save" class="primary" type="button">バックアップを保存</button><button id="backup-open" type="button">バックアップから復元</button></div><input id="backup-file" type="file" accept=".json,application/json" hidden><div id="restore-preview" hidden><p id="restore-summary" class="help"></p><p class="help">今のリスト・会話履歴を、このファイルの内容に置き換えます。復元後に「復元前に戻す」で取り消せます。</p><div class="backup-actions"><button id="restore-confirm" type="button" class="primary">この内容で復元</button><button id="restore-cancel" type="button">キャンセル</button></div></div><button id="restore-undo" type="button" hidden>復元前に戻す</button><p id="backup-status" class="help" role="status"></p><p class="help">買い物・ToDo・日時・並び順・会話履歴を1つのファイルに保存します。iPhoneでは保存先に「ファイル」のiCloud Driveなどを選んでください。ファイルには会話の内容も含まれます。</p></section><section class="card"><button id="family-state" type="button" class="mini" style="width:100%;margin-top:10px">この端末のみ・共有設定を開く</button><details id="family-panel"><summary>家族と共有</summary><p id="sync-status" class="help" role="status">この端末だけで利用中</p><div id="sync-controls" class="tools-panel"><button id="sync-start" type="button">共有設定を開く</button></div><p class="help">共有するのは買うもの・ToDoです。会話はこの端末に残ります。元の端末内リストも保管します。</p></details></section><p class="bottom-note">端末のみのリストと会話はこのブラウザに保存されます。共有中のリストは家族と同期します。</p></main>
+<section class="card" aria-label="バニ平とおはなし"><div class="examples"><button type="button" data-example="買うものは何が残ってる？">買うものを確認</button><button type="button" data-example="ToDoは何が残ってる？">ToDoを確認</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平に話しかける" maxlength="1000" required><button class="primary" type="submit">送信</button></form><details class="history"><summary>これまでのおはなし</summary><div id="chatlog" role="log" aria-live="polite" aria-label="バニ平との会話"></div></details><p id="chat-status" role="status"></p><details class="history"><summary>使い方</summary><p class="help">「牛乳と卵を買うものに追加して」で登録できるバニ。項目の「編集」で文字や日時を変更、「リストの操作」で並べ替え・一括削除ができるバニ。会話エンジン Ver.2は完全無料・端末内で動くバニ。「牛乳がない」→「お願い」で追加、「牛乳買った」で完了にできるバニ。削除や曖昧な指示は確認するバニ。確認は5分で取り消され、再読み込みや共有の切り替えでも取り消されるバニ。</p></details></section><section class="card" aria-labelledby="backup-heading"><h2 id="backup-heading">バックアップ</h2><div class="backup-actions"><button id="backup-save" class="primary" type="button">バックアップを保存</button><button id="backup-open" type="button">バックアップから復元</button></div><input id="backup-file" type="file" accept=".json,application/json" hidden><div id="restore-preview" hidden><p id="restore-summary" class="help"></p><p class="help">今のリスト・会話履歴を、このファイルの内容に置き換えます。復元後に「復元前に戻す」で取り消せます。</p><div class="backup-actions"><button id="restore-confirm" type="button" class="primary">この内容で復元</button><button id="restore-cancel" type="button">キャンセル</button></div></div><button id="restore-undo" type="button" hidden>復元前に戻す</button><p id="backup-status" class="help" role="status"></p><p class="help">買い物・ToDo・日時・並び順・会話履歴を1つのファイルに保存します。iPhoneでは保存先に「ファイル」のiCloud Driveなどを選んでください。ファイルには会話の内容も含まれます。</p></section><section class="card"><button id="family-state" type="button" class="mini" style="width:100%;margin-top:10px">この端末のみ・共有設定を開く</button><details id="family-panel"><summary>家族と共有</summary><p id="sync-status" class="help" role="status">この端末だけで利用中</p><div id="sync-controls" class="tools-panel"><button id="sync-start" type="button">共有設定を開く</button></div><p class="help">共有するのは買うもの・ToDoです。会話はこの端末に残ります。元の端末内リストも保管します。</p></details></section><p class="bottom-note">端末のみのリストと会話はこのブラウザに保存されます。共有中のリストは家族と同期します。</p></main>
 <script>
+/* conversation-v2:start — deterministic local intent and short-lived dialogue state. */
+var BaniConversationV2={create:function(api){
+ 'use strict';
+ var pending=null,ttl=5*60*1000;
+ var norm=function(s){return String(s).normalize('NFKC').toLowerCase().replace(/[\s「」『』。!?！？、,]/g,'').replace(/ぎゅうにゅう/g,'牛乳').replace(/たまご|玉子/g,'卵')};
+ var title=function(t){return t==='shopping'?'買うもの':'ToDo'};
+ function clean(s){return s.normalize('NFKC').trim().replace(/^(?:(?:ねえ|ねぇ|あの)[、,\s!！]*|バニ平[、,\s!！]+)/g,'').replace(/[。!！?？]+$/g,'').trim()}
+ function targetOf(s){var a=/買うもの|買い物|買物|ショッピング|買い出し/.test(s),b=/todo|やること|やる事|タスク/i.test(s);return a&&b?'both':a?'shopping':b?'todo':null}
+ function stripTarget(s){return s.replace(/(?:買うもの|買い物|買物|ショッピング|買い出し|todo|やること|やる事|タスク)(?:のリスト|リスト)?(?:に|へ|から|の|を|は)?/ig,'').trim()}
+ function namesOf(s){var protectedNames=[];s=s.replace(/「([^」]+)」|さとう/g,function(value,quoted){protectedNames.push(quoted||value);return '\uE000'+(protectedNames.length-1)+'\uE001'});return [...new Set(s.replace(/(?:して)?(?:おいて|ください|ほしい|下さい|お願い(?:します)?)[、,\s]*$/g,'').replace(/^[をにはへ、,\s]+|[をにはへ、,\s]+$/g,'').split(/および|それから|[、,\n]+|(?<=.)と(?=.)/).map(function(x){return x.trim().replace(/\uE000(\d+)\uE001/g,function(_,i){return protectedNames[Number(i)]}).replace(/^「|」$/g,'')}).filter(Boolean))]}
+ function namesValid(names){return names.length>0&&names.length<=20&&names.every(function(n){return n.length<=300&&!/^(?:それ(?:も|を)?|これ(?:も|を)?|あれ(?:も|を)?|全部|すべて|残り|同じもの|さっきの|いつもの)$/.test(n)})}
+ function setPending(p,text){p.at=Date.now();pending=p;return text}
+ function confirm(p){var action=p.action==='add'?'追加':p.action==='complete'?'完了に':'削除';return setPending(p,(p.names||p.items.map(function(x){return x.name})).map(function(n){return '「'+n+'」'}).join('、')+'を'+(p.type?title(p.type)+(p.action==='add'?'に':p.action==='delete'?'から':'で'):'リストで')+action+(p.action==='complete'?'していいバニ？':'しておくバニ？')+'「お願い」か「やめとく」で教えてほしいバニ。')}
+ function execute(p){pending=null;
+  if(p.action==='add'){var result=api.add(p.type,p.names);if(!result.ok)return '保存できなかったので追加を取り消したバニ。今のリストを確認してほしいバニ。';return (result.added.length?'「'+result.added.join('、')+'」を'+title(p.type)+'に追加したバニ！':'')+(result.duplicates.length?'「'+result.duplicates.join('、')+'」はすでに未完了のリストにあるバニ。':'')}
+  var current=api.getItems();if(!p.items.every(function(old){return current.some(function(x){return x.id===old.id&&x.type===old.type&&x.name===old.name&&x.done===old.done})}))return '確認中にリストが変わったバニ。間違えないよう、もう一度項目を指定してほしいバニ。';
+  var ok=p.action==='delete'?api.remove(p.items.map(function(x){return x.id})):api.complete(p.items.map(function(x){return x.id}));
+  if(!ok)return '保存できなかったため変更を戻したバニ。リストを確認してほしいバニ。';
+  return p.items.map(function(x){return '「'+x.name+'」'}).join('、')+(p.action==='delete'?'を削除したバニ。リストの「削除を取り消す」で戻せるバニ。':'を完了にしたバニ！ひとつ片づいたバニ。');
+ }
+ function prepareAdd(type,names,explicit){
+  if(!namesValid(names))return setPending({kind:'names',action:'add',type:type==='both'?null:type},'追加する項目名を教えてほしいバニ。「牛乳と卵」のように言えるバニ。');
+  if(!type||type==='both')return setPending({kind:'type',action:'add',names:names},'「'+names.join('、')+'」は、買うものとToDoのどちらに追加するバニ？');
+  var p={kind:'confirm',action:'add',type:type,names:names};return explicit?execute(p):confirm(p);
+ }
+ function chooseItems(action,type,names,all,doneOnly){
+  var pool=api.getItems().filter(function(x){return (!type||type==='both'||x.type===type)&&(action!=='complete'||!x.done)&&(!doneOnly||x.done)});
+  if(all&&namesValid(names))return chooseItems(action,type,names,false,doneOnly);
+  if(all){if(!type||type==='both')return setPending({kind:'bulkType',action:action,doneOnly:doneOnly},'買うものとToDoのどちらをまとめて'+(action==='delete'?'削除':'完了に')+'するバニ？');if(!pool.length)return '対象の項目はないバニ。';return confirm({kind:'confirm',action:action,type:type,items:pool.map(function(x){return Object.assign({},x)})})}
+  if(!namesValid(names))return setPending({kind:'names',action:action,type:type},'どの項目を'+(action==='delete'?'削除':'完了に')+'するバニ？項目名を教えてほしいバニ。');
+  var selected=[],ambiguous=false,missing=[];
+  names.forEach(function(name){var exact=pool.filter(function(x){return norm(x.name)===norm(name)}),matches=exact.length?exact:pool.filter(function(x){return norm(x.name).includes(norm(name))});if(!matches.length)missing.push(name);if(matches.length!==1||!exact.length)ambiguous=true;matches.forEach(function(x){if(!selected.some(function(y){return y.id===x.id}))selected.push(x)})});
+  if(missing.length)return '「'+missing.join('、')+'」が対象のリストに見つからなかったバニ。項目名やリストを確認してほしいバニ。';
+  if(ambiguous){return setPending({kind:'choose',action:action,items:selected.map(function(x){return Object.assign({},x)})},'候補を確認してほしいバニ。\n'+selected.map(function(x,i){return (i+1)+'. '+title(x.type)+'：'+x.name}).join('\n')+'\n番号か、リスト名と正確な項目名を教えてほしいバニ。まだ変更していないバニ。')}
+  var p={kind:'confirm',action:action,type:type,items:selected.map(function(x){return Object.assign({},x)})};return action==='delete'?confirm(p):execute(p);
+ }
+ function reply(raw){
+  var s=clean(raw),n=norm(s),t=targetOf(s),expired=pending&&Date.now()-pending.at>ttl;
+  if(expired)pending=null;
+  var yes=/^(?:(?:はい|うん|そうだね))?(?:はい|うん|お願い(?:します)?|おねがい(?:します)?|よろしく(?:お願い(?:します)?)?|いいよ|いいです|それで(?:お願い)?|ok|オッケー|やって|追加して|実行して|そうして)$/.test(n);
+  var no=/^(?:やっぱり)?(?:いいえ|いや|やめ(?:とく|て|る)|やめておく|キャンセル|取り消し|取消|しないで|結構|不要|違う|ちがう|今はいい|やっぱりやめる)$/.test(n);
+  if(no){pending=null;return '今回は操作しないバニ。リストは変えていないバニ。'}
+  if(yes){if(!pending)return expired?'確認の時間が空いたので、もう一度内容を教えてほしいバニ。':'何をするか、もう一度教えてほしいバニ。まだリストは変えていないバニ。';if(pending.kind==='confirm')return execute(pending);return '先に'+(pending.kind==='type'||pending.kind==='bulkType'?'買うものかToDoか':'項目名や候補の番号を')+'教えてほしいバニ。まだ変更していないバニ。'}
+  if(pending&&(pending.kind==='type'||pending.kind==='bulkType')&&/^(?:買うもの|買い物|買物|ショッピング|買い出し|todo|やること|やる事|タスク)(?:のほう|の方|で|に)?$/i.test(s)){
+   var prior=pending;pending=null;return prior.kind==='type'?prepareAdd(t,prior.names,false):chooseItems(prior.action,t,[],true,prior.doneOnly);
+  }
+  if(pending&&pending.kind==='choose'){
+   var choice=pending,number=/^(\d+)(?:番|番目)?$/.exec(n),candidate=number?choice.items[Number(number[1])-1]:null;
+   if(!number){var named=stripTarget(s).replace(/^(?:の)?|(?:を)?(?:お願い|で)$/g,'').trim();var hits=choice.items.filter(function(x){return (!t||x.type===t)&&norm(x.name)===norm(named)});if(hits.length===1)candidate=hits[0]}
+   if(candidate)return confirm({kind:'confirm',action:choice.action,type:candidate.type,items:[candidate]});
+   if(number)return 'その番号は候補にないバニ。表示した候補から選んでほしいバニ。';
+  }
+  if(/(?:追加|登録)(?:しない|しなく)|(?:入れ|いれ|消さ|削除し|完了にし)(?:ない|なく)|追加.*(?:しないで|やめて)|買わない(?!と)|買わなく(?!ちゃ)/.test(s)){pending=null;return '今回は操作しないバニ。リストは変えていないバニ。'}
+  // Mixed actions, alternatives and conditional instructions need a fresh explicit choice.
+  var add=/追加|登録|入れて|いれて|メモして|買って(?:おいて)?$/.test(s),del=/削除|消して|消す|取り除|リストから外/.test(s),done=!del&&/完了|済ませた|済んだ|買ってきた|購入した|買った|買えた|終わった|終えた|できた/.test(s);
+  if((Number(add)+Number(del)+Number(done)>1)||((add||del||done)&&/もし|なら|たら|かどうか|じゃなく|ではなく|以外|以外|または|か卵|か牛乳/.test(s))){pending=null;return '取り違えないよう、一度に一つの操作を教えてほしいバニ。例は「牛乳を買うものに追加して」バニ。まだ変更していないバニ。'}
+  if(t&&/何|なに|残|確認|教え|見せ|一覧|ある|リスト$/.test(s)&&!add&&!del&&!done){pending=null;return t==='both'?api.list('shopping')+'\n\n'+api.list('todo'):api.list(t)}
+  if(/何(?:を)?買(?:う|えば)|買い忘れ|買う物.*(?:何|残)/.test(s)){pending=null;return api.list('shopping')}
+  if(/何が残|残りは|未完了.*(?:何|確認)|^リスト.*(?:見せ|確認|一覧)/.test(s)&&!add&&!del&&!done){pending=null;return api.list('shopping')+'\n\n'+api.list('todo')}
+  if(add){pending=null;if(/迷って|迷う|か悩|かも|かな$|しなくて|したくない|追加するか|登録するか/.test(s)||!/(?:追加|登録)(?:して(?:おいて|ください|ほしい|くれる|くれますか|もらえる|もらえますか)?|お願い(?:します)?|する)?$|(?:入れて|いれて|メモして|買って)(?:おいて|ください|くれる)?$/.test(s))return '追加したい内容をもう一度教えてほしいバニ。項目名とリストがはっきりするまでは変更しないバニ。';var body=stripTarget(s).replace(/(?:を)?(?:追加|登録)(?:して(?:おいて|ください|ほしい|くれる|くれますか|もらえる|もらえますか)?|お願い(?:します)?|する)?|(?:を)?(?:入れて|いれて)(?:おいて|ください)?|(?:を)?メモして|(?:を)?買って(?:おいて)?$/g,'');return prepareAdd(t||(/買って/.test(s)?'shopping':null),namesOf(body),true)}
+  var shortage=/^(.+?)(?:が|は|を)?(?:もう)?(?:ない|無い|なくなった|無くなった|切れた|きれた|足りない|たりない|切らした)(?:んだ|よ|ね|な|です)?$/.exec(s);
+  var shoppingNeed=/^(.+?)(?:を)?(?:買わなきゃ|買わないと|買っておかなきゃ|買う必要がある|買いたい)(?:な|ね|よ)?$/.exec(s);
+  if(shoppingNeed){pending=null;return prepareAdd('shopping',namesOf(stripTarget(shoppingNeed[1])),false)}
+  if(shortage&&!/見つからない|わからない|分からない|知らない|つまらない|眠れない|できない/.test(s)){var subject=shortage[1].replace(/[がはを]$/,'');if(!/時間|元気|やる気|気力|体力|お金|金|自信|意味|仕方|問題|不安|心配|仕事|鍵|財布|スマホ|携帯|リモコン/.test(subject)&&subject.length<60){pending=null;return prepareAdd('shopping',namesOf(stripTarget(subject)),false)}}
+  var taskNeed=/^(.+?)(?:しなきゃ|しないと|しとかなきゃ|やらなきゃ|やらないと|やる必要がある|する必要がある|しなくちゃ)(?:な|ね|よ)?$/.exec(s);
+  var goNeed=/^(.+?)に行か(?:なきゃ|ないと|なくちゃ)(?:な|ね|よ)?$/.exec(s);
+  if(taskNeed||goNeed){pending=null;return prepareAdd('todo',namesOf(taskNeed?taskNeed[1]:goNeed[1]+'に行く'),false)}
+  var itemText=stripTarget(s).replace(/(?:の)?完了(?:分|済み)|済みの(?:項目)?/g,'').replace(/(?:を|が|は)?(?:全部|すべて|全て|まとめて)/g,'').replace(/(?:を|が|は)?(?:削除|消して|消す|取り除いて|完了にして|完了にする|完了した|完了|済ませた|済んだ|買ってきた|購入した|買った|買えた|終わった|終えた|できた)(?:おいて|ください|ほしい|して|する|にして|よ|んだ)?/g,'').replace(/(?:の)?完了(?:分|済み)|済みの(?:項目)?/g,'').trim();
+  if(del||done){var ns=namesOf(itemText),known=ns.length&&api.getItems().some(function(x){return ns.some(function(name){return norm(x.name).includes(norm(name))})});
+   if(del||t||known||/^(?:それ|これ|さっきの)/.test(s)){pending=null;return chooseItems(del?'delete':'complete',t,ns,/全部|すべて|全て|まとめて/.test(s),del&&/完了|済み|済んだ/.test(s))}
+  }
+  if(pending&&pending.kind==='names'&&!/追加|削除|完了|何|どう|疲れ|おはよう|ありがと/.test(s)){
+   var waiting=pending,small=/おはよう|こんにちは|こんばんは|おやすみ|疲れ|つかれ|不安|うれしい|嬉しい/.test(s)?api.smallTalk(s):null;if(!small){pending=null;return waiting.action==='add'?prepareAdd(waiting.type,namesOf(s),false):chooseItems(waiting.action,waiting.type,namesOf(s),false,false)}
+   pending=null;return small;
+  }
+  pending=null;
+  if(/^(?:それ|これ|さっきの)(?:を|も)?.*(?:お願い|して|追加|消|完了)/.test(s))return '「それ」がどの項目か教えてほしいバニ。勝手に選ばずに待っているバニ。';
+  if(/使い方|ヘルプ|何ができる/.test(s))return '「牛乳がない」なら追加を提案するバニ。「お願い」で確定できるバニ。「牛乳買った」「牛乳を削除して」「買うものは何が残ってる？」にも対応するバニ。削除は確認してから行うバニ。';
+  return api.smallTalk(s)||'聞き取ったつもりが、耳だけ先走ったバニ。買うもの・ToDoの操作なら、項目名としたいことを教えてほしいバニ。雑談なら、もう少し詳しく聞きたいバニ。';
+ }
+ return {reply:reply,reset:function(){pending=null}};
+}};
+/* conversation-v2:end */
+
 (function(){'use strict';
 var key='bani-kurashi-test-v2',chatKey='bani-kurashi-chat-v1',undoKey='bani-kurashi-delete-undo-v1',type='shopping',data=[],history=[],editing=null,reordering=false,speechTimer,lookIndex=0;
 var sharedMode=false,syncSave=null;
@@ -44,7 +128,7 @@ function speak(text){setLook(poseFor(text));el('host-message').textContent=text;
 function button(text,label,fn){var b=document.createElement('button');b.type='button';b.className='mini';b.textContent=text;b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b}
 function dueLabel(value){var d=new Date(value);return isNaN(d.getTime())?value:d.toLocaleString('ja-JP',{month:'numeric',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit'})}
 function move(id,dir){var indexes=[];data.forEach(function(x,i){if(x.type===type)indexes.push(i)});var at=indexes.findIndex(function(i){return data[i].id===id});if(at<0||at+dir<0||at+dir>=indexes.length)return;var a=indexes[at],b=indexes[at+dir],tmp=data[a];data[a]=data[b];data[b]=tmp;if(save())status('順番を変えたバニ。');render()}
-function removeIds(ids){if(!ids.length)return;var old=data.slice();data=data.filter(function(x){return !ids.includes(x.id)});if(save()){deletionBackup={items:old,removed:ids};try{localStorage.setItem(undoKey,JSON.stringify(deletionBackup))}catch(e){}el('undo').hidden=false;status(ids.length+'件を削除したバニ。取り消しもできるバニ。');speak(ids.length+'件を削除したバニ。')}render()}
+function removeIds(ids){if(!ids.length)return false;var old=data.slice();data=data.filter(function(x){return !ids.includes(x.id)});var deleted=save();if(deleted){deletionBackup={items:old,removed:ids};try{localStorage.setItem(undoKey,JSON.stringify(deletionBackup))}catch(e){}el('undo').hidden=false;status(ids.length+'件を削除したバニ。取り消しもできるバニ。');speak(ids.length+'件を削除したバニ。')}render();return deleted}
 function render(){var list=el('items');list.textContent='';var visible=data.filter(function(x){return x.type===type});el('heading').textContent=type==='shopping'?'買うもの':'ToDo';el('count').textContent='残り '+visible.filter(function(x){return !x.done}).length+' / '+visible.length+'件';el('due-wrap').hidden=type!=='todo';el('entry').placeholder=type==='shopping'?'買うものを入力':'やることを入力';el('clear-done').disabled=!visible.some(function(x){return x.done});el('clear-all').disabled=!visible.length;el('copy-list').disabled=!visible.length;el('reorder').disabled=visible.length<2;el('reorder').textContent=reordering?'並べ替えを終了':'並べ替え';el('reorder').setAttribute('aria-pressed',reordering?'true':'false');if(!visible.length){var empty=document.createElement('li');empty.className='empty';empty.textContent='まだ項目はないバニ。';list.appendChild(empty)}
 visible.forEach(function(x,index){var li=document.createElement('li'),row=document.createElement('div'),check=document.createElement('input'),copy=document.createElement('div'),name=document.createElement('span');li.className='item'+(x.done?' done':'');row.className='item-row';check.type='checkbox';check.checked=!!x.done;check.setAttribute('aria-label',x.name+'を完了');check.addEventListener('change',function(){x.done=check.checked;if(save())status(x.done?'完了にしたバニ！':'未完了に戻したバニ！');render()});copy.className='item-copy';name.className='item-name';name.textContent=x.name;copy.appendChild(name);if(x.type==='todo'&&x.due){var due=document.createElement('time');due.className='due'+(!x.done&&new Date(x.due)<new Date()?' overdue':'');due.dateTime=x.due;due.textContent=dueLabel(x.due);copy.appendChild(due)}row.append(check,copy);if(reordering){var order=document.createElement('div');order.className='order';var up=button('↑',x.name+'を上へ',function(){move(x.id,-1)}),down=button('↓',x.name+'を下へ',function(){move(x.id,1)});up.disabled=index===0;down.disabled=index===visible.length-1;order.append(up,down);row.appendChild(order)}row.appendChild(button('編集',x.name+'を編集',function(){editing=editing===x.id?null:x.id;render()}));li.appendChild(row);
 if(editing===x.id){var form=document.createElement('form'),input=document.createElement('input');form.className='edit-form';input.value=x.name;input.required=true;input.maxLength=300;input.setAttribute('aria-label','項目名を編集');form.appendChild(input);var date;if(x.type==='todo'){var label=document.createElement('label');label.textContent='日時（任意）';date=document.createElement('input');date.type='datetime-local';date.value=x.due||'';date.setAttribute('aria-label','日時を編集（任意）');label.appendChild(date);form.appendChild(label)}var actions=document.createElement('div');actions.className='edit-actions';var done=document.createElement('button');done.type='submit';done.className='primary';done.textContent='保存';actions.append(done,button('閉じる','編集を閉じる',function(){editing=null;render()}),button('削除',x.name+'を削除',function(){editing=null;removeIds([x.id])}));form.appendChild(actions);form.addEventListener('submit',function(e){e.preventDefault();var value=input.value.trim();if(!value)return; x.name=value;if(date)x.due=date.value;if(save()){editing=null;status('変更したバニ。')}render()});li.appendChild(form)}list.appendChild(li)})}
@@ -176,25 +260,14 @@ function chatReply(text){
  return null;
 }
 
-function respond(raw){
- var text=raw.normalize('NFKC').trim(),target=/買うもの|買い物|買物|ショッピング/.test(text)?'shopping':/todo|やること|やる事|タスク/i.test(text)?'todo':null;
- var add=/追加|登録|入れて|いれて|メモして/.test(text);
- if(add){
-  if(/追加しない|登録しない|追加しなく|登録しなく|入れない|いれない/.test(text))return '今回は追加しないバニ。必要になったら声をかけてほしいバニ。';
-  if(!target)return '買うものとToDo、どちらに追加するバニ？「牛乳を買うものに追加して」のように教えてほしいバニ。';
-  var names=text.replace(/^(?:ねえ[、, ]*|バニ平[、, !！]*)/,'').replace(/(?:買うもの|買い物|買物|ショッピング|todo|やること|やる事|タスク)(?:のリスト|リスト)?(?:に|へ|を|は)?/ig,'').replace(/(?:追加|登録)(?:して(?:おいて|ください|ほしい)?|お願い|する)?|入れて(?:おいて|ください)?|いれて|メモして/g,'').replace(/^[、,\s]+|[をにはへ、,\s。!！?？]+$/g,'').split(/[、,\n]+|と|および/).map(function(n){return n.trim()}).filter(Boolean);
-  if(!names.length)return '何を追加するバニ？「牛乳と卵を買うものに追加して」のように教えてほしいバニ。';
-  var added=[],duplicate=[];names.forEach(function(n){if(data.some(function(x){return x.type===target&&!x.done&&x.name===n}))duplicate.push(n);else{data.push({id:Date.now()+'-'+Math.random(),type:target,name:n,done:false});added.push(n)}});
-  var persisted=save();select(target);if(!persisted)return '保存できなかったので追加を取り消したバニ。空き容量や保存設定を確認してほしいバニ。';
-  return (added.length?'「'+added.join('、')+'」を'+(target==='shopping'?'買うもの':'ToDo')+'に追加したバニ！':'')+(duplicate.length?'「'+duplicate.join('、')+'」はすでに未完了のリストにあるバニ。':'')+(persisted?'':'\n端末への保存はできなかったバニ。画面を閉じると消える可能性があるバニ。');
- }
- if(/削除|消して|完了に/.test(text)||(/買った|終わった/.test(text)&&(target||data.some(function(x){return text.includes(x.name)}))))return '間違いを防ぐため、完了や削除はリストのチェック欄・削除ボタンで操作してほしいバニ。';
- if(target&&/何|なに|残|確認|教え|見せ|一覧|ある|リスト/.test(text))return remaining(target);
- if(/何が残|残り|未完了/.test(text))return remaining('shopping')+'\n\n'+remaining('todo');
- var smallTalk=chatReply(text);if(smallTalk)return smallTalk;
- if(/できる|使い方|ヘルプ/.test(text))return '「牛乳と卵を買うものに追加して」「掃除をToDoに追加して」「買うものは何が残ってる？」と話しかけてほしいバニ。あいさつや、ごはん・音楽・気分の話にも返事するバニ。';
- return '話してくれてありがとうバニ。まだ自由な会話は練習中バニ。「牛乳を買うものに追加して」や「ToDoは何が残ってる？」なら手伝えるバニ。';
-}
+var conversationV2=BaniConversationV2.create({
+ getItems:function(){return data.map(function(x){return Object.assign({},x)})},
+ smallTalk:function(text){return chatReply(/(?:元気|やる気|気力|体力)(?:が|は)?(?:出ない|ない|無い)/.test(text)?'疲れた':text)},list:remaining,
+ add:function(t,names){var added=[],duplicates=[];names.forEach(function(n){if(data.some(function(x){return x.type===t&&!x.done&&x.name.normalize('NFKC').toLowerCase()===n.normalize('NFKC').toLowerCase()}))duplicates.push(n);else{data.push({id:Date.now()+'-'+Math.random(),type:t,name:n,done:false,due:''});added.push(n)}});var ok=added.length?save():true;select(t);return {ok:ok,added:added,duplicates:duplicates}},
+ complete:function(ids){data.forEach(function(x){if(ids.includes(x.id))x.done=true});var ok=save();render();return ok},
+ remove:function(ids){return removeIds(ids)}
+});
+function respond(raw){return conversationV2.reply(raw)}
 
 var restoreKey='bani-kurashi-restore-undo-v1',pendingBackup=null;
 var restoredKeys=[key,chatKey,'bani-kurashi-host-v1',undoKey];
@@ -213,7 +286,7 @@ el('backup-file').addEventListener('change',async function(){pendingBackup=null;
 el('restore-cancel').addEventListener('click',function(){pendingBackup=null;el('restore-preview').hidden=true;backupStatus('復元をキャンセルしたバニ。')});
 function captureStored(){var snapshot={};restoredKeys.forEach(function(k){snapshot[k]=localStorage.getItem(k)});return snapshot}
 function writeStored(snapshot){restoredKeys.forEach(function(k){if(snapshot[k]===null||snapshot[k]===undefined)localStorage.removeItem(k);else localStorage.setItem(k,snapshot[k])})}
-function loadRestored(){data=JSON.parse(localStorage.getItem(key)||'[]');history=JSON.parse(localStorage.getItem(chatKey)||'[]');lastSaved=JSON.stringify(data);storageReadable=true;el('add').disabled=false;editing=null;deletionBackup=null;el('undo').hidden=!localStorage.getItem(undoKey);render();renderChat()}
+function loadRestored(){if(conversationV2)conversationV2.reset();data=JSON.parse(localStorage.getItem(key)||'[]');history=JSON.parse(localStorage.getItem(chatKey)||'[]');lastSaved=JSON.stringify(data);storageReadable=true;el('add').disabled=false;editing=null;deletionBackup=null;el('undo').hidden=!localStorage.getItem(undoKey);render();renderChat()}
 try{el('restore-undo').hidden=!localStorage.getItem(restoreKey)}catch(e){}
 el('restore-confirm').addEventListener('click',function(){if(!pendingBackup)return;if(sharedMode){backupStatus('復元は共有を終了してから行ってほしいバニ。元の端末内リストに復元できるバニ。');return}var before=null;try{validateBackup(pendingBackup);before=captureStored();localStorage.setItem(restoreKey,JSON.stringify(before));var after={};after[key]=JSON.stringify(pendingBackup.items);after[chatKey]=JSON.stringify(pendingBackup.chat);after['bani-kurashi-host-v1']=JSON.stringify(pendingBackup.host||{text:'バックアップから復元したバニ！'});after[undoKey]=null;writeStored(after);loadRestored();pendingBackup=null;el('restore-preview').hidden=true;el('restore-undo').hidden=false;backupStatus('バックアップから復元したバニ！必要なら「復元前に戻す」で取り消せるバニ。')}catch(e){var rolledBack=true;if(before){try{writeStored(before)}catch(rollbackError){rolledBack=false}}try{el('restore-undo').hidden=!localStorage.getItem(restoreKey)}catch(ignore){}backupStatus(rolledBack?'保存できなかったため復元を中止したバニ。今のデータは変えていないバニ。空き容量や保存設定を確認してほしいバニ。':'復元を完了できなかったバニ。保存設定を確認して「復元前に戻す」を押してほしいバニ。')}});
 el('restore-undo').addEventListener('click',function(){if(sharedMode){backupStatus('共有を終了してから復元を取り消してほしいバニ。');return}var current=null;try{var snapshot=JSON.parse(localStorage.getItem(restoreKey)||'null');if(!snapshot||restoredKeys.some(function(k){return !(k in snapshot)||(snapshot[k]!==null&&typeof snapshot[k]!=='string')}))throw Error('snapshot');current=captureStored();writeStored(snapshot);var items=JSON.parse(snapshot[key]||'[]'),chat=JSON.parse(snapshot[chatKey]||'[]');if(!Array.isArray(items)||!Array.isArray(chat))throw Error('snapshot');loadRestored();localStorage.removeItem(restoreKey);el('restore-undo').hidden=true;backupStatus('復元前のリストと会話に戻したバニ。')}catch(e){if(current){try{writeStored(current)}catch(ignore){}}backupStatus('復元前に戻せなかったバニ。空き容量や保存設定を確認してほしいバニ。')}});
@@ -231,7 +304,7 @@ var petReplies=[
  'バニ平を見つけてくれてうれしいバニ！ぴょんぴょんしたくなるバニ！',
  'ふわふわパワー、満タンになったバニ！ありがとうバニ！'
 ];
-el('host-pet').addEventListener('click',function(){
+el('host-pet').addEventListener('click',function(){conversationV2.reset();
  var previous=history.slice().reverse().find(function(m){return m.role==='bani'&&petReplies.includes(m.text)});
  var next=previous?(petReplies.indexOf(previous.text)+1)%petReplies.length:Math.floor(Math.random()*petReplies.length);
  remember('bani',petReplies[next]);
@@ -243,14 +316,14 @@ window.BaniFamily={
  snapshot:function(){return JSON.parse(lastSaved)},
  notice:speak,
  mode:function(text){el('family-state').textContent=text},
- activate:function(scope,items,handler){
+ activate:function(scope,items,handler){conversationV2.reset();
   key='bani-kurashi-shared-'+scope;undoKey=key+'-delete-undo';restoreKey=key+'-restore-undo';
   sharedMode=true;syncSave=handler;data=items;lastSaved=JSON.stringify(items);storageReadable=true;
   localStorage.setItem(key,lastSaved);editing=null;deletionBackup=null;el('undo').hidden=true;
   el('restore-undo').hidden=true;render();
  },
  receive:function(items){data=items;lastSaved=JSON.stringify(items);localStorage.setItem(key,lastSaved);editing=null;render()},
- deactivate:function(){if(!sharedMode)return;sharedMode=false;syncSave=null;key='bani-kurashi-test-v2';undoKey='bani-kurashi-delete-undo-v1';restoreKey='bani-kurashi-restore-undo-v1';restoredKeys=[key,chatKey,'bani-kurashi-host-v1',undoKey];loadRestored();el('restore-undo').hidden=!localStorage.getItem(restoreKey)}
+ deactivate:function(){conversationV2.reset();if(!sharedMode)return;sharedMode=false;syncSave=null;key='bani-kurashi-test-v2';undoKey='bani-kurashi-delete-undo-v1';restoreKey='bani-kurashi-restore-undo-v1';restoredKeys=[key,chatKey,'bani-kurashi-host-v1',undoKey];loadRestored();el('restore-undo').hidden=!localStorage.getItem(restoreKey)}
 };
 el('family-state').addEventListener('click',function(){el('family-panel').open=true;el('family-panel').scrollIntoView({block:'start',behavior:'smooth'})});
 var invitedHouse=new URLSearchParams(location.hash.slice(1)).get('family');
