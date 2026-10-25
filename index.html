@@ -55,6 +55,90 @@ var oldHost=null;try{oldHost=JSON.parse(localStorage.getItem('bani-kurashi-host-
 function renderChat(){var log=el('chatlog');log.textContent='';history.forEach(function(m){var box=document.createElement('p'),label=document.createElement('small');box.className='bubble '+m.role;label.textContent=m.role==='user'?'あなた':'バニ平';box.append(label,document.createTextNode(m.text));log.appendChild(box)});log.scrollTop=log.scrollHeight}
 function remember(role,text){var failed=false;history.push({role:role,text:text,at:Date.now()});try{localStorage.setItem(chatKey,JSON.stringify(history))}catch(e){failed=true}renderChat();if(role==='bani')speak(text);if(failed)speak('会話を保存できなかったバニ。空き容量を確認してほしいバニ。')}
 function remaining(t){var names=data.filter(function(x){return x.type===t&&!x.done}).map(function(x){return x.name+(x.due?'（'+dueLabel(x.due)+'）':'')});var title=t==='shopping'?'買うもの':'ToDo';return names.length?title+'はあと'+names.length+'件バニ！\n・'+names.join('\n・'):title+'の残りはないバニ！ひと息つけるバニ。'}
+// 52 new local conversation replies plus 6 existing replies. List commands above always take priority.
+var chatTopics=[
+ {match:/おはよう|お早う/,replies:[
+ 'おはようバニ！今日の買い物や、やることを一緒に整理するバニ。',
+ 'おはようバニ！まずは背伸びして、ゆっくり一日を始めるバニ。',
+ 'おはようバニ！今日いちばん楽しみにしていることは何バニ？',
+ '朝から声をかけてくれてうれしいバニ！小さなことから始めるバニ。',
+ 'おはようバニ！朝ごはんを考えるだけで、おなかが鳴りそうバニ。']},
+ {match:/おかえり|ただいま|帰ってきた|帰宅/,replies:[
+ 'おかえりバニ！今日も一日おつかれさまバニ。まずは荷物を置くバニ。',
+ 'ただいまの声が聞けてうれしいバニ！どんな一日だったバニ？',
+ 'おかえりバニ！家ではちょっと肩の力を抜くバニ。',
+ 'よく帰ってきたバニ！今日の話、聞かせてほしいバニ。']},
+ {match:/こんにちは|こんばんは|やっほ|はじめまして/,replies:[
+ '会えてうれしいバニ！今日はどんな一日だったバニ？',
+ '会えてうれしいバニ！今日は何のお話をするバニ？',
+ 'こんにちはバニ！くらしのことも、ちょっとした雑談も聞くバニ。',
+ '声をかけてくれてありがとうバニ！のんびりお話しするバニ。',
+ 'バニ平のくらし案内所へようこそバニ！今日の気分を教えてほしいバニ。']},
+ {match:/ありがと|助かった|助かる|サンキュー/,replies:[
+ '役に立ててうれしいバニ！またいつでも声をかけてほしいバニ。',
+ '役に立ててうれしいバニ！そのひと言が励みになるバニ。',
+ 'こちらこそ、頼ってくれてありがとうバニ！また声をかけてほしいバニ。',
+ 'どういたしましてバニ！少しでもくらしが楽になるとうれしいバニ。',
+ 'ありがとうをもらうと、耳までぴんと伸びる気分バニ！']},
+ {match:/疲れ|つかれ|しんど|つらい|辛い|へとへと/,replies:[
+ '今日もおつかれさまバニ。まずはひと息ついてほしいバニ。やることをリストに出して、少しずつ片づけるバニ。',
+ '今日もおつかれさまバニ。まずはひと息ついて、今できることだけ考えるバニ。',
+ 'がんばってきたんだバニ。少し座って、肩の力を抜いてほしいバニ。',
+ '今日は省エネで過ごすのもいいバニ。急がない用事はあとに回せるバニ。',
+ 'しんどい気持ち、話してくれてありがとうバニ。まとまっていなくても聞くバニ。']},
+ {match:/おやすみ|寝る|ねる|眠い|ねむい/,replies:[
+ '今日も一日おつかれさまバニ。ゆっくり休むバニ。',
+ '今日も一日おつかれさまバニ。あたたかくして、おやすみバニ。',
+ 'そろそろ休憩の時間バニ。続きは元気なときに考えるバニ。',
+ '明日のことが気になるなら、やることをひとつ書いてから休むバニ。',
+ '今日できたことをひとつ思い浮かべてみるバニ。小さなことでも十分バニ。']},
+ {match:/不安|心配|緊張|きんちょう|落ち込|かなしい|悲しい|寂しい|さみしい/,replies:[
+ 'その気持ちを聞かせてくれてありがとうバニ。いちばん気になることは何バニ？',
+ 'すぐに答えを出さなくてもいいバニ。気になっていることをひとつずつ言葉にするバニ。',
+ '気持ちがまとまらない日もあるバニ。うまく説明しようとしなくて大丈夫バニ。',
+ '今できそうな小さなことを、一緒に探すバニ。まずはひと息つくバニ。']},
+ {match:/うれしい|嬉しい|楽しい|たのしい|いいこと|やった|成功/,replies:[
+ 'それはうれしいバニ！何があったのか、もう少し聞きたいバニ。',
+ 'いい話を聞くと、バニ平までうれしくなるバニ！',
+ 'やったバニ！今日のうれしい出来事として、覚えておきたい瞬間バニ。',
+ 'よかったバニ！小さな喜びも、ちゃんと味わうバニ。']},
+ {match:/ごはん|ご飯|夕飯|晩ごはん|朝ごはん|お腹|おなか|料理|献立/,replies:[
+ 'ごはんの話をすると、おなかがすくバニ！今日はさっぱりと、しっかり、どっちの気分バニ？',
+ '献立に迷ったら、家にある食材から考えると決めやすいバニ。何があるバニ？',
+ '料理をがんばれない日は、簡単な一品に頼るのもいいバニ。食卓を用意するだけでも立派バニ。',
+ '食べたいものが決まったら、足りない食材を買うものにメモしておくと安心バニ。']},
+ {match:/音楽|曲|ラジオ|歌|ウクレレ/,replies:[
+ '音楽の時間、いいバニ！今はゆったりした曲と元気な曲、どっちの気分バニ？',
+ '家事のおともに好きな曲を流すと、少し楽しくなりそうバニ。何を聴くバニ？',
+ 'ラジオみたいに、何気ない話をする時間も好きバニ。今日のお便りを聞かせてほしいバニ。',
+ '一曲だけ、じっくり聴く時間もぜいたくバニ。最近気になっている曲はあるバニ？']},
+ {match:/家族|奥さん|妻|夫|子ども|子供|育児|お出かけ|散歩|さんぽ/,replies:[
+ '家族で過ごす時間も、ひとりで休む時間も大切バニ。今日はどんな時間だったバニ？',
+ 'お出かけ前に持ち物をひとつずつ確認すると安心バニ。忘れそうなものはメモするバニ。',
+ '育児や家事は、予定どおりにいかないこともあるバニ。今日の小さながんばりを教えてほしいバニ。',
+ '近くを少し歩くだけでも、小さな発見があるかもしれないバニ。行ってみたい場所はあるバニ？']},
+ {match:/バニ平|バニソリューションズ|元気|自己紹介|好きなもの/,replies:[
+ '元気バニ！くらしを手伝えるのがうれしいバニ。',
+ 'バニ平は、しっかり者を目指すくらしの案内役バニ！たまにドジをするので、気づいたら教えてほしいバニ。',
+ 'バニソリューションズの創業者として、くらしのお手伝いもこつこつ続けるバニ！',
+ 'バニ平は、みんなの小さな困りごとを一緒に考える時間が好きバニ。',
+ '元気バニ！耳の間の丸いタグも、バニ平の大事な目印バニ。']},
+ {match:/応援|励ま|ほめて|褒めて|頑張|がんば|やる気|ひま|暇|退屈/,replies:[
+ 'まずは一つできれば十分バニ！小さな一歩を応援するバニ。',
+ 'ここまでやってきた自分にも、おつかれさまを言ってほしいバニ。',
+ 'やる気が出ないときは、二分だけ手をつけてみるのも一つの方法バニ。',
+ '少し気分を変えるなら、好きな曲を一曲聴いたり、机の上を一か所整えたりするバニ。']}
+];
+function chatReply(text){
+ for(var i=0;i<chatTopics.length;i++){
+  var topic=chatTopics[i];if(!topic.match.test(text))continue;
+  var previous=history.slice().reverse().find(function(m){return m.role==='bani'&&topic.replies.includes(m.text)});
+  var index=previous?(topic.replies.indexOf(previous.text)+1)%topic.replies.length:Math.floor(Math.random()*topic.replies.length);
+  return topic.replies[index];
+ }
+ return null;
+}
+
 function respond(raw){
  var text=raw.normalize('NFKC').trim(),target=/買うもの|買い物|買物|ショッピング/.test(text)?'shopping':/todo|やること|やる事|タスク/i.test(text)?'todo':null;
  var add=/追加|登録|入れて|いれて|メモして/.test(text);
@@ -70,13 +154,8 @@ function respond(raw){
  if(/削除|消して|完了に|買った|終わった/.test(text))return '間違いを防ぐため、完了や削除はリストのチェック欄・削除ボタンで操作してほしいバニ。';
  if(target&&/何|なに|残|確認|教え|見せ|一覧|ある|リスト/.test(text))return remaining(target);
  if(/何が残|残り|未完了/.test(text))return remaining('shopping')+'\n\n'+remaining('todo');
- if(/おはよう/.test(text))return 'おはようバニ！今日の買い物や、やることを一緒に整理するバニ。';
- if(/こんにちは|こんばんは|やっほ/.test(text))return '会えてうれしいバニ！今日はどんな一日だったバニ？';
- if(/ありがと/.test(text))return '役に立ててうれしいバニ！またいつでも声をかけてほしいバニ。';
- if(/疲れ|つかれ|しんど|つらい/.test(text))return '今日もおつかれさまバニ。まずはひと息ついてほしいバニ。やることをリストに出して、少しずつ片づけるバニ。';
- if(/おやすみ/.test(text))return '今日も一日おつかれさまバニ。ゆっくり休むバニ。';
- if(/元気/.test(text))return '元気バニ！くらしを手伝えるのがうれしいバニ。';
- if(/できる|使い方|ヘルプ/.test(text))return '「牛乳と卵を買うものに追加して」「掃除をToDoに追加して」「買うものは何が残ってる？」と話しかけてほしいバニ。簡単なあいさつにも返事するバニ。';
+ var smallTalk=chatReply(text);if(smallTalk)return smallTalk;
+ if(/できる|使い方|ヘルプ/.test(text))return '「牛乳と卵を買うものに追加して」「掃除をToDoに追加して」「買うものは何が残ってる？」と話しかけてほしいバニ。あいさつや、ごはん・音楽・気分の話にも返事するバニ。';
  return '話してくれてありがとうバニ。まだ自由な会話は練習中バニ。「牛乳を買うものに追加して」や「ToDoは何が残ってる？」なら手伝えるバニ。';
 }
 
