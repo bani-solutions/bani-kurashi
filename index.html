@@ -115,6 +115,8 @@ window.BaniFamily={
  receive:function(items){data=items;lastSaved=JSON.stringify(items);localStorage.setItem(key,lastSaved);editing=null;render()},
  deactivate:function(){if(!sharedMode)return;sharedMode=false;syncSave=null;key='bani-kurashi-test-v2';undoKey='bani-kurashi-delete-undo-v1';restoreKey='bani-kurashi-restore-undo-v1';restoredKeys=[key,chatKey,'bani-kurashi-host-v1',undoKey];loadRestored();el('restore-undo').hidden=!localStorage.getItem(restoreKey)}
 };
-el('sync-start').addEventListener('click',function(){el('sync-start').disabled=true;import('./family-sync.mjs').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;el('sync-status').textContent='共有機能を読み込めませんでした。通信を確認して再度お試しください。'})});
+function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;el('sync-status').textContent='共有機能を読み込めませんでした。通信を確認して再度お試しください。'})}
+el('sync-start').addEventListener('click',startFamily);
+try{if(localStorage.getItem('bani-family-enabled')==='1')startFamily()}catch(ignore){}
 })();
 </script></body></html>
