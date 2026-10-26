@@ -20,8 +20,20 @@ assert.equal(JSON.parse(storage.get('bani-kurashi-chat-v1'))[0].text,'以前の�
 assert.ok(!elements.get('host-message').textContent.includes('以前の日常会話'));
 function say(text){ctx.document.getElementById('chat-input').value=text;elements.get('chat-form').listeners.submit({preventDefault(){}});return JSON.parse(storage.get('bani-kurashi-chat-v1')).at(-1).text}
 const before=JSON.stringify(ctx.window.BaniFamily.snapshot());
-for(const text of ['おはよう','ただいま','こんにちは','ありがとう','疲れた','眠い','不安だよ','うれしい','夕飯どうしよう','音楽を聴きたい','家族で散歩','バニ平って誰','応援して','仕事が終わった']){assert.match(say(text),/買うもの・ToDoの操作/);assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),before)}
-say('買うものに追加して');say('こんにちは');say('お願い');assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),before);
+const shortcut=elements.get('chat-shopping-shortcut'),input=ctx.document.getElementById('chat-input');
+assert.ok(html.indexOf('id="chat-shopping-shortcut"')<html.indexOf('id="chat-input"'));
+shortcut.listeners.click();assert.equal(input.value,'');assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),before);
+input.value=' にんじん、ピーマン、お米 ';shortcut.listeners.click();
+assert.equal(input.value,'にんじん、ピーマン、お米を買うものに追加して');
+assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),before,'shortcut must not submit');
+shortcut.listeners.click();assert.equal(input.value,'にんじん、ピーマン、お米を買うものに追加して','repeated taps do not duplicate suffix');
+say(input.value);
+for(const name of ['にんじん','ピーマン','お米'])assert.equal(ctx.window.BaniFamily.snapshot().filter(x=>x.name===name&&x.type==='shopping').length,1,name);
+assert.ok(!ctx.window.BaniFamily.snapshot().some(x=>x.name==='にんじん、ピーマン、お米'));
+input.value='あ'.repeat(1000);shortcut.listeners.click();assert.equal(input.value.length,1000,'long input must not be truncated');input.value='';
+const afterShortcut=JSON.stringify(ctx.window.BaniFamily.snapshot());
+for(const text of ['おはよう','ただいま','こんにちは','ありがとう','疲れた','眠い','不安だよ','うれしい','夕飯どうしよう','音楽を聴きたい','家族で散歩','バニ平って誰','応援して','仕事が終わった']){assert.match(say(text),/買うもの・ToDoの操作/);assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),afterShortcut)}
+say('買うものに追加して');say('こんにちは');say('お願い');assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),afterShortcut);
 assert.match(say('バニ平、牛乳と卵を買うものに追加して'),/追加した|すでに/);assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));assert.match(say('バニ平、買うものは何が残ってる？'),/卵/);
 say('音楽の練習をToDoに追加して');assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='音楽の練習'&&x.type==='todo'));assert.match(say('ToDoの音楽の練習が終わった'),/完了にした/);
 say('卵を削除して');assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));say('お願い');assert.ok(!ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));
