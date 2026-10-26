@@ -105,14 +105,15 @@ var BaniConversationV2={create:function(api){
 
 (function(){'use strict';
 var key='bani-kurashi-test-v2',chatKey='bani-kurashi-chat-v1',undoKey='bani-kurashi-delete-undo-v1',type='shopping',data=[],history=[],editing=null,reordering=false,speechTimer,lookIndex=0;
-var sharedMode=false,syncSave=null;
+var sharedMode=false,sharedPaused=false,syncSave=null,sharedOwner=null;
+var lastSharedKey='bani-kurashi-last-shared-v1';
 var el=function(id){return document.getElementById(id)};
 var startupMessage='',deletionBackup=null,storageReadable=true,lastSaved='[]';try{var raw=localStorage.getItem(key);if(raw){var parsed=JSON.parse(raw);if(!Array.isArray(parsed))throw Error('invalid');data=parsed;lastSaved=raw}}catch(e){storageReadable=false;startupMessage='以前のリストを読み込めないバニ。保存設定を確認してほしいバニ。';el('add').disabled=true}
 var looks=[['いつもの','banihei-illustration.png'],['うれしい','banihei-happy.png'],['考え中','banihei-think.png'],['聞いてる','banihei-listen.png'],['応援','banihei-cheer.png'],['ありがとう','banihei-thanks.png'],['びっくり','banihei-surprise.png'],['ひと休み','banihei-rest.png'],['メモする','banihei-note.png'],['またね','banihei-bye.png']];
 var lookRequest=0;function setLook(i){lookIndex=i;var image=el('host-image'),source=looks[i][1],request=++lookRequest;if(image.getAttribute('src')===source)return;var next=new Image();next.onload=function(){if(request===lookRequest)image.src=source};next.onerror=function(){};next.src=source}
 setLook(0);
 function status(t){el('status').textContent='';speak(t)}
-function save(){if(!storageReadable){data=JSON.parse(lastSaved);status('以前のリストを保護するため、保存を止めているバニ。');return false}try{localStorage.setItem(key,JSON.stringify(data));if(syncSave)syncSave(JSON.parse(lastSaved),JSON.parse(JSON.stringify(data)));lastSaved=JSON.stringify(data);return true}catch(e){try{localStorage.setItem(key,lastSaved)}catch(ignore){}data=JSON.parse(lastSaved);status('保存できなかったため変更を戻したバニ。空き容量や保存設定を確認してほしいバニ。');return false}}
+function save(){if(sharedPaused){data=JSON.parse(lastSaved);status('共有への接続を確認中バニ。リストは保管しているバニ。再接続してから編集してほしいバニ。');return false}if(!storageReadable){data=JSON.parse(lastSaved);status('以前のリストを保護するため、保存を止めているバニ。');return false}try{localStorage.setItem(key,JSON.stringify(data));if(syncSave)syncSave(JSON.parse(lastSaved),JSON.parse(JSON.stringify(data)));lastSaved=JSON.stringify(data);return true}catch(e){try{localStorage.setItem(key,lastSaved)}catch(ignore){}data=JSON.parse(lastSaved);status('保存できなかったため変更を戻したバニ。空き容量や保存設定を確認してほしいバニ。');return false}}
 function poseFor(text){
 if(petReplies&&petReplies.includes(text))return 1;
 if(/保存でき|読み込め|保護する|保存を止め|保存はできなかった/.test(text))return 2;
@@ -337,21 +338,35 @@ el('chat-form').addEventListener('submit',function(e){e.preventDefault();var inp
 window.BaniFamily={
  snapshot:function(){return JSON.parse(lastSaved)},
  notice:speak,
- mode:function(text){el('family-state').textContent=text},
- activate:function(scope,items,handler){conversationV2.reset();
+ mode:function(text){el('family-state').textContent=sharedPaused?'共有リストを保管中・再接続が必要':text},
+ isShared:function(){return sharedMode},
+ checkAccount:function(uid){if(sharedMode&&sharedOwner&&uid!==sharedOwner)this.deactivate()},
+ suspend:function(){if(!sharedMode)return;conversationV2.reset();sharedPaused=true;syncSave=null;editing=null;el('add').disabled=true;this.mode('');render()},
+ restoreCached:function(scope,uid){
+  try{var saved=scope?{scope:scope,user:uid}:JSON.parse(localStorage.getItem(lastSharedKey)||'null');
+   if(!saved||typeof saved.scope!=='string'||!saved.scope||typeof saved.user!=='string'||!saved.user)return false;
+   var cached=JSON.parse(localStorage.getItem('bani-kurashi-shared-'+saved.scope)||'null');
+   if(!Array.isArray(cached)||cached.some(function(x){return !x||typeof x.id!=='string'||typeof x.name!=='string'||!['shopping','todo'].includes(x.type)||typeof x.done!=='boolean'}))return false;
+   key='bani-kurashi-shared-'+saved.scope;undoKey=key+'-delete-undo';restoreKey=key+'-restore-undo';
+   data=cached;lastSaved=JSON.stringify(cached);sharedMode=true;sharedOwner=saved.user;storageReadable=true;
+   el('restore-undo').hidden=true;el('undo').hidden=true;deletionBackup=null;this.suspend();return true;
+  }catch(e){return false}
+ },
+ activate:function(scope,items,handler,uid){conversationV2.reset();
   key='bani-kurashi-shared-'+scope;undoKey=key+'-delete-undo';restoreKey=key+'-restore-undo';
-  sharedMode=true;syncSave=handler;data=items;lastSaved=JSON.stringify(items);storageReadable=true;
-  localStorage.setItem(key,lastSaved);editing=null;deletionBackup=null;el('undo').hidden=true;
+  sharedMode=true;sharedPaused=false;sharedOwner=uid||null;syncSave=handler;data=JSON.parse(JSON.stringify(items));lastSaved=JSON.stringify(items);storageReadable=true;
+  localStorage.setItem(key,lastSaved);if(uid){try{localStorage.setItem(lastSharedKey,JSON.stringify({scope:scope,user:uid}))}catch(ignore){}}el('add').disabled=false;editing=null;deletionBackup=null;el('undo').hidden=true;
   el('restore-undo').hidden=true;render();
  },
- receive:function(items){data=items;lastSaved=JSON.stringify(items);localStorage.setItem(key,lastSaved);editing=null;render()},
- deactivate:function(){conversationV2.reset();if(!sharedMode)return;sharedMode=false;syncSave=null;key='bani-kurashi-test-v2';undoKey='bani-kurashi-delete-undo-v1';restoreKey='bani-kurashi-restore-undo-v1';restoredKeys=[key,chatKey,'bani-kurashi-host-v1',undoKey];loadRestored();el('restore-undo').hidden=!localStorage.getItem(restoreKey)}
+ receive:function(items){data=JSON.parse(JSON.stringify(items));lastSaved=JSON.stringify(items);localStorage.setItem(key,lastSaved);editing=null;render()},
+ deactivate:function(){conversationV2.reset();try{localStorage.removeItem(lastSharedKey)}catch(ignore){}if(!sharedMode)return;sharedMode=false;sharedPaused=false;sharedOwner=null;syncSave=null;key='bani-kurashi-test-v2';undoKey='bani-kurashi-delete-undo-v1';restoreKey='bani-kurashi-restore-undo-v1';restoredKeys=[key,chatKey,'bani-kurashi-host-v1',undoKey];loadRestored();el('restore-undo').hidden=!localStorage.getItem(restoreKey)}
 };
+window.BaniFamily.restoreCached();
 el('family-state').addEventListener('click',function(){el('family-panel').open=true;el('family-panel').scrollIntoView({block:'start',behavior:'smooth'})});
 var invitedHouse=new URLSearchParams(location.hash.slice(1)).get('family');
 var hasFamilyInvite=!!invitedHouse&&/^[A-Za-z0-9]{20}$/.test(invitedHouse);
 if(hasFamilyInvite){el('family-panel').open=true;el('family-state').textContent='家族からの招待・参加手続きを確認';el('family-panel').scrollIntoView({block:'start'})}
-function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261025-invite2').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;el('sync-status').textContent='共有機能を読み込めませんでした。通信を確認して再度お試しください。'})}
+function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261026-preserve-shared').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
 el('sync-start').addEventListener('click',startFamily);
 try{if(hasFamilyInvite||localStorage.getItem('bani-family-enabled')==='1')startFamily()}catch(ignore){}
 })();
