@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f6f7f0"><title>バニ平のくらし管理</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f6f7f0;color:#293a30;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN',sans-serif;font-size:16px}main{max-width:580px;margin:auto;padding:0 16px 24px}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button,input,select{border:1px solid #d7dfd4;border-radius:11px;padding:11px;background:#fff;color:inherit}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid #6b9d80;outline-offset:2px}input{min-width:0;max-width:100%}button.primary{background:#376a50;color:#fff;border-color:#376a50}h1{font-size:14px;margin:0;color:#65806c;font-weight:500}h2{font-size:18px;margin:0 0 12px}.host{position:fixed;top:0;left:0;right:0;margin:0 auto;width:calc(100% - 32px);max-width:548px;z-index:10;background:#f6f7f0;border-bottom:1px solid #dce5d7;padding:10px 0 8px;display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;align-items:center;min-height:145px}.portrait{border:0;background:transparent;padding:0;display:flex;align-items:center;flex-direction:column;font-size:11px;color:#65806c}.portrait img{width:85px;height:112px;object-fit:contain;transform-origin:50% 90%}.speech{margin-top:8px;background:white;border:1px solid #dce5d7;border-radius:15px 15px 15px 3px;padding:11px 13px}#host-message{font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:88px;overflow:auto;margin:0}.tabs{display:flex;gap:8px;margin:16px 0}.tabs button{flex:1;background:transparent}.tabs button.active{background:#376a50;color:white;border-color:#376a50}.card{background:white;border:1px solid #e1e7dc;border-radius:16px;padding:14px;margin-bottom:14px}.list-head{display:flex;justify-content:space-between;align-items:center;gap:8px}#count{font-size:13px;color:#6d7d6d;margin:0}.tools summary{font-size:13px;color:#617361;cursor:pointer;padding:8px}.tools-panel{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0}.tools button{font-size:13px;padding:9px}.danger{color:#ad4040}#items{list-style:none;margin:4px 0 14px;padding:0}.item{border-bottom:1px solid #edf0e9;padding:10px 0}.item-row{display:flex;align-items:center;gap:9px}.item-row input[type=checkbox]{appearance:auto;flex:0 0 23px;width:23px;height:23px;accent-color:#376a50}.item-copy{flex:1;min-width:0;overflow-wrap:anywhere}.item-name{display:block;line-height:1.5}.done .item-name{text-decoration:line-through;color:#8b9589}.due{display:block;font-size:12px;color:#687d69;margin-top:3px}.due.overdue{color:#a34737}.mini{padding:7px 10px;font-size:13px;min-height:38px}.order{display:flex;gap:3px}.edit-form{display:flex;flex-direction:column;gap:8px;padding:10px 0}.edit-actions{display:flex;gap:6px}.edit-actions button{flex:1}.add-row{display:flex;gap:8px}.add-row input{flex:1;width:100%}#due-wrap{display:block;font-size:12px;color:#647962;margin-top:9px}#due-wrap input{display:block;margin-top:5px;width:100%}[hidden]{display:none!important}#status,#chat-status{display:none}#undo{margin-top:8px;font-size:13px}.empty{font-size:14px;color:#81917d;padding:20px 0;text-align:center}.chat-form{display:flex;gap:8px}.chat-form input{flex:1;width:100%}.history summary{font-size:13px;color:#667b68;cursor:pointer;margin-top:12px}#chatlog{max-height:240px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-top:10px}.bubble{font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;padding:10px 12px;background:#f0f4eb;border-radius:12px;margin:0;max-width:90%}.bubble.user{background:#e5f0e7;align-self:flex-end}.bubble small{display:block;color:#7a8974;font-size:10px}.help{font-size:12px;color:#7b8978;line-height:1.6;margin:12px 0 0}.examples{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.examples button{font-size:12px;padding:7px 9px}.bottom-note{text-align:center;font-size:11px;color:#83917c;margin-top:16px}@keyframes talk{25%{transform:rotate(-4deg) translateY(-3px)}65%{transform:rotate(3deg)}}.speaking{animation:talk .6s ease-in-out 3}@media(prefers-reduced-motion:reduce){.speaking{animation:none}}@media(max-width:360px){main{padding:0 10px 20px}.host{grid-template-columns:75px minmax(0,1fr);gap:8px}.portrait img{width:72px;height:102px}.card{padding:12px}.mini{padding:7px}}
+*{box-sizing:border-box}body{margin:0;background:#f6f7f0;color:#293a30;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN',sans-serif;font-size:16px}main{max-width:580px;margin:auto;padding:0 16px 24px}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button,input,select{border:1px solid #d7dfd4;border-radius:11px;padding:11px;background:#fff;color:inherit}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid #6b9d80;outline-offset:2px}input{min-width:0;max-width:100%}button.primary{background:#376a50;color:#fff;border-color:#376a50}h1{font-size:14px;margin:0;color:#65806c;font-weight:500}h2{font-size:18px;margin:0 0 12px}.host{position:fixed;top:0;left:0;right:0;margin:0 auto;width:calc(100% - 32px);max-width:548px;z-index:10;background:#f6f7f0;border-bottom:1px solid #dce5d7;padding:10px 0 8px;display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;align-items:center;min-height:145px}.portrait{border:0;background:transparent;padding:0;display:flex;align-items:center;flex-direction:column;font-size:11px;color:#65806c}.portrait img{width:85px;height:112px;object-fit:contain;transform-origin:50% 90%}.speech{margin-top:8px;background:white;border:1px solid #dce5d7;border-radius:15px 15px 15px 3px;padding:11px 13px}#host-message{font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:88px;overflow:auto;margin:0}.tabs{display:flex;gap:8px;margin:16px 0}.tabs button{flex:1;background:transparent}.tabs button.active{background:#376a50;color:white;border-color:#376a50}.card{background:white;border:1px solid #e1e7dc;border-radius:16px;padding:14px;margin-bottom:14px}.list-head{display:flex;justify-content:space-between;align-items:center;gap:8px}#count{font-size:13px;color:#6d7d6d;margin:0}.tools summary{font-size:13px;color:#617361;cursor:pointer;padding:8px}.tools-panel{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0}.tools button{font-size:13px;padding:9px}.danger{color:#ad4040}#items{list-style:none;margin:4px 0 14px;padding:0}.item{border-bottom:1px solid #edf0e9;padding:10px 0}.item-row{display:flex;align-items:center;gap:9px}.item-row input[type=checkbox]{appearance:auto;flex:0 0 23px;width:23px;height:23px;accent-color:#376a50}.item-copy{flex:1;min-width:0;overflow-wrap:anywhere}.item-name{display:block;line-height:1.5}.done .item-name{text-decoration:line-through;color:#8b9589}.due{display:block;font-size:12px;color:#687d69;margin-top:3px}.due.overdue{color:#a34737}.mini{padding:7px 10px;font-size:13px;min-height:38px}.order{display:flex;gap:3px}.edit-form{display:flex;flex-direction:column;gap:8px;padding:10px 0}.edit-actions{display:flex;gap:6px}.edit-actions button{flex:1}.add-row{display:flex;gap:8px}.add-row input{flex:1;width:100%}#due-wrap{display:block;font-size:12px;color:#647962;margin-top:9px}#due-wrap input{display:block;margin-top:5px;width:100%}[hidden]{display:none!important}#status,#chat-status{display:none}#undo{margin-top:8px;font-size:13px}.empty{font-size:14px;color:#81917d;padding:20px 0;text-align:center}.chat-form{display:flex;gap:8px}.chat-form input{flex:1;width:100%}.guide summary{font-size:13px;color:#667b68;cursor:pointer;margin-top:12px}.help{font-size:12px;color:#7b8978;line-height:1.6;margin:12px 0 0}.examples{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.examples button{font-size:12px;padding:7px 9px}.bottom-note{text-align:center;font-size:11px;color:#83917c;margin-top:16px}@keyframes talk{25%{transform:rotate(-4deg) translateY(-3px)}65%{transform:rotate(3deg)}}.speaking{animation:talk .6s ease-in-out 3}@media(prefers-reduced-motion:reduce){.speaking{animation:none}}@media(max-width:360px){main{padding:0 10px 20px}.host{grid-template-columns:75px minmax(0,1fr);gap:8px}.portrait img{width:72px;height:102px}.card{padding:12px}.mini{padding:7px}}
 .backup-actions{display:flex;gap:8px;flex-wrap:wrap}.backup-actions button{flex:1;min-width:150px;font-size:14px}#restore-preview{border-top:1px solid #e1e7dc;margin-top:12px;padding-top:4px}#restore-undo{font-size:13px;margin-top:10px}.list-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.list-head h2{margin:0;white-space:nowrap}.list-head{margin-bottom:10px}#copy-text{display:block;width:100%;font:inherit;font-size:14px;border:1px solid #d7dfd4;border-radius:10px;padding:10px;margin:6px 0;resize:vertical}#copy-panel{margin:10px 0}.list-actions #count{font-size:12px}main{padding-top:calc(161px + env(safe-area-inset-top,0px))}.host{padding-top:calc(10px + env(safe-area-inset-top,0px));min-height:calc(145px + env(safe-area-inset-top,0px))}@media(max-width:360px){main{padding-top:calc(161px + env(safe-area-inset-top,0px))}.host{width:calc(100% - 20px)}}@media(prefers-reduced-motion:reduce){.host{scroll-behavior:auto}}#family-panel{scroll-margin-top:180px}#family-state{font-weight:600}#sync-status{white-space:pre-wrap}
 /* Soft, plush lettering in Banihei's turquoise and lime palette. */
 .brand-title{font-family:"Hiragino Maru Gothic ProN","Hiragino Maru Gothic Pro","Arial Rounded MT Bold",ui-rounded,"Yu Gothic",sans-serif;font-size:clamp(16px,4.5vw,23px);font-weight:900;line-height:1.5;letter-spacing:.055em;display:flex;align-items:baseline;flex-wrap:wrap;column-gap:.1em;row-gap:0;padding:3px 3px 4px;isolation:isolate}
@@ -13,11 +13,34 @@
 #host-message{max-height:none;overflow:visible}
 main{padding-top:calc(var(--host-height,164px) + 20px)}
 @media(max-width:360px){main{padding-top:calc(var(--host-height,164px) + 20px)}}
+.usage-guide{font-size:14px;line-height:1.8;overflow-wrap:anywhere}.usage-guide h3{font-size:15px;margin:20px 0 6px}.usage-guide p{margin:6px 0 12px}.usage-guide dl{margin:12px 0}.usage-guide dt{font-weight:600;margin-top:12px}.usage-guide dd{margin:4px 0 0;padding:9px 11px;background:#f0f4eb;border-radius:10px}.usage-guide ul{padding-left:1.4em}.usage-guide li{margin:7px 0}
 </style></head><body><main>
 <header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" width="85" height="112"><span>バニ平</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div></header>
 <nav class="tabs" aria-label="リストを選ぶ"><button id="shopping" type="button" class="active" aria-pressed="true">買うもの</button><button id="todo" type="button" aria-pressed="false">ToDo</button></nav>
 <section class="card" aria-labelledby="heading"><div class="list-head"><h2 id="heading">買うもの</h2><div class="list-actions"><p id="count"></p><button type="button" id="copy-list" class="mini">リストをコピー</button></div></div><details class="tools"><summary>リストの操作</summary><div class="tools-panel"><button type="button" id="reorder" aria-pressed="false">並べ替え</button><button type="button" id="clear-done">完了分を一括削除</button><button type="button" id="clear-all" class="danger">すべて一括削除</button></div></details><div id="copy-panel" hidden><label for="copy-text" class="help">長押しして「すべて選択」→「コピー」</label><textarea id="copy-text" readonly aria-label="手動コピー用のリスト" rows="5"></textarea><button type="button" id="copy-close" class="mini">閉じる</button></div><ul id="items"></ul><form id="form"><div class="add-row"><input id="entry" aria-label="追加する項目" placeholder="買うものを入力" maxlength="300" required><button class="primary" id="add" type="submit">追加</button></div><label id="due-wrap" hidden>日時（任意）<input type="datetime-local" id="due" aria-label="ToDoの日時（任意）"></label></form><p id="status" role="status"></p><button id="undo" type="button" hidden>削除を取り消す</button></section>
-<section class="card" aria-label="バニ平とおはなし"><div class="examples"><button type="button" data-example="買うものは何が残ってる？">買うものを確認</button><button type="button" data-example="ToDoは何が残ってる？">ToDoを確認</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平に話しかける" maxlength="1000" required><button class="primary" type="submit">送信</button></form><details class="history"><summary>これまでのおはなし</summary><div id="chatlog" role="log" aria-live="polite" aria-label="バニ平との会話"></div></details><p id="chat-status" role="status"></p><details class="history"><summary>使い方</summary><p class="help">「牛乳と卵を買うものに追加して」で登録できるバニ。項目の「編集」で文字や日時を変更、「リストの操作」で並べ替え・一括削除ができるバニ。会話エンジン Ver.2は完全無料・端末内で動くバニ。「牛乳がない」→「お願い」で追加、「牛乳買った」で完了にできるバニ。削除や曖昧な指示は確認するバニ。確認は5分で取り消され、再読み込みや共有の切り替えでも取り消されるバニ。</p></details></section><section class="card" aria-labelledby="backup-heading"><h2 id="backup-heading">バックアップ</h2><div class="backup-actions"><button id="backup-save" class="primary" type="button">バックアップを保存</button><button id="backup-open" type="button">バックアップから復元</button></div><input id="backup-file" type="file" accept=".json,application/json" hidden><div id="restore-preview" hidden><p id="restore-summary" class="help"></p><p class="help">今のリスト・会話履歴を、このファイルの内容に置き換えます。復元後に「復元前に戻す」で取り消せます。</p><div class="backup-actions"><button id="restore-confirm" type="button" class="primary">この内容で復元</button><button id="restore-cancel" type="button">キャンセル</button></div></div><button id="restore-undo" type="button" hidden>復元前に戻す</button><p id="backup-status" class="help" role="status"></p><p class="help">買い物・ToDo・日時・並び順・会話履歴を1つのファイルに保存します。iPhoneでは保存先に「ファイル」のiCloud Driveなどを選んでください。ファイルには会話の内容も含まれます。</p></section><section class="card"><button id="family-state" type="button" class="mini" style="width:100%;margin-top:10px">この端末のみ・共有設定を開く</button><details id="family-panel"><summary>家族と共有</summary><p id="sync-status" class="help" role="status">この端末だけで利用中</p><div id="sync-controls" class="tools-panel"><button id="sync-start" type="button">共有設定を開く</button></div><p class="help">共有するのは買うもの・ToDoです。会話はこの端末に残ります。元の端末内リストも保管します。</p></details></section><p class="bottom-note">端末のみのリストと会話はこのブラウザに保存されます。共有中のリストは家族と同期します。</p></main>
+<section class="card" aria-label="バニ平とおはなし"><div class="examples"><button type="button" data-example="買うものは何が残ってる？">買うものを確認</button><button type="button" data-example="ToDoは何が残ってる？">ToDoを確認</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平に話しかける" maxlength="1000" required><button class="primary" type="submit">送信</button></form><p id="chat-status" role="status"></p><details class="guide" id="usage-guide"><summary>使い方</summary><div class="usage-guide">
+<h3>入力欄から追加する</h3>
+<p>「買うもの」か「ToDo」を選び、内容を入力して「追加」を押します。ToDoの日時は空欄でも登録できます。</p>
+<h3>バニ平に頼む</h3>
+<p>「バニ平に話しかける」に入力して「送信」を押すと、返事が上の吹き出しに表示されます。</p>
+<dl>
+<dt>買うものを追加</dt><dd>「牛乳と卵を買うものに追加して」</dd>
+<dt>足りないものを伝える</dt><dd>「牛乳がない」→バニ平が追加を確認→「お願い」で登録。「やめとく」で取り消します。</dd>
+<dt>ToDoを追加</dt><dd>「掃除をToDoに追加して」<br>「洗濯しなきゃ」→確認に「お願い」で登録。</dd>
+<dt>残りを確認</dt><dd>「買うものは何が残ってる？」<br>「ToDoは何が残ってる？」</dd>
+<dt>完了にする</dt><dd>「牛乳買った」<br>「ToDoの掃除が終わった」</dd>
+<dt>削除する</dt><dd>「牛乳を削除して」→削除の確認に「お願い」。同じ名前が複数あるときは、候補を選んでから確認します。</dd>
+</dl>
+<p>確認への返事は5分以内にお願いします。再読み込み・共有の切り替え・イラストのタップでも確認は取り消されます。曖昧な指示はそのまま実行しません。</p>
+<h3>リストを編集・整理する</h3>
+<ul><li>チェックを付ける：完了／未完了を切り替えます。</li><li>「編集」：名前やToDoの日時を変更できます。日時は会話ではなく、この画面で設定します。</li><li>「リストの操作」→「並べ替え」：↑↓で順番を変えます。</li><li>「リストの操作」→「完了分を一括削除」「すべて一括削除」：選んだリストの項目を削除します。「削除を取り消す」で戻せます。</li><li>「リストをコピー」：メモアプリなどに貼り付けられます。</li></ul>
+<h3>イラストをタップする</h3>
+<p>上のバニ平をタップすると、喜ぶセリフを話します。会話欄は買うもの・ToDoの操作に使えます。日常の雑談には対応していません。</p>
+<h3>家族との共有</h3>
+<p>画面下の「家族と共有」で設定します。招待を受けたGoogleアカウントでログインしてください。買うもの・ToDoが同期されます。「再接続が必要」と出たら「共有に再接続」を押してください。再接続まで、保管したリストは閲覧のみになります。</p>
+<h3>バックアップを保存・復元する</h3>
+<p>下の「バックアップを保存」でファイルを保存できます。iPhoneでは保存先に「ファイル」を選びます。「バックアップから復元」で保存したファイルを選び、内容を確認して復元します。復元は端末内モードで行い、必要なら「復元前に戻す」で取り消せます。</p>
+</div></details></section><section class="card" aria-labelledby="backup-heading"><h2 id="backup-heading">バックアップ</h2><div class="backup-actions"><button id="backup-save" class="primary" type="button">バックアップを保存</button><button id="backup-open" type="button">バックアップから復元</button></div><input id="backup-file" type="file" accept=".json,application/json" hidden><div id="restore-preview" hidden><p id="restore-summary" class="help"></p><p class="help">今のリスト・会話履歴を、このファイルの内容に置き換えます。復元後に「復元前に戻す」で取り消せます。</p><div class="backup-actions"><button id="restore-confirm" type="button" class="primary">この内容で復元</button><button id="restore-cancel" type="button">キャンセル</button></div></div><button id="restore-undo" type="button" hidden>復元前に戻す</button><p id="backup-status" class="help" role="status"></p><p class="help">買い物・ToDo・日時・並び順・会話履歴を1つのファイルに保存します。iPhoneでは保存先に「ファイル」のiCloud Driveなどを選んでください。ファイルには会話の内容も含まれます。</p></section><section class="card"><button id="family-state" type="button" class="mini" style="width:100%;margin-top:10px">この端末のみ・共有設定を開く</button><details id="family-panel"><summary>家族と共有</summary><p id="sync-status" class="help" role="status">この端末だけで利用中</p><div id="sync-controls" class="tools-panel"><button id="sync-start" type="button">共有設定を開く</button></div><p class="help">共有するのは買うもの・ToDoです。会話はこの端末に残ります。元の端末内リストも保管します。</p></details></section><p class="bottom-note">端末のみのリストと会話はこのブラウザに保存されます。共有中のリストは家族と同期します。</p></main>
 <script>
 /* conversation-v2:start — deterministic local intent and short-lived dialogue state. */
 var BaniConversationV2={create:function(api){
@@ -91,13 +114,12 @@ var BaniConversationV2={create:function(api){
    if(del||t||known||/^(?:それ|これ|さっきの)/.test(s)){pending=null;return chooseItems(del?'delete':'complete',t,ns,/全部|すべて|全て|まとめて/.test(s),del&&/完了|済み|済んだ/.test(s))}
   }
   if(pending&&pending.kind==='names'&&!/追加|削除|完了|何|どう|疲れ|おはよう|ありがと/.test(s)){
-   var waiting=pending,small=/おはよう|こんにちは|こんばんは|おやすみ|疲れ|つかれ|不安|うれしい|嬉しい/.test(s)?api.smallTalk(s):null;if(!small){pending=null;return waiting.action==='add'?prepareAdd(waiting.type,namesOf(s),false):chooseItems(waiting.action,waiting.type,namesOf(s),false,false)}
-   pending=null;return small;
+   var waiting=pending;pending=null;if(!/おはよう|こんにちは|こんばんは|おやすみ|疲れ|つかれ|不安|うれしい|嬉しい/.test(s))return waiting.action==='add'?prepareAdd(waiting.type,namesOf(s),false):chooseItems(waiting.action,waiting.type,namesOf(s),false,false);
   }
   pending=null;
   if(/^(?:それ|これ|さっきの)(?:を|も)?.*(?:お願い|して|追加|消|完了)/.test(s))return '「それ」がどの項目か教えてほしいバニ。勝手に選ばずに待っているバニ。';
   if(/使い方|ヘルプ|何ができる/.test(s))return '「牛乳がない」なら追加を提案するバニ。「お願い」で確定できるバニ。「牛乳買った」「牛乳を削除して」「買うものは何が残ってる？」にも対応するバニ。削除は確認してから行うバニ。';
-  return api.smallTalk(s)||'聞き取ったつもりが、耳だけ先走ったバニ。買うもの・ToDoの操作なら、項目名としたいことを教えてほしいバニ。雑談なら、もう少し詳しく聞きたいバニ。';
+  return '買うもの・ToDoの操作を教えてほしいバニ。「牛乳を買うものに追加して」「買うものは何が残ってる？」のように頼めるバニ。詳しくは「使い方」を開いてほしいバニ。';
  }
  return {reply:reply,reset:function(){pending=null}};
 }};
@@ -166,126 +188,12 @@ el('shopping').addEventListener('click',function(){select('shopping')});el('todo
 try{el('undo').hidden=!localStorage.getItem(undoKey)}catch(e){}
 el('undo').addEventListener('click',function(){try{var backup=deletionBackup||JSON.parse(localStorage.getItem(undoKey)||'null');if(!backup||!Array.isArray(backup.items)||!Array.isArray(backup.removed))return;backup.items.forEach(function(x,i){if(backup.removed.includes(x.id)&&!data.some(function(y){return y.id===x.id}))data.splice(Math.min(i,data.length),0,x)});if(save()){deletionBackup=null;try{localStorage.removeItem(undoKey)}catch(e){}el('undo').hidden=true;status('削除を取り消したバニ。')}render()}catch(e){status('取り消しデータを読み込めなかったバニ。')}});
 el('form').addEventListener('submit',function(e){e.preventDefault();var name=el('entry').value.trim();if(!name)return;data.push({id:Date.now()+'-'+Math.random(),type:type,name:name,done:false,due:type==='todo'?el('due').value:''});if(save()){el('entry').value='';el('due').value='';status('「'+name+'」を追加したバニ！')}render()});
-var oldHost=null;try{oldHost=JSON.parse(localStorage.getItem('bani-kurashi-host-v1')||'null')}catch(e){}try{var oldChat=JSON.parse(localStorage.getItem(chatKey)||'[]');if(Array.isArray(oldChat))history=oldChat.filter(function(x){return x&&typeof x.text==='string'&&(x.role==='user'||x.role==='bani')})}catch(e){startupMessage=startupMessage||'以前の会話を読み込めなかったバニ。'}
-function renderChat(){var log=el('chatlog');log.textContent='';history.forEach(function(m){var box=document.createElement('p'),label=document.createElement('small');box.className='bubble '+m.role;label.textContent=m.role==='user'?'あなた':'バニ平';box.append(label,document.createTextNode(m.text));log.appendChild(box)});log.scrollTop=log.scrollHeight}
-function remember(role,text){var failed=false;history.push({role:role,text:text,at:Date.now()});try{localStorage.setItem(chatKey,JSON.stringify(history))}catch(e){failed=true}renderChat();if(role==='bani')speak(text);if(failed)speak('会話を保存できなかったバニ。空き容量を確認してほしいバニ。')}
+try{var oldChat=JSON.parse(localStorage.getItem(chatKey)||'[]');if(Array.isArray(oldChat))history=oldChat.filter(function(x){return x&&typeof x.text==='string'&&(x.role==='user'||x.role==='bani')})}catch(e){startupMessage=startupMessage||'以前の会話を読み込めなかったバニ。'}
+function remember(role,text){var failed=false;history.push({role:role,text:text,at:Date.now()});try{localStorage.setItem(chatKey,JSON.stringify(history))}catch(e){failed=true}if(role==='bani')speak(text);if(failed)speak('会話を保存できなかったバニ。空き容量を確認してほしいバニ。')}
 function remaining(t){var names=data.filter(function(x){return x.type===t&&!x.done}).map(function(x){return x.name+(x.due?'（'+dueLabel(x.due)+'）':'')});var title=t==='shopping'?'買うもの':'ToDo';return names.length?title+'はあと'+names.length+'件バニ！\n・'+names.join('\n・'):title+'の残りはないバニ！ひと息つけるバニ。'}
-// 52 new local conversation replies plus 6 existing replies. List commands above always take priority.
-var chatTopics=[
- {match:/おはよう|お早う/,replies:[
- 'おはようバニ！今日の買い物や、やることを一緒に整理するバニ。',
- 'おはようバニ！まずは背伸びして、ゆっくり一日を始めるバニ。',
- 'おはようバニ！今日いちばん楽しみにしていることは何バニ？',
- '朝から声をかけてくれてうれしいバニ！小さなことから始めるバニ。',
- 'おはようバニ！朝ごはんを考えるだけで、おなかが鳴りそうバニ。']},
- {match:/おかえり|ただいま|帰ってきた|帰宅/,replies:[
- 'おかえりバニ！今日も一日おつかれさまバニ。まずは荷物を置くバニ。',
- 'ただいまの声が聞けてうれしいバニ！どんな一日だったバニ？',
- 'おかえりバニ！家ではちょっと肩の力を抜くバニ。',
- 'よく帰ってきたバニ！今日の話、聞かせてほしいバニ。']},
- {match:/こんにちは|こんばんは|やっほ|はじめまして/,replies:[
- '会えてうれしいバニ！今日はどんな一日だったバニ？',
- '会えてうれしいバニ！今日は何のお話をするバニ？',
- 'こんにちはバニ！くらしのことも、ちょっとした雑談も聞くバニ。',
- '声をかけてくれてありがとうバニ！のんびりお話しするバニ。',
- 'バニ平のくらし案内所へようこそバニ！今日の気分を教えてほしいバニ。']},
- {match:/ありがと|助かった|助かる|サンキュー/,replies:[
- '役に立ててうれしいバニ！またいつでも声をかけてほしいバニ。',
- '役に立ててうれしいバニ！そのひと言が励みになるバニ。',
- 'こちらこそ、頼ってくれてありがとうバニ！また声をかけてほしいバニ。',
- 'どういたしましてバニ！少しでもくらしが楽になるとうれしいバニ。',
- 'ありがとうをもらうと、耳までぴんと伸びる気分バニ！']},
- {match:/疲れ|つかれ|しんど|つらい|辛い|へとへと/,replies:[
- '今日もおつかれさまバニ。まずはひと息ついてほしいバニ。やることをリストに出して、少しずつ片づけるバニ。',
- '今日もおつかれさまバニ。まずはひと息ついて、今できることだけ考えるバニ。',
- 'がんばってきたんだバニ。少し座って、肩の力を抜いてほしいバニ。',
- '今日は省エネで過ごすのもいいバニ。急がない用事はあとに回せるバニ。',
- 'しんどい気持ち、話してくれてありがとうバニ。まとまっていなくても聞くバニ。']},
- {match:/おやすみ|寝る|ねる|眠い|ねむい/,replies:[
- '今日も一日おつかれさまバニ。ゆっくり休むバニ。',
- '今日も一日おつかれさまバニ。あたたかくして、おやすみバニ。',
- 'そろそろ休憩の時間バニ。続きは元気なときに考えるバニ。',
- '明日のことが気になるなら、やることをひとつ書いてから休むバニ。',
- '今日できたことをひとつ思い浮かべてみるバニ。小さなことでも十分バニ。']},
- {match:/不安|心配|緊張|きんちょう|落ち込|かなしい|悲しい|寂しい|さみしい/,replies:[
- 'その気持ちを聞かせてくれてありがとうバニ。いちばん気になることは何バニ？',
- 'すぐに答えを出さなくてもいいバニ。気になっていることをひとつずつ言葉にするバニ。',
- '気持ちがまとまらない日もあるバニ。うまく説明しようとしなくて大丈夫バニ。',
- '今できそうな小さなことを、一緒に探すバニ。まずはひと息つくバニ。']},
- {match:/うれしい|嬉しい|楽しい|たのしい|いいこと|やった|成功/,replies:[
- 'それはうれしいバニ！何があったのか、もう少し聞きたいバニ。',
- 'いい話を聞くと、バニ平までうれしくなるバニ！',
- 'やったバニ！今日のうれしい出来事として、覚えておきたい瞬間バニ。',
- 'よかったバニ！小さな喜びも、ちゃんと味わうバニ。']},
- {match:/ごはん|ご飯|夕飯|晩ごはん|朝ごはん|お腹|おなか|料理|献立/,replies:[
- 'ごはんの話をすると、おなかがすくバニ！今日はさっぱりと、しっかり、どっちの気分バニ？',
- '献立に迷ったら、家にある食材から考えると決めやすいバニ。何があるバニ？',
- '料理をがんばれない日は、簡単な一品に頼るのもいいバニ。食卓を用意するだけでも立派バニ。',
- '食べたいものが決まったら、足りない食材を買うものにメモしておくと安心バニ。']},
- {match:/音楽|曲|ラジオ|歌|ウクレレ/,replies:[
- '音楽の時間、いいバニ！今はゆったりした曲と元気な曲、どっちの気分バニ？',
- '家事のおともに好きな曲を流すと、少し楽しくなりそうバニ。何を聴くバニ？',
- 'ラジオみたいに、何気ない話をする時間も好きバニ。今日のお便りを聞かせてほしいバニ。',
- '一曲だけ、じっくり聴く時間もぜいたくバニ。最近気になっている曲はあるバニ？']},
- {match:/家族|奥さん|妻|夫|子ども|子供|育児|お出かけ|散歩|さんぽ/,replies:[
- '家族で過ごす時間も、ひとりで休む時間も大切バニ。今日はどんな時間だったバニ？',
- 'お出かけ前に持ち物をひとつずつ確認すると安心バニ。忘れそうなものはメモするバニ。',
- '育児や家事は、予定どおりにいかないこともあるバニ。今日の小さながんばりを教えてほしいバニ。',
- '近くを少し歩くだけでも、小さな発見があるかもしれないバニ。行ってみたい場所はあるバニ？']},
- {match:/バニ平|バニソリューションズ|元気|自己紹介|好きなもの/,replies:[
- '元気バニ！くらしを手伝えるのがうれしいバニ。',
- 'バニ平は、しっかり者を目指すくらしの案内役バニ！たまにドジをするので、気づいたら教えてほしいバニ。',
- 'バニソリューションズの創業者として、くらしのお手伝いもこつこつ続けるバニ！',
- 'バニ平は、みんなの小さな困りごとを一緒に考える時間が好きバニ。',
- '元気バニ！耳の間の丸いタグも、バニ平の大事な目印バニ。']},
- {match:/応援|励ま|ほめて|褒めて|頑張|がんば|やる気|ひま|暇|退屈/,replies:[
- 'まずは一つできれば十分バニ！小さな一歩を応援するバニ。',
- 'ここまでやってきた自分にも、おつかれさまを言ってほしいバニ。',
- 'やる気が出ないときは、二分だけ手をつけてみるのも一つの方法バニ。',
- '少し気分を変えるなら、好きな曲を一曲聴いたり、机の上を一か所整えたりするバニ。']}
-];
-// 100 additional replies across 25 everyday topics; greetings and distress retain priority.
-var extraChatTopics=[
- {match:/仕事.*(?:終わった|終え|済ん|おしまい|終了)|退勤|仕事帰り/,example:"仕事が済んだ",replies:["今日のお仕事、おつかれさまバニ！いちばんほっとした瞬間はいつバニ？", "一区切りついたんだバニ！帰ったら何をして過ごしたいバニ？", "今日も働いた自分に、ひと息のごほうびをあげるバニ。", "お仕事モードから、おうちモードへ切り替えるバニ。今日の話を聞かせてほしいバニ。"]},
- {match:/仕事に行|出勤|行ってきます|いってきます/,example:"仕事に行く",replies:["いってらっしゃいバニ！慌てず、持ち物を確認してから出発するバニ。", "今日も一歩ずつ進むバニ。帰ってきたら、またお話しするバニ！", "出発の時間バニ！鍵とスマホ、必要な荷物はそろったバニ？", "いってらっしゃいバニ！忙しい日も、休憩を取れるときに取ってほしいバニ。"]},
- {match:/失敗|ミスした|間違えた|うまくいか|上手くいか/,example:"失敗した",replies:["うまくいかなかったんだバニ。まずは何が起きたか、一緒に整理するバニ。", "失敗した直後は、気持ちがざわざわするバニ。落ち着いてから次の一手を考えるバニ。", "今回わかったことが一つあれば、次に生かせるバニ。気づいたことはあるバニ？", "全部を一度に直さなくてもいいバニ。いちばん小さく直せるところから考えるバニ。"]},
- {match:/先延ばし|後回し|あとまわし|取りかかれ|とりかかれ|めんどくさ|面倒くさ/,example:"先延ばししてる",replies:["最初の一歩を小さくするバニ。道具を出すだけ、でも立派な開始バニ。", "後回しになる理由は、難しさバニ？量の多さバニ？そこから一緒にほどくバニ。", "今日は五分だけ取りかかる作戦もあるバニ。続けるかどうかは、そのあと決めるバニ。", "終わりまで考えると大きく見えるバニ。まず最初にすることを一つ決めるバニ。"]},
- {match:/なくした|失くした|見つから|どこに置|どこ置|探し物|さがしもの/,example:"鍵が見つからない",replies:["探し物バニね。最後に使った場所から、順番にたどってみるバニ。", "いったん立ち止まって、ポケットといつもの置き場所を確認するバニ。", "探す場所を一か所ずつ区切ると、同じ場所を何度も探しにくくなるバニ。", "見つかったら、帰る場所を一つ決めてあげるバニ。今は最後に見た場面を思い出すバニ。"]},
- {match:/掃除|そうじ|片付|片づ|かたづ|散らか/,example:"片づけたい",replies:["片づけは、一か所だけから始めるバニ。机の上と床、どちらからにするバニ？", "全部きれいにしようとしなくていいバニ。まずは通り道を一つ作るバニ。", "使うものの帰る場所が決まると、戻しやすくなるバニ。どれから決めるバニ？", "五分だけお片づけ作戦バニ！終わったら、片づいた場所をちゃんと眺めるバニ。"]},
- {match:/洗濯|せんたく|干す|干した|たたむ|畳む/,example:"洗濯しなきゃ",replies:["洗濯は、洗う・干す・しまうで仕事がいっぱいバニ。一段階ずつ進めるバニ。", "洗濯の話バニね。今はどこまで進んでいるバニ？", "しまうところまで考えると大仕事バニ。まず目の前の一つを片づけるバニ。", "洗濯を済ませたら、小さな達成のお祝いバニ。毎日の家事にも拍手するバニ！"]},
- {match:/洗い物|食器|皿洗|皿を洗|シンク/,example:"洗い物が多い",replies:["洗い物がたまると、シンクが大きな山に見えるバニ。まず一枚から始めるバニ。", "食器を片づけるのも立派な家事バニ。終わったあとのすっきりを楽しみにするバニ。", "洗い物の時間のおともに、短い曲を一曲流すのも楽しそうバニ。", "全部が難しいときは、次に使うものから洗う作戦もあるバニ。"]},
- {match:/ゴミ|ごみ|資源回収|分別/,example:"ゴミの分別",replies:["ごみの分別は地域で違うバニ。迷うものは自治体の案内で確認してほしいバニ。", "ごみをまとめる前に、袋が足りるか確認するバニ。必要なら買うものにメモできるバニ。", "回収日はここでは確認できないバニ。地域の予定を見て、ToDoに日時を入れると整理できるバニ。", "分別がややこしいもの、あるバニね。何を捨てたいのか、まず名前を整理するバニ。"]},
- {match:/節約|せつやく|無駄遣|むだづか|買いすぎ|買い過ぎ/,example:"買いすぎちゃう",replies:["買う前に、家に同じものがないか確認するバニ。リストが役に立つ場面バニ。", "必要なものと、あったらうれしいものを書き分けると考えやすいバニ。", "安いから買う前に、使う場面を一つ思い浮かべるバニ。", "楽しみも残しながら、減らせる買い物を一つ探すバニ。最近気になった出費は何バニ？"]},
- {match:/コーヒー|珈琲|紅茶|お茶|ティータイム/,example:"コーヒー飲もう",replies:["お茶の時間、いいバニ！カップを置いて、ひと息つくバニ。", "お気に入りの飲み物があると、休憩が少し楽しみになるバニ。今日は何を飲むバニ？", "湯気を眺めながら、のんびりお話ししたいバニ。熱い飲み物には気をつけるバニ。", "バニ平も気分だけ一緒にお茶会バニ！休憩中のお話を聞くバニ。"]},
- {match:/おやつ|お菓子|おかし|ケーキ|甘いもの|スイーツ/,example:"おやつ食べたい",replies:["おやつの話で、耳がぴんと立ったバニ！何が食べたいバニ？", "小さなごほうびの時間バニね。ゆっくり味わってほしいバニ。", "ケーキを運ぶときは、バニ平も慎重になるバニ。今日はどんなおやつバニ？", "甘いものと好きな飲み物で、休憩の準備が整いそうバニ。"]},
- {match:/雨|あめの日|傘|梅雨/,example:"雨の日だね",replies:["雨の日のお出かけなら、傘と足元を確認するバニ。今の天気そのものは確認できないバニ。", "雨の日は、おうちで楽しめることを探すのもいいバニ。何をして過ごしたいバニ？", "傘は忘れやすい持ち物バニ。出発前に置き場所を確認するバニ。", "雨音を聞きながら、のんびり過ごす時間も好きバニ。予定は屋内バニ？屋外バニ？"]},
- {match:/暑い|あつい|蒸し暑|猛暑/,example:"暑いね",replies:["暑いと感じる日は、涼める場所でひと息ついてほしいバニ。", "バニ平のふわふわも、暑い日は少し大変そうバニ。無理せず過ごすバニ。", "お出かけなら、飲み物や日差しを避けられる場所を考えておくバニ。", "今日は涼しく過ごす工夫を探すバニ。家の中と外、どちらにいるバニ？"]},
- {match:/寒い|さむい|冷える|冷えた|雪の日/,example:"寒いね",replies:["寒いときは、あたたかくして過ごしてほしいバニ。バニ平は気分だけふわふわ応援するバニ。", "あたたかい飲み物がうれしくなる話バニね。何を飲みたいバニ？", "お出かけ前に、上着や手袋を確認するバニ。忘れ物を減らすバニ。", "冷える日は、おうちでほっとする時間も大切バニ。今日は何をしていたバニ？"]},
- {match:/週末|休日|休みの日|お休みの日|連休/,example:"週末どうしよう",replies:["お休みの日は、やりたいことを一つ選ぶバニ。のんびりするのも立派な予定バニ。", "休日の楽しみを考えるバニ！お出かけとおうち時間、今はどちらの気分バニ？", "予定を詰めすぎず、何もしない余白も残したいバニ。", "今日は小さな楽しみを一つ作るバニ。好きな朝ごはんから始めるのもいいバニ。"]},
- {match:/旅行|旅に|旅の|温泉|ホテル|帰省/,example:"旅行に行きたい",replies:["旅行の準備はわくわくするバニ！まず行き先と日程から整理するバニ。", "持ち物を先に書き出すと、出発前に慌てにくいバニ。何を持っていきたいバニ？", "温泉の話、いいバニ！どんなふうにのんびり過ごしたいバニ？", "旅の予定には、移動の合間の休憩も入れておきたいバニ。今回はどこへ行く予定バニ？"]},
- {match:/映画|ドラマ|アニメ|動画|テレビ/,example:"映画を見たい",replies:["映像を楽しむ時間バニね！笑えるお話と、じっくり味わうお話、どちらの気分バニ？", "最近見た作品の話を聞きたいバニ。印象に残った場面はあるバニ？", "見るものに迷ったら、今日は何分くらい楽しみたいか決めるバニ。", "好きな作品をもう一度見るのも、安心できる楽しみバニ。どんなところが好きバニ？"]},
- {match:/読書|本を|本が|小説|漫画|マンガ/,example:"読書したい",replies:["本の時間、いいバニ！一ページだけでも、お話の入口になるバニ。", "読み終わったあとに、心に残った一言を聞かせてほしいバニ。", "難しい本は、わかったところを一つ拾うだけでも前進バニ。", "物語と、何かを学べる本、今日はどちらを読みたいバニ？"]},
- {match:/レゴ|ブロック|工作|ものづくり|物作り/,example:"レゴで遊ぼう",replies:["ものづくりの時間バニ！まず何を作るか、想像するところから楽しいバニ。", "ブロックは、途中で別の形になっても面白いバニ。今日は何ができそうバニ？", "使う材料を見渡せるように並べると、選びやすそうバニ。", "完成したら、工夫したところをぜひ教えてほしいバニ！"]},
- {match:/楽器|ギター|ピアノ|太鼓|ウクレレ|練習したい|練習して/,example:"楽器を練習したい",replies:["楽器の練習バニね！今日は好きなフレーズを一つだけ弾くのもいいバニ。", "少しずつ音がつながると、うれしいバニ。今は何を練習しているバニ？", "難しいところは、ゆっくり区切って試すバニ。小さな進歩も楽しむバニ。", "上手にできた部分にも耳を向けてほしいバニ。どの音が好きだったバニ？"]},
- {match:/植物|園芸|家庭菜園|水やり|小松菜|そら豆/,example:"植物に水やり",replies:["植物のお世話バニね！種類や土の様子で違うので、水やり前に確認するバニ。", "小さな葉っぱの変化を見つけると、うれしくなるバニ。何を育てているバニ？", "お世話したことをメモすると、あとで振り返りやすいバニ。", "バニ六の農業の話を思い出すバニ。こつこつ育てる時間も楽しみたいバニ。"]},
- {match:/迷って|迷う|決められ|どっちに|どちらに|選べな/,example:"どっちにするか迷う",replies:["迷っている候補を二つ並べてみるバニ。それぞれの好きなところは何バニ？", "いちばん大切にしたい条件を一つ決めると、比べやすくなるバニ。", "今すぐ決める必要があるかどうか、そこから確認するバニ。", "小さく試せる選択なら、少し試してから考える方法もあるバニ。"]},
- {match:/予定を立|計画|段取り|忙しい|いそがしい|時間がない/,example:"予定を立てたい",replies:["予定を全部頭に置くと大変バニ。まず、今日外せないことを一つ選ぶバニ。", "移動や休憩の時間も含めて考えると、予定に余白を作れるバニ。", "忙しい日は、今日やることと後日に回せることを分けてみるバニ。", "段取りを一緒に考えるバニ。まず何時までに何をしたいバニ？"]},
- {match:/愚痴|ぐち|聞いて|きいて|腹が立|イライラ|いらいら|むかつ/,example:"愚痴を聞いて",replies:["聞くバニ。すぐに解決しようとしなくてもいいから、あったことを話してほしいバニ。", "気持ちがいっぱいなんだバニ。まずは言葉にしてみるバニ。", "今は話を聞いてほしい気分バニ？一緒に方法を考えたい気分バニ？", "話の順番がばらばらでも大丈夫バニ。いちばん引っかかっていることから聞くバニ。"]}
-];
-chatTopics.splice.apply(chatTopics,[7,0].concat(extraChatTopics));
-function chatReply(text){
- for(var i=0;i<chatTopics.length;i++){
-  var topic=chatTopics[i];if(!topic.match.test(text))continue;
-  var previous=history.slice().reverse().find(function(m){return m.role==='bani'&&topic.replies.includes(m.text)});
-  var index=previous?(topic.replies.indexOf(previous.text)+1)%topic.replies.length:Math.floor(Math.random()*topic.replies.length);
-  return topic.replies[index];
- }
- return null;
-}
-
 var conversationV2=BaniConversationV2.create({
  getItems:function(){return data.map(function(x){return Object.assign({},x)})},
- smallTalk:function(text){return chatReply(/(?:元気|やる気|気力|体力)(?:が|は)?(?:出ない|ない|無い)/.test(text)?'疲れた':text)},list:remaining,
+ list:remaining,
  add:function(t,names){var added=[],duplicates=[];names.forEach(function(n){if(data.some(function(x){return x.type===t&&!x.done&&x.name.normalize('NFKC').toLowerCase()===n.normalize('NFKC').toLowerCase()}))duplicates.push(n);else{data.push({id:Date.now()+'-'+Math.random(),type:t,name:n,done:false,due:''});added.push(n)}});var ok=added.length?save():true;select(t);return {ok:ok,added:added,duplicates:duplicates}},
  complete:function(ids){data.forEach(function(x){if(ids.includes(x.id))x.done=true});var ok=save();render();return ok},
  remove:function(ids){return removeIds(ids)}
@@ -309,7 +217,7 @@ el('backup-file').addEventListener('change',async function(){pendingBackup=null;
 el('restore-cancel').addEventListener('click',function(){pendingBackup=null;el('restore-preview').hidden=true;backupStatus('復元をキャンセルしたバニ。')});
 function captureStored(){var snapshot={};restoredKeys.forEach(function(k){snapshot[k]=localStorage.getItem(k)});return snapshot}
 function writeStored(snapshot){restoredKeys.forEach(function(k){if(snapshot[k]===null||snapshot[k]===undefined)localStorage.removeItem(k);else localStorage.setItem(k,snapshot[k])})}
-function loadRestored(){if(conversationV2)conversationV2.reset();data=JSON.parse(localStorage.getItem(key)||'[]');history=JSON.parse(localStorage.getItem(chatKey)||'[]');lastSaved=JSON.stringify(data);storageReadable=true;el('add').disabled=false;editing=null;deletionBackup=null;el('undo').hidden=!localStorage.getItem(undoKey);render();renderChat()}
+function loadRestored(){if(conversationV2)conversationV2.reset();data=JSON.parse(localStorage.getItem(key)||'[]');history=JSON.parse(localStorage.getItem(chatKey)||'[]');lastSaved=JSON.stringify(data);storageReadable=true;el('add').disabled=false;editing=null;deletionBackup=null;el('undo').hidden=!localStorage.getItem(undoKey);render()}
 try{el('restore-undo').hidden=!localStorage.getItem(restoreKey)}catch(e){}
 el('restore-confirm').addEventListener('click',function(){if(!pendingBackup)return;if(sharedMode){backupStatus('復元は共有を終了してから行ってほしいバニ。元の端末内リストに復元できるバニ。');return}var before=null;try{validateBackup(pendingBackup);before=captureStored();localStorage.setItem(restoreKey,JSON.stringify(before));var after={};after[key]=JSON.stringify(pendingBackup.items);after[chatKey]=JSON.stringify(pendingBackup.chat);after['bani-kurashi-host-v1']=JSON.stringify(pendingBackup.host||{text:'バックアップから復元したバニ！'});after[undoKey]=null;writeStored(after);loadRestored();pendingBackup=null;el('restore-preview').hidden=true;el('restore-undo').hidden=false;backupStatus('バックアップから復元したバニ！必要なら「復元前に戻す」で取り消せるバニ。')}catch(e){var rolledBack=true;if(before){try{writeStored(before)}catch(rollbackError){rolledBack=false}}try{el('restore-undo').hidden=!localStorage.getItem(restoreKey)}catch(ignore){}backupStatus(rolledBack?'保存できなかったため復元を中止したバニ。今のデータは変えていないバニ。空き容量や保存設定を確認してほしいバニ。':'復元を完了できなかったバニ。保存設定を確認して「復元前に戻す」を押してほしいバニ。')}});
 el('restore-undo').addEventListener('click',function(){if(sharedMode){backupStatus('共有を終了してから復元を取り消してほしいバニ。');return}var current=null;try{var snapshot=JSON.parse(localStorage.getItem(restoreKey)||'null');if(!snapshot||restoredKeys.some(function(k){return !(k in snapshot)||(snapshot[k]!==null&&typeof snapshot[k]!=='string')}))throw Error('snapshot');current=captureStored();writeStored(snapshot);var items=JSON.parse(snapshot[key]||'[]'),chat=JSON.parse(snapshot[chatKey]||'[]');if(!Array.isArray(items)||!Array.isArray(chat))throw Error('snapshot');loadRestored();localStorage.removeItem(restoreKey);el('restore-undo').hidden=true;backupStatus('復元前のリストと会話に戻したバニ。')}catch(e){if(current){try{writeStored(current)}catch(ignore){}}backupStatus('復元前に戻せなかったバニ。空き容量や保存設定を確認してほしいバニ。')}});
@@ -333,7 +241,7 @@ el('host-pet').addEventListener('click',function(){conversationV2.reset();
  remember('bani',petReplies[next]);
 });
 
-el('chat-form').addEventListener('submit',function(e){e.preventDefault();var input=el('chat-input'),text=input.value.trim();if(!text)return;remember('user',text);input.value='';remember('bani',respond(text))});document.querySelectorAll('[data-example]').forEach(function(b){b.addEventListener('click',function(){el('chat-input').value=b.dataset.example;el('chat-input').focus()})});if(!history.length)remember('bani','おかえりバニ！買い物もToDoも、お手伝いするバニ。');else{renderChat();var last=history.slice().reverse().find(function(m){return m.role==='bani'});if(oldHost&&typeof oldHost.text==='string')speak(oldHost.text);else if(last)speak(last.text)}render();if(startupMessage)speak(startupMessage);
+el('chat-form').addEventListener('submit',function(e){e.preventDefault();var input=el('chat-input'),text=input.value.trim();if(!text)return;remember('user',text);input.value='';remember('bani',respond(text))});document.querySelectorAll('[data-example]').forEach(function(b){b.addEventListener('click',function(){el('chat-input').value=b.dataset.example;el('chat-input').focus()})});speak('買うもの・ToDoの追加や確認をお手伝いするバニ。詳しくは「使い方」を見てほしいバニ。');render();if(startupMessage)speak(startupMessage);
 
 window.BaniFamily={
  snapshot:function(){return JSON.parse(lastSaved)},
