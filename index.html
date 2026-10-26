@@ -14,8 +14,9 @@
 main{padding-top:calc(var(--host-height,164px) + 20px)}
 @media(max-width:360px){main{padding-top:calc(var(--host-height,164px) + 20px)}}
 .usage-guide{font-size:14px;line-height:1.8;overflow-wrap:anywhere}.usage-guide h3{font-size:15px;margin:20px 0 6px}.usage-guide p{margin:6px 0 12px}.usage-guide dl{margin:12px 0}.usage-guide dt{font-weight:600;margin-top:12px}.usage-guide dd{margin:4px 0 0;padding:9px 11px;background:#f0f4eb;border-radius:10px}.usage-guide ul{padding-left:1.4em}.usage-guide li{margin:7px 0}
+.portrait{-webkit-user-select:none;user-select:none}.portrait img,.portrait span{pointer-events:none}.portrait img{-webkit-user-drag:none}
 </style></head><body><main>
-<header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" width="85" height="112"><span>バニ平</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div></header>
+<header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" draggable="false" width="85" height="112"><span>バニ平</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div></header>
 <nav class="tabs" aria-label="リストを選ぶ"><button id="shopping" type="button" class="active" aria-pressed="true">買うもの</button><button id="todo" type="button" aria-pressed="false">ToDo</button></nav>
 <section class="card" aria-labelledby="heading"><div class="list-head"><h2 id="heading">買うもの</h2><div class="list-actions"><p id="count"></p><button type="button" id="copy-list" class="mini">リストをコピー</button></div></div><details class="tools"><summary>リストの操作</summary><div class="tools-panel"><button type="button" id="reorder" aria-pressed="false">並べ替え</button><button type="button" id="clear-done">完了分を一括削除</button><button type="button" id="clear-all" class="danger">すべて一括削除</button></div></details><div id="copy-panel" hidden><label for="copy-text" class="help">長押しして「すべて選択」→「コピー」</label><textarea id="copy-text" readonly aria-label="手動コピー用のリスト" rows="5"></textarea><button type="button" id="copy-close" class="mini">閉じる</button></div><ul id="items"></ul><form id="form"><div class="add-row"><input id="entry" aria-label="追加する項目" placeholder="買うものを入力" maxlength="300" required><button class="primary" id="add" type="submit">追加</button></div><label id="due-wrap" hidden>日時（任意）<input type="datetime-local" id="due" aria-label="ToDoの日時（任意）"></label></form><p id="status" role="status"></p><button id="undo" type="button" hidden>削除を取り消す</button></section>
 <section class="card" aria-label="バニ平とおはなし"><div class="examples"><button type="button" data-example="買うものは何が残ってる？">買うものを確認</button><button type="button" data-example="ToDoは何が残ってる？">ToDoを確認</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平に話しかける" maxlength="1000" required><button class="primary" type="submit">送信</button></form><p id="chat-status" role="status"></p><details class="guide" id="usage-guide"><summary>使い方</summary><div class="usage-guide">
@@ -189,7 +190,7 @@ try{el('undo').hidden=!localStorage.getItem(undoKey)}catch(e){}
 el('undo').addEventListener('click',function(){try{var backup=deletionBackup||JSON.parse(localStorage.getItem(undoKey)||'null');if(!backup||!Array.isArray(backup.items)||!Array.isArray(backup.removed))return;backup.items.forEach(function(x,i){if(backup.removed.includes(x.id)&&!data.some(function(y){return y.id===x.id}))data.splice(Math.min(i,data.length),0,x)});if(save()){deletionBackup=null;try{localStorage.removeItem(undoKey)}catch(e){}el('undo').hidden=true;status('削除を取り消したバニ。')}render()}catch(e){status('取り消しデータを読み込めなかったバニ。')}});
 el('form').addEventListener('submit',function(e){e.preventDefault();var name=el('entry').value.trim();if(!name)return;data.push({id:Date.now()+'-'+Math.random(),type:type,name:name,done:false,due:type==='todo'?el('due').value:''});if(save()){el('entry').value='';el('due').value='';status('「'+name+'」を追加したバニ！')}render()});
 try{var oldChat=JSON.parse(localStorage.getItem(chatKey)||'[]');if(Array.isArray(oldChat))history=oldChat.filter(function(x){return x&&typeof x.text==='string'&&(x.role==='user'||x.role==='bani')})}catch(e){startupMessage=startupMessage||'以前の会話を読み込めなかったバニ。'}
-function remember(role,text){var failed=false;history.push({role:role,text:text,at:Date.now()});try{localStorage.setItem(chatKey,JSON.stringify(history))}catch(e){failed=true}if(role==='bani')speak(text);if(failed)speak('会話を保存できなかったバニ。空き容量を確認してほしいバニ。')}
+function remember(role,text,keepReply){var failed=false;history.push({role:role,text:text,at:Date.now()});try{localStorage.setItem(chatKey,JSON.stringify(history))}catch(e){failed=true}if(role==='bani')speak(text);if(failed&&!keepReply)speak('会話を保存できなかったバニ。空き容量を確認してほしいバニ。')}
 function remaining(t){var names=data.filter(function(x){return x.type===t&&!x.done}).map(function(x){return x.name+(x.due?'（'+dueLabel(x.due)+'）':'')});var title=t==='shopping'?'買うもの':'ToDo';return names.length?title+'はあと'+names.length+'件バニ！\n・'+names.join('\n・'):title+'の残りはないバニ！ひと息つけるバニ。'}
 var conversationV2=BaniConversationV2.create({
  getItems:function(){return data.map(function(x){return Object.assign({},x)})},
@@ -235,10 +236,30 @@ var petReplies=[
  'バニ平を見つけてくれてうれしいバニ！ぴょんぴょんしたくなるバニ！',
  'ふわふわパワー、満タンになったバニ！ありがとうバニ！'
 ];
-el('host-pet').addEventListener('click',function(){conversationV2.reset();
+function petBani(){conversationV2.reset();
  var previous=history.slice().reverse().find(function(m){return m.role==='bani'&&petReplies.includes(m.text)});
  var next=previous?(petReplies.indexOf(previous.text)+1)%petReplies.length:Math.floor(Math.random()*petReplies.length);
- remember('bani',petReplies[next]);
+ // A storage failure must not hide the reaction to a tap. Rotation still works in memory.
+ remember('bani',petReplies[next],true);
+}
+var petTouch=null,lastPetTouch=-Infinity,petButton=el('host-pet');
+petButton.addEventListener('pointerdown',function(e){
+ if(e.pointerType!=='touch'||e.isPrimary===false)return;
+ petTouch={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};
+},{passive:true});
+petButton.addEventListener('pointermove',function(e){
+ if(petTouch&&e.pointerId===petTouch.id&&Math.hypot(e.clientX-petTouch.x,e.clientY-petTouch.y)>12)petTouch.moved=true;
+},{passive:true});
+petButton.addEventListener('pointerup',function(e){
+ if(!petTouch||e.pointerId!==petTouch.id)return;
+ var tap=!petTouch.moved&&Math.hypot(e.clientX-petTouch.x,e.clientY-petTouch.y)<=12;
+ petTouch=null;lastPetTouch=Date.now();if(tap)petBani();
+},{passive:true});
+petButton.addEventListener('pointercancel',function(e){if(petTouch&&e.pointerId===petTouch.id){petTouch=null;lastPetTouch=Date.now()}},{passive:true});
+petButton.addEventListener('click',function(e){
+ // Touch already reacted on release; keep mouse, keyboard and accessibility clicks working.
+ if(e&&e.detail!==0&&Date.now()-lastPetTouch<800)return;
+ petBani();
 });
 
 el('chat-form').addEventListener('submit',function(e){e.preventDefault();var input=el('chat-input'),text=input.value.trim();if(!text)return;remember('user',text);input.value='';remember('bani',respond(text))});document.querySelectorAll('[data-example]').forEach(function(b){b.addEventListener('click',function(){el('chat-input').value=b.dataset.example;el('chat-input').focus()})});speak('買うもの・ToDoの追加や確認をお手伝いするバニ。詳しくは「使い方」を見てほしいバニ。');render();if(startupMessage)speak(startupMessage);
