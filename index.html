@@ -138,7 +138,7 @@ var pointRewards=[
  '100バニP、お見事バニ！やることを片づけた分だけ、毎日を支えてきたバニ。頑張った自分を、たっぷりほめてほしいバニ！'
 ];
 var startupMessage='',deletionBackup=null,storageReadable=true,lastSaved='[]';try{var raw=localStorage.getItem(key);if(raw){var parsed=JSON.parse(raw);if(!Array.isArray(parsed))throw Error('invalid');data=parsed;lastSaved=raw}}catch(e){storageReadable=false;startupMessage='以前のリストを読み込めないバニ。保存設定を確認してほしいバニ。';el('add').disabled=true}
-var looks=[['いつもの','banihei-illustration.png'],['うれしい','banihei-happy.png'],['考え中','banihei-think.png'],['聞いてる','banihei-listen.png'],['応援','banihei-cheer.png'],['ありがとう','banihei-thanks.png'],['びっくり','banihei-surprise.png'],['ひと休み','banihei-rest.png'],['メモする','banihei-note.png'],['またね','banihei-bye.png']];
+var looks=[['いつもの','banihei-illustration.png'],['うれしい','banihei-happy.png'],['考え中','banihei-think.png'],['聞いてる','banihei-listen.png'],['応援','banihei-cheer.png'],['ありがとう','banihei-thanks.png'],['びっくり','banihei-surprise.png'],['ひと休み','banihei-rest.png'],['メモする','banihei-note.png'],['またね','banihei-bye.png'],['くすぐったい','banihei-ticklish.png'],['照れている','banihei-shy.png'],['大喜び','banihei-delighted.png'],['楽しんでいる','banihei-playful.png']];
 var lookRequest=0;function setLook(i){lookIndex=i;var image=el('host-image'),source=looks[i][1],request=++lookRequest;if(image.getAttribute('src')===source)return;var next=new Image();next.onload=function(){if(request===lookRequest)image.src=source};next.onerror=function(){};next.src=source}
 setLook(0);
 function status(t){el('status').textContent='';speak(t)}
@@ -157,7 +157,7 @@ function save(nextPoints){
  }
 }
 function poseFor(text){
-if(petReplies&&petReplies.includes(text))return 1;
+var petIndex=petReplies?petReplies.indexOf(text):-1;if(petIndex>=0)return petLookIndexes[petIndex];
 if(/保存でき|読み込め|保護する|保存を止め|保存はできなかった/.test(text))return 2;
 if(/削除を取り消/.test(text))return 1;
 if(/削除した/.test(text))return 9;
@@ -278,8 +278,13 @@ var petReplies=[
  'そこそこ、気持ちいいバニ！つい耳までゆるんじゃうバニ！',
  '今日のなでなで、しっかり受け取ったバニ！幸せバニ！',
  'バニ平を見つけてくれてうれしいバニ！ぴょんぴょんしたくなるバニ！',
- 'ふわふわパワー、満タンになったバニ！ありがとうバニ！'
+ 'ふわふわパワー、満タンになったバニ！ありがとうバニ！',
+ 'ひゃっ、そこはくすぐったいバニ！笑いが止まらないバニ！',
+ 'あはは、こしょこしょは反則バニ！耳までむずむずするバニ！',
+ 'そんなに見つめられると、ほっぺがぽかぽかするバニ。ちょっと照れちゃうバニ！',
+ 'えへへ、なでられると恥ずかしいバニ。でも、もう少しだけそばにいてほしいバニ。'
 ];
+var petLookIndexes=[12,10,11,12,13,13,10,12,13,12,10,10,11,11];
 function petBani(){conversationV2.reset();
  var previous=history.slice().reverse().find(function(m){return m.role==='bani'&&petReplies.includes(m.text)});
  var next=previous?(petReplies.indexOf(previous.text)+1)%petReplies.length:Math.floor(Math.random()*petReplies.length);

@@ -9,7 +9,7 @@ assert.ok(!html.includes('これまでのおはなし'));
 assert.ok(!html.includes('id="chatlog"'));
 assert.ok(!/chatTopics|extraChatTopics|function chatReply|api.smallTalk/.test(html));
 for(const example of ['牛乳を買うものに追加して','完了分をバニPと交換','家族共有は画面下','端末内データを置き換えます'])assert.ok(html.includes(example),example);
-vm.createContext(ctx);const source=html.match(/<script>([\s\S]*?)<\/script>/)[1];vm.runInContext(source.replace("})();", "window.ChatTest={reply:respond,pets:petReplies};})();"),ctx);
+vm.createContext(ctx);const source=html.match(/<script>([\s\S]*?)<\/script>/)[1];vm.runInContext(source.replace("})();", "window.ChatTest={reply:respond,pets:petReplies,pose:poseFor,looks:looks};})();"),ctx);
 const chat=ctx.window.ChatTest;
 const checkedReplies=[];
 function firstCheckbox(){return elements.get('items').children[0].children[0].children.find(x=>x.type==='checkbox')}
@@ -25,6 +25,9 @@ say('買うものに追加して');say('こんにちは');say('お願い');asser
 assert.match(say('バニ平、牛乳と卵を買うものに追加して'),/追加した|すでに/);assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));assert.match(say('バニ平、買うものは何が残ってる？'),/卵/);
 say('音楽の練習をToDoに追加して');assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='音楽の練習'&&x.type==='todo'));assert.match(say('ToDoの音楽の練習が終わった'),/完了にした/);
 say('卵を削除して');assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));say('お願い');assert.ok(!ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));
-assert.equal(chat.pets.length,10);const petResponses=[];for(let i=0;i<10;i++){elements.get('host-pet').listeners.click();petResponses.push(elements.get('host-message').textContent)}assert.equal(new Set(petResponses).size,10);assert.ok(petResponses.every(t=>chat.pets.includes(t)));
+assert.equal(chat.pets.length,14);const petResponses=[];for(let i=0;i<14;i++){elements.get('host-pet').listeners.click();petResponses.push(elements.get('host-message').textContent)}assert.equal(new Set(petResponses).size,14);assert.ok(petResponses.every(t=>chat.pets.includes(t)));
+const expectedLooks=['delighted','ticklish','shy','delighted','playful','playful','ticklish','delighted','playful','delighted','ticklish','ticklish','shy','shy'];
+chat.pets.forEach((text,i)=>assert.equal(chat.looks[chat.pose(text)][1],'banihei-'+expectedLooks[i]+'.png',text));
+assert.ok(chat.pets.slice(10,12).every(t=>/くすぐ|こしょこしょ/.test(t)));assert.ok(chat.pets.slice(12).every(t=>/照れ|恥ずかしい/.test(t)));
 const lastPet=petResponses.at(-1);vm.runInContext(source,ctx);elements.get('host-pet').listeners.click();assert.notEqual(elements.get('host-message').textContent,lastPet);
-console.log('PASS: history UI and all daily reply tables removed; help includes real examples; old saved history preserved without resurfacing old replies; unrelated talk does not mutate lists; add/query/complete/confirmed deletion and ten rotating pet reactions retained');
+console.log('PASS: history UI and all daily reply tables removed; help includes real examples; old saved history preserved without resurfacing old replies; unrelated talk does not mutate lists; add/query/complete/confirmed deletion and fourteen rotating pet reactions retained');
