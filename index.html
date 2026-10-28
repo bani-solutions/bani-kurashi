@@ -358,6 +358,7 @@ el('chat-shopping-shortcut').addEventListener('click',function(){
 el('chat-form').addEventListener('submit',function(e){e.preventDefault();var input=el('chat-input'),text=input.value.trim();if(!text)return;remember('user',text);input.value='';remember('bani',respond(text))});document.querySelectorAll('[data-example]').forEach(function(b){b.addEventListener('click',function(){el('chat-input').value=b.dataset.example;el('chat-input').focus()})});speak('買うもの・ToDoの追加や確認をお手伝いするバニ。詳しくは「使い方」を見てほしいバニ。');render();if(startupMessage)speak(startupMessage);
 
 window.BaniFamily={
+ exchanged:function(result){if(!result.removed.length)return;deletionBackup={items:result.before,removed:result.removed};try{localStorage.setItem(undoKey,JSON.stringify(deletionBackup))}catch(ignore){}el('undo').hidden=false},
  localPoints:function(){readPoints();if(!pointsReadable)throw Error('invalid-local-points');return validatePoints(baniPoints)},
  configurePoints:function(handler){sharedExchange=handler;if(!handler)sharedPointValue=null;renderPoints()},
  sharedPoints:function(points){sharedPointValue=validatePoints(points);renderPoints()},
@@ -391,7 +392,7 @@ el('family-state').addEventListener('click',function(){el('family-panel').open=t
 var invitedHouse=new URLSearchParams(location.hash.slice(1)).get('family');
 var hasFamilyInvite=!!invitedHouse&&/^[A-Za-z0-9]{20}$/.test(invitedHouse);
 if(hasFamilyInvite){el('family-panel').open=true;el('family-state').textContent='家族からの招待・参加手続きを確認';el('family-panel').scrollIntoView({block:'start'})}
-function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261028-shared-points').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
+function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261028-shared-points-v2').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
 el('sync-start').addEventListener('click',startFamily);
 try{if(hasFamilyInvite||localStorage.getItem('bani-family-enabled')==='1')startFamily()}catch(ignore){}
 })();

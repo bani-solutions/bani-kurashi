@@ -1,4 +1,4 @@
-import {empty as emptySharedPoints,valid as validSharedPoints,credit,migrate} from './shared-points.mjs';
+import {empty as emptySharedPoints,valid as validSharedPoints,credit,migrate} from './shared-points.mjs?v=20261028-v2';
 import config from './firebase-config.mjs';
 import {validateItems,mergeChanges} from './sync-merge.mjs';
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
@@ -42,7 +42,7 @@ export async function start(api){bridge=api;const box=document.createElement('di
 
 async function connectPoints(gen){
  const ref=doc(db,'households',houseId,'state','points'),uid=user.uid;
- await runTransaction(db,async tx=>{const snap=await tx.get(ref),old=snap.exists()?validSharedPoints(snap.data().points):emptySharedPoints();const next=migrate(old,bridge.localPoints(),uid);if(JSON.stringify(old)!==JSON.stringify(next))tx.set(ref,{points:next,updatedBy:uid,updatedAt:serverTimestamp()})});
+ await runTransaction(db,async tx=>{const snap=await tx.get(ref),old=snap.exists()?validSharedPoints(snap.data().points):emptySharedPoints();const next=migrate(old,bridge.localPoints(),uid);if(!snap.exists()||JSON.stringify(old)!==JSON.stringify(next))tx.set(ref,{points:next,updatedBy:uid,updatedAt:serverTimestamp()})});
  if(gen!==generation)return;
  bridge.configurePoints(async ids=>{
   if(gen!==generation||!connected||navigator.onLine===false)throw Error('offline');
@@ -52,12 +52,12 @@ async function connectPoints(gen){
    const [listSnap,pointSnap]=await Promise.all([tx.get(listRef),tx.get(ref)]);
    if(!listSnap.exists()||!pointSnap.exists())throw Error('missing-state');
    const state=listSnap.data(),items=validateItems(state.items),chosen=items.filter(x=>ids.includes(x.id)&&x.done);
-   result=credit(pointSnap.data().points,chosen.map(x=>x.id));
+   result=credit(pointSnap.data().points,chosen.map(x=>x.id));result.before=items;result.removed=chosen.map(x=>x.id);
    if(!chosen.length)return;
    tx.set(listRef,{items:items.filter(x=>!chosen.some(y=>y.id===x.id)),revision:state.revision+1,updatedBy:uid,updatedAt:serverTimestamp()});
    tx.set(ref,{points:result.points,updatedBy:uid,updatedAt:serverTimestamp()});
   });
-  if(gen!==generation)return {skip:true};bridge.sharedPoints(result.points);return result;
+  if(gen!==generation)return {skip:true};bridge.sharedPoints(result.points);bridge.exchanged?.(result);return result;
  });
  stopPoints=onSnapshot(ref,snap=>{if(gen===generation&&snap.exists()){try{bridge.sharedPoints(validSharedPoints(snap.data().points))}catch{bridge.notice('共有バニPを読み込めないバニ。再接続してほしいバニ。')}}},()=>{if(gen===generation)bridge.configurePoints(null)});
 }
