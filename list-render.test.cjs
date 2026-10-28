@@ -18,3 +18,5 @@ api.receive(api.snapshot().map(x=>({...x})));$('items').children[0].children[0].
 console.log('PASS: immediate add, stable row identity on reorder, boundary controls, identical sync echoes, checkbox after receive');
 
 assert.equal(ctx.window.history.scrollRestoration,'manual');assert.equal(scrollCalls[0].top,0);pageEvents.pageshow();assert.equal(scrollCalls.at(-1).top,0);assert.equal(elements.get('clear-done').hidden,false);elements.get('todo').listeners.click();assert.equal(elements.get('clear-done').hidden,true);
+
+assert.equal(elements.get('shopping-tab-label').textContent,'買うもの(2)');assert.equal(elements.get('todo-tab-label').textContent,'ToDo(0)');
