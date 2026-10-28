@@ -20,21 +20,29 @@ main{padding-top:calc(var(--host-height,164px) + 20px)}
 #items{overflow-anchor:none}.item{overflow-anchor:none}.item-name.forget-prone{color:#b52e32;font-weight:600}.done .item-name.forget-prone{color:#916464}#clear-done{display:block;width:100%;margin:0 0 14px}.concierge-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:12px}.concierge-head h2{margin:0}.concierge-hint{font-size:11px;color:#587b5e;line-height:1.5}@media(max-width:420px){.concierge-head h2{font-size:16px}.concierge-hint{font-size:10px}}</style></head><body><main>
 <header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" draggable="false" width="85" height="112"><span>バニ平</span><span id="bani-points" aria-live="polite" title="この端末・ブラウザのバニポイント">0 バニP</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div><details class="guide" id="usage-guide"><summary>使い方<span aria-hidden="true"> 📖</span></summary><div class="usage-guide">
 <p>この説明欄の中をスクロールすると、続きを読めます。</p>
-<h3>1. 買うもの・ToDoを追加する</h3>
-<p>「買うもの」か「ToDo」を選び、下の入力欄に内容を書いて「追加」を押します。例：買うものに「牛乳」、ToDoに「洗濯」。ToDoの日時は、必要なときだけ入力します。</p>
-<h3>2. 終わったらチェックしてバニPに交換</h3>
-<p>買ったもの・終わった用事にチェックを付けます。チェックすると現れる「完了分をバニPと交換」を押すと、そのリストのチェック済み項目が消え、1件につき1バニPがたまります。</p>
-<p>例：3件を交換すると3バニP。100バニPごとにねぎらいを届け、103バニPなら3バニPを残します。普通の削除ではポイントは増えず、同じ項目を取り消して戻しても再加算されません。</p>
-<h3>3. 内容や順番を変える</h3>
-<p>項目の「編集」で名前・ToDoの日時を変更できます。「リストの操作」→「並べ替え」で↑↓を押すと順番が変わります。「リストをコピー」でメモアプリなどに貼り付けられます。</p>
-<h3>4. バニ平に頼む</h3><p>予定を「、」で区切って入力し、「◯◯をToDoに追加して」→「送信」を押すと、1件ずつ日付を質問します。日付を選んで「この日付で登録」か「日付なし」を押してください。未登録の残りはキャンセルできます。</p>
-<p>「バニ平にお願いする」に入力して「送信」を押します。返事は上の吹き出しに表示されます。</p>
-<p>品物だけ入力して「◯◯を買うものに追加して」を押すと、追加の指示を付け足せます。例：「にんじん、ピーマン、お米」→ボタン→「送信」で、3つを別々に登録します。</p>
-<ul><li>追加：「牛乳を買うものに追加して」</li><li>確認：「買うものは何が残ってる？」</li><li>削除：「牛乳を削除して」</li></ul>
-<p>バニ平が確認してきたら「お願い」で実行、「やめとく」で取り消します。イラストをタップすると、表情とセリフが変わります。</p>
-<h3>5. 家族との共有・バックアップ</h3>
-<p>家族共有は画面下の「共有」枠の「共有設定」で設定します。招待されたGoogleアカウントでログインし、接続が切れたら再接続してください。家族共有中のバニPは夫婦共通です。初回接続時に、そのGoogleアカウントの端末内残高を一度だけ合算します。端末内の元の残高も保管します。</p>
-<p>「バックアップを保存」でリストとバニPをファイルに保管できます。復元は共有を終了してから、保存したファイルを選びます。端末内データを置き換えるため、内容を確認してから復元してください。</p>
+<h3>1. 1件ずつ追加する</h3>
+<p>上の「買うもの」か「ToDo」タブを選び、リスト下の入力欄に書いて「追加」を押します。例：買うものに「牛乳」、ToDoに「洗濯」。ToDoの日時は空欄でも追加できます。</p>
+<p>タブの数字は、チェック済みも含む登録件数です。例：「買うもの(4)」は4件。リスト内の「残り」は未完了の件数です。</p>
+<h3>2. バニコンシェルジュでまとめて追加</h3>
+<p>買うものは「にんじん、ピーマン、お米」のように「、」で区切り、「◯◯を買うものに追加して」→「送信」の順に押します。3つが別々の項目になります。ショートカットを押しただけでは登録されません。</p>
+<p>予定は「歯医者、運動会、掃除」→「◯◯をToDoに追加して」→「送信」。バニ平が1件ずつ日付を尋ねるので、日付を選んで「この日付で登録」か「日付なし」を押します。選んだ予定から保存され、「残りをキャンセル」で未登録の予定だけを中止できます。</p>
+<p>文章でも頼めます。例：「牛乳を買うものに追加して」「買うものは何が残ってる？」「牛乳を削除して」。返事は上の吹き出しに表示されます。実行の確認には「お願い」、取り消しには「やめとく」と送ります。</p>
+<h3>3. チェックしてバニPと交換</h3>
+<p>買ったもの・終わった用事にチェックを付けると、リスト下に「完了分をバニPと交換」が現れます。押すと、表示中のリストのチェック済み項目が消え、1件につき1バニPがたまります。チェックだけではポイントは増えません。</p>
+<p>100バニPごとにねぎらいの言葉を届け、超過分は持ち越します。例：103バニPなら3バニP。95〜99バニPへの加算時には「あともうちょっとバニ！」と声をかけます。</p>
+<p>普通の削除ではポイントは増えません。「削除を取り消す」で項目を戻しても、交換済みの項目には再加算されません。家族共有中の交換には通信が必要です。</p>
+<h3>4. 編集・並べ替え・コピー</h3>
+<p>項目の「編集」で名前・ToDoの日時を変更し、「保存」を押します。削除も編集画面からできます。「リストの操作」→「並べ替え」で↑↓を押し、終わったら「並べ替えを終了」を押します。</p>
+<p>「リストをコピー」で、表示中のリストをメモアプリなどに貼り付けられます。「すべて一括削除」は「リストの操作」の中にあります。</p>
+<h3>5. 買い忘れを防ぐ・バニ平にタッチ</h3>
+<p>牛乳・卵・わかめは、買うものに登録すると赤色で表示されます。未完了の対象があると、買うものタブを開いたときや完了チェック時に注意喚起します。連続では声をかけず、わかめが残っている場合は優先します。</p>
+<p>上のバニ平をタップすると、表情とセリフが変わります。</p>
+<h3>6. 家族と共有する</h3>
+<p>家族共有は画面下の「共有」枠の「共有設定」を開き、Googleでログインして家族を招待します。招待された人は、指定されたGoogleアカウントで参加してください。接続が切れたら共有設定から再接続します。</p>
+<p>共有するのは買うもの・ToDoとバニPです。会話はこの端末に残ります。バニPの端末内残高は、Googleアカウントごとの初回接続時に一度だけ合算します。最初は、これまで使っていた端末・ブラウザで接続してください。元の端末内リストと残高も保管します。</p>
+<h3>7. バックアップを保存・復元する</h3>
+<p>「バックアップを保存」を押し、表示中のリストとバニPをファイルに保管します。「ファイル」アプリなどに保存してください。詳しい説明は、バックアップ枠の「説明」で開閉できます。</p>
+<p>復元は共有を終了してから「バックアップから復元」でファイルを選び、内容を確認します。端末内データを置き換えますが、「復元前に戻す」で取り消せます。家族の共有データを直接上書きする操作ではありません。</p>
 </div></details></header>
 <nav class="tabs" aria-label="リストを選ぶ"><button id="shopping" type="button" class="active" aria-pressed="true"><span id="shopping-tab-label">買うもの(0)</span><span aria-hidden="true"> 🛍️</span></button><button id="todo" type="button" aria-pressed="false"><span id="todo-tab-label">ToDo(0)</span><span aria-hidden="true"> ✅</span></button></nav>
 <section class="card" aria-labelledby="heading"><div class="list-head"><h2 id="heading" aria-label="買うもの">買うもの 🛍️</h2><div class="list-actions"><p id="count"></p><button type="button" id="copy-list" class="mini">リストをコピー</button></div></div><details class="tools"><summary>リストの操作</summary><div class="tools-panel"><button type="button" id="reorder" aria-pressed="false">並べ替え</button><button type="button" id="clear-all" class="danger">すべて一括削除</button></div></details><div id="copy-panel" hidden><label for="copy-text" class="help">長押しして「すべて選択」→「コピー」</label><textarea id="copy-text" readonly aria-label="手動コピー用のリスト" rows="5"></textarea><button type="button" id="copy-close" class="mini">閉じる</button></div><ul id="items"></ul><button type="button" id="clear-done" class="primary" hidden>完了分をバニPと交換</button><form id="form"><div class="add-row"><input id="entry" aria-label="追加する項目" placeholder="買うものを入力" maxlength="300" required><button class="primary" id="add" type="submit">追加</button></div><label id="due-wrap" hidden>日時（任意）<input type="datetime-local" id="due" aria-label="ToDoの日時（任意）"></label></form><p id="status" role="status"></p><button id="undo" type="button" hidden>削除を取り消す</button></section>
