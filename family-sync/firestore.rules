@@ -1,0 +1,115 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function googleUser() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.firebase.sign_in_provider == 'google.com';
+    }
+    function house(hid) {
+      return get(/databases/$(database)/documents/households/$(hid)).data;
+    }
+    function member(hid) {
+      return googleUser() && request.auth.uid in house(hid).memberUids;
+    }
+    function owner(hid) {
+      return googleUser() && request.auth.uid == house(hid).ownerUid;
+    }
+    function invited(hid) {
+      let invitation = get(/databases/$(database)/documents/households/$(hid)/invitations/$(request.auth.token.email)).data;
+      return googleUser() && invitation.email == request.auth.token.email
+        && invitation.expiresAt > request.time
+        && (invitation.acceptedUid == null || invitation.acceptedUid == request.auth.uid);
+    }
+    function validHouse(d) {
+      return d.keys().hasOnly(['ownerUid', 'memberUids', 'createdAt'])
+        && d.ownerUid is string && d.memberUids is list
+        && d.memberUids.size() > 0 && d.memberUids.size() <= 10
+        && d.memberUids.toSet().size() == d.memberUids.size()
+        && d.ownerUid in d.memberUids && d.createdAt is timestamp;
+    }
+    // Bootstrap owners are registered only through trusted project administration.
+    // No browser can create or enumerate this allowlist.
+    match /ownerAccounts/{email} { allow read, write: if false; }
+    match /profiles/{uid} {
+      allow get: if googleUser() && request.auth.uid == uid;
+      allow list, delete: if false;
+      allow create, update: if googleUser() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['householdId'])
+        && request.resource.data.householdId is string
+        && member(request.resource.data.householdId);
+    }
+    match /households/{hid} {
+      allow get: if member(hid) || (googleUser() && invited(hid));
+      allow list, delete: if false;
+      allow create: if googleUser()
+        && exists(/databases/$(database)/documents/ownerAccounts/$(request.auth.token.email))
+        && validHouse(request.resource.data)
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.memberUids == [request.auth.uid]
+        && request.resource.data.createdAt == request.time;
+      allow update: if googleUser() && validHouse(request.resource.data)
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.createdAt == resource.data.createdAt
+        && (
+          (owner(hid) && resource.data.memberUids.hasAll(request.resource.data.memberUids))
+          || (invited(hid)
+            && !(request.auth.uid in resource.data.memberUids)
+            && request.resource.data.memberUids == resource.data.memberUids.concat([request.auth.uid])
+            && getAfter(/databases/$(database)/documents/households/$(hid)/invitations/$(request.auth.token.email)).data.acceptedUid == request.auth.uid)
+        );
+      match /invitations/{email} {
+        function validInvitation(d) {
+          return d.keys().hasOnly(['email', 'createdAt', 'expiresAt', 'acceptedUid'])
+            && d.email == email && d.createdAt is timestamp && d.expiresAt is timestamp
+            && (d.acceptedUid == null || d.acceptedUid is string);
+        }
+        allow get: if owner(hid) || (googleUser() && request.auth.token.email == email);
+        allow list: if owner(hid);
+        allow create, delete: if owner(hid)
+          && (request.method == 'delete' || validInvitation(request.resource.data));
+        allow update: if (owner(hid) && validInvitation(request.resource.data))
+          || (googleUser() && request.auth.token.email == email && invited(hid)
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['acceptedUid'])
+            && request.resource.data.acceptedUid == request.auth.uid
+            && request.auth.uid in getAfter(/databases/$(database)/documents/households/$(hid)).data.memberUids);
+      }
+      match /state/points {
+        allow get: if member(hid);
+        allow list, delete: if false;
+        allow create, update: if member(hid)
+          && request.resource.data.keys().hasOnly(['points','updatedAt','updatedBy'])
+          && request.resource.data.updatedBy == request.auth.uid
+          && request.resource.data.updatedAt == request.time
+          && request.resource.data.points.keys().hasOnly(['version','balance','nextReward','claimed','imports'])
+          && request.resource.data.points.version == 1
+          && request.resource.data.points.balance is int
+          && request.resource.data.points.balance >= 0 && request.resource.data.points.balance < 100
+          && request.resource.data.points.nextReward is int
+          && request.resource.data.points.nextReward >= 0 && request.resource.data.points.nextReward < 10
+          && request.resource.data.points.claimed is list && request.resource.data.points.claimed.size() <= 10000
+          && request.resource.data.points.imports is list && request.resource.data.points.imports.size() <= 100;
+      }
+      match /state/list {
+        allow get: if member(hid);
+        allow list, delete: if false;
+        allow create, update: if member(hid)
+          && request.resource.data.keys().hasOnly(['items', 'revision', 'updatedAt', 'updatedBy'])
+          && request.resource.data.items is list && request.resource.data.items.size() <= 1000
+          && request.resource.data.revision is int
+          && request.resource.data.updatedBy == request.auth.uid
+          && request.resource.data.updatedAt == request.time
+          && ((request.method == 'create' && request.resource.data.revision == 1)
+            || (request.method == 'update' && request.resource.data.revision == resource.data.revision + 1));
+      }
+      match /operations/{opid} {
+        allow get: if member(hid);
+        allow list, update, delete: if false;
+        allow create: if member(hid)
+          && request.resource.data.keys().hasOnly(['uid', 'createdAt'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.createdAt == request.time;
+      }
+    }
+  }
+}
