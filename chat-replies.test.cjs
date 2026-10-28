@@ -35,7 +35,7 @@ const afterShortcut=JSON.stringify(ctx.window.BaniFamily.snapshot());
 for(const text of ['おはよう','ただいま','こんにちは','ありがとう','疲れた','眠い','不安だよ','うれしい','夕飯どうしよう','音楽を聴きたい','家族で散歩','バニ平って誰','応援して','仕事が終わった']){assert.match(say(text),/買うもの・ToDoの操作/);assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),afterShortcut)}
 say('買うものに追加して');say('こんにちは');say('お願い');assert.equal(JSON.stringify(ctx.window.BaniFamily.snapshot()),afterShortcut);
 assert.match(say('バニ平、牛乳と卵を買うものに追加して'),/追加した|すでに/);assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));assert.match(say('バニ平、買うものは何が残ってる？'),/卵/);
-say('音楽の練習をToDoに追加して');assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='音楽の練習'&&x.type==='todo'));assert.match(say('ToDoの音楽の練習が終わった'),/完了にした/);
+say('音楽の練習をToDoに追加して');elements.get('todo-date-none').listeners.click();assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='音楽の練習'&&x.type==='todo'));assert.match(say('ToDoの音楽の練習が終わった'),/完了にした/);
 say('卵を削除して');assert.ok(ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));say('お願い');assert.ok(!ctx.window.BaniFamily.snapshot().some(x=>x.name==='卵'));
 assert.equal(chat.pets.length,14);const petResponses=[];for(let i=0;i<14;i++){elements.get('host-pet').listeners.click();petResponses.push(elements.get('host-message').textContent)}assert.equal(new Set(petResponses).size,14);assert.ok(petResponses.every(t=>chat.pets.includes(t)));
 const expectedLooks=['delighted','ticklish','shy','delighted','playful','playful','ticklish','delighted','playful','delighted','ticklish','ticklish','shy','shy'];
