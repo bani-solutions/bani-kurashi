@@ -13,7 +13,7 @@ vm.createContext(ctx);const source=html.match(/<script>([\s\S]*?)<\/script>/)[1]
 const chat=ctx.window.ChatTest;
 const checkedReplies=[];
 function firstCheckbox(){return elements.get('items').children[0].children[0].children.find(x=>x.type==='checkbox')}
-for(let i=0;i<3;i++){let checkbox=firstCheckbox();checkbox.checked=true;checkbox.listeners.change();checkedReplies.push(elements.get('host-message').textContent);assert.equal(ctx.window.BaniFamily.snapshot()[0].done,true);checkbox=firstCheckbox();checkbox.checked=false;checkbox.listeners.change();assert.equal(elements.get('host-message').textContent,'未完了に戻したバニ！')}
+for(let i=0;i<3;i++){let checkbox=firstCheckbox();checkbox.checked=true;checkbox.listeners.change();assert.equal(elements.get('clear-done').hidden,false);checkedReplies.push(elements.get('host-message').textContent);assert.equal(ctx.window.BaniFamily.snapshot()[0].done,true);checkbox=firstCheckbox();checkbox.checked=false;checkbox.listeners.change();assert.equal(elements.get('clear-done').hidden,true);assert.equal(elements.get('host-message').textContent,'未完了に戻したバニ！')}
 assert.equal(new Set(checkedReplies).size,3);assert.ok(checkedReplies.includes('完了にしたバニ！'));assert.equal(elements.get('bani-points').textContent,'0 バニP');
 
 assert.equal(JSON.parse(storage.get('bani-kurashi-chat-v1'))[0].text,'以前の日常会話');

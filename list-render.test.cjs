@@ -2,6 +2,7 @@ const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/st
 class Element{constructor(){this.children=[];this.value='';this.dataset={};this.listeners={};this.classList={add(){},remove(){},toggle(){}}}addEventListener(k,f){this.listeners[k]=f}appendChild(x){this.children.push(x)}setAttribute(){}getAttribute(){return ''}focus(){}select(){}remove(){}append(...xs){this.children.push(...xs)}get textContent(){return this.text||''}set textContent(x){this.text=x;this.children=[]}}
 const elements=new Map(),storage=new Map(),original=[{id:'original',type:'shopping',name:'牛乳',done:false}];storage.set('bani-kurashi-test-v2',JSON.stringify(original));
 const ctx={document:{getElementById:id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id)},createTextNode:t=>({textContent:t}),createElement:()=>new Element(),querySelectorAll:()=>[],body:new Element()},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},Image:class{},window:{},setTimeout:()=>0,clearTimeout(){},Date,console,Blob,URL,confirm:()=>true,navigator:{},location:{hash:''},URLSearchParams};
+const pageEvents={},scrollCalls=[];ctx.window.history={scrollRestoration:'auto'};ctx.window.scrollTo=pos=>scrollCalls.push(pos);ctx.window.addEventListener=(name,fn)=>pageEvents[name]=fn;
 vm.createContext(ctx);const source=fs.readFileSync('index.html','utf8').match(/<script>([\s\S]*?)<\/script>/)[1];vm.runInContext(source.replace("})();", "window.TestRestore=function(value){pendingBackup=value};})();"),ctx);
 
 
@@ -15,3 +16,5 @@ $('reorder').listeners.click();const nodes=$('items').children.slice();nodes[1].
 api.receive(api.snapshot());assert.equal($('items').children[0],nodes[1]);
 api.receive(api.snapshot().map(x=>({...x})));$('items').children[0].children[0].children[0].checked=true;$('items').children[0].children[0].children[0].listeners.change();assert.equal(api.snapshot()[0].done,true);
 console.log('PASS: immediate add, stable row identity on reorder, boundary controls, identical sync echoes, checkbox after receive');
+
+assert.equal(ctx.window.history.scrollRestoration,'manual');assert.equal(scrollCalls[0].top,0);pageEvents.pageshow();assert.equal(scrollCalls.at(-1).top,0);assert.equal(elements.get('clear-done').hidden,false);elements.get('todo').listeners.click();assert.equal(elements.get('clear-done').hidden,true);
