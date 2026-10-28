@@ -74,6 +74,22 @@ service cloud.firestore {
             && request.resource.data.acceptedUid == request.auth.uid
             && request.auth.uid in getAfter(/databases/$(database)/documents/households/$(hid)).data.memberUids);
       }
+      match /state/points {
+        allow get: if member(hid);
+        allow list, delete: if false;
+        allow create, update: if member(hid)
+          && request.resource.data.keys().hasOnly(['points','updatedAt','updatedBy'])
+          && request.resource.data.updatedBy == request.auth.uid
+          && request.resource.data.updatedAt == request.time
+          && request.resource.data.points.keys().hasOnly(['version','balance','nextReward','claimed','imports'])
+          && request.resource.data.points.version == 1
+          && request.resource.data.points.balance is int
+          && request.resource.data.points.balance >= 0 && request.resource.data.points.balance < 100
+          && request.resource.data.points.nextReward is int
+          && request.resource.data.points.nextReward >= 0 && request.resource.data.points.nextReward < 10
+          && request.resource.data.points.claimed is list && request.resource.data.points.claimed.size() <= 10000
+          && request.resource.data.points.imports is list && request.resource.data.points.imports.size() <= 100;
+      }
       match /state/list {
         allow get: if member(hid);
         allow list, delete: if false;
