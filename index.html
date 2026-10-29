@@ -28,7 +28,7 @@ main{padding-top:calc(var(--host-height,164px) + 20px)}
 <p>予定は「歯医者、運動会、掃除」→「◯◯をToDoに追加して」→「送信」。バニ平が1件ずつ日付を尋ねるので、日付を選んで「この日付で登録」か「日付なし」を押します。選んだ予定から保存され、「残りをキャンセル」で未登録の予定だけを中止できます。</p>
 <p>文章でも頼めます。例：「牛乳を買うものに追加して」「買うものは何が残ってる？」「牛乳を削除して」。返事は上の吹き出しに表示されます。実行の確認には「お願い」、取り消しには「やめとく」と送ります。</p>
 <h3>3. チェックしてバニPと交換</h3>
-<p>買ったもの・終わった用事にチェックを付けると、リスト下に「完了分をバニPと交換」が現れます。押すと、表示中のリストのチェック済み項目が消え、1件につき1バニPがたまります。チェックだけではポイントは増えません。</p>
+<p>買ったもの・終わった用事にチェックを付けると、リスト下に「完了分をバニPと交換」が現れます。押すと、表示中のリストのチェック済み項目が消え、1件につき1バニPがたまります。チェックだけではポイントは増えません。交換を押すと対象はすぐ画面から消えます。共有への保存に失敗した場合は、項目を戻してお知らせします。</p>
 <p>100バニPごとにねぎらいの言葉を届け、超過分は持ち越します。例：103バニPなら3バニP。95〜99バニPへの加算時には「あともうちょっとバニ！」と声をかけます。</p>
 <p>普通の削除ではポイントは増えません。「削除を取り消す」で項目を戻しても、交換済みの項目には再加算されません。家族共有中の交換には通信が必要です。</p>
 <h3>4. 編集・並べ替え・コピー</h3>
@@ -136,7 +136,8 @@ var key='bani-kurashi-test-v2',chatKey='bani-kurashi-chat-v1',undoKey='bani-kura
 var sharedMode=false,sharedPaused=false,syncSave=null,sharedOwner=null;
 var lastSharedKey='bani-kurashi-last-shared-v1';
 var el=function(id){return document.getElementById(id)};
-var sharedPointValue=null,sharedExchange=null;
+var sharedPointValue=null,sharedExchange=null,pendingPointExchange=null;
+function displayItems(){return pendingPointExchange&&pendingPointExchange.key===key&&!sharedPaused?data.filter(function(x){return !pendingPointExchange.ids.includes(x.id)}):data}
 var pointsKey='bani-kurashi-points-v1',baniPoints,pointsReadable=true;
 function emptyPoints(){return {version:1,balance:0,nextReward:0,claimed:[]}}
 function validatePoints(value){
@@ -221,7 +222,7 @@ function forgottenName(name){var n=name.normalize('NFKC').replace(/\s/g,'');if(/
 var reminderAt=0;
 function shoppingReminder(){if(type!=='shopping'||Date.now()-reminderAt<60000)return '';var missing=data.filter(function(x){return x.type==='shopping'&&!x.done&&forgottenName(x.name)});if(!missing.length)return '';reminderAt=Date.now();var item=missing.find(function(x){return forgottenName(x.name)==='わかめ'})||missing[0];return ' '+forgottenName(item.name)+'忘れてないバニか！？赤い文字の買うものも確認してほしいバニ！'}
 function completionReaction(){var text=completedReactions[completedReactionIndex];completedReactionIndex=(completedReactionIndex+1)%completedReactions.length;return text}
-function render(){renderPoints();el('shopping-tab-label').textContent='買うもの('+data.filter(function(x){return x.type==='shopping'}).length+')';el('todo-tab-label').textContent='ToDo('+data.filter(function(x){return x.type==='todo'}).length+')';var targetList=el('items'),list=document.createElement('ul');var visible=data.filter(function(x){return x.type===type});el('heading').textContent=type==='shopping'?'買うもの 🛍️':'ToDo ✅';el('heading').setAttribute('aria-label',type==='shopping'?'買うもの':'ToDo');el('count').textContent='残り '+visible.filter(function(x){return !x.done}).length+' / '+visible.length+'件';el('due-wrap').hidden=type!=='todo';el('entry').placeholder=type==='shopping'?'買うものを入力':'やることを入力';el('clear-done').hidden=!visible.some(function(x){return x.done});el('clear-done').disabled=sharedPaused||!pointsReadable||!visible.some(function(x){return x.done});el('clear-all').disabled=!visible.length;el('copy-list').disabled=!visible.length;el('reorder').disabled=visible.length<2;el('reorder').textContent=reordering?'並べ替えを終了':'並べ替え';el('reorder').setAttribute('aria-pressed',reordering?'true':'false');if(!visible.length){var empty=document.createElement('li');empty.className='empty';empty.textContent='まだ項目はないバニ。';list.appendChild(empty)}
+function render(){renderPoints();var shown=displayItems();el('shopping-tab-label').textContent='買うもの('+shown.filter(function(x){return x.type==='shopping'}).length+')';el('todo-tab-label').textContent='ToDo('+shown.filter(function(x){return x.type==='todo'}).length+')';var targetList=el('items'),list=document.createElement('ul');var visible=shown.filter(function(x){return x.type===type});el('heading').textContent=type==='shopping'?'買うもの 🛍️':'ToDo ✅';el('heading').setAttribute('aria-label',type==='shopping'?'買うもの':'ToDo');el('count').textContent='残り '+visible.filter(function(x){return !x.done}).length+' / '+visible.length+'件';el('due-wrap').hidden=type!=='todo';el('entry').placeholder=type==='shopping'?'買うものを入力':'やることを入力';el('clear-done').hidden=!visible.some(function(x){return x.done});el('clear-done').disabled=sharedPaused||!pointsReadable||!visible.some(function(x){return x.done});el('clear-all').disabled=!visible.length;el('copy-list').disabled=!visible.length;el('reorder').disabled=visible.length<2;el('reorder').textContent=reordering?'並べ替えを終了':'並べ替え';el('reorder').setAttribute('aria-pressed',reordering?'true':'false');if(!visible.length){var empty=document.createElement('li');empty.className='empty';empty.textContent='まだ項目はないバニ。';list.appendChild(empty)}
 visible.forEach(function(x,index){var li=document.createElement('li'),row=document.createElement('div'),check=document.createElement('input'),copy=document.createElement('div'),name=document.createElement('span');li.baniItem=x;li.dataset.itemId=x.id;li.dataset.signature=JSON.stringify([x,reordering,editing===x.id]);li.className='item'+(x.done?' done':'');row.className='item-row';check.type='checkbox';check.checked=!!x.done;check.setAttribute('aria-label',x.name+'を完了');check.addEventListener('change',function(){x.done=check.checked;if(save())status(x.done?completionReaction()+shoppingReminder():'未完了に戻したバニ！');render()});copy.className='item-copy';name.className='item-name'+(x.type==='shopping'&&forgottenName(x.name)?' forget-prone':'');name.textContent=x.name;copy.appendChild(name);if(x.type==='todo'&&x.due){var due=document.createElement('time');due.className='due'+(!x.done&&new Date(x.due.length===10?x.due+'T23:59:59':x.due)<new Date()?' overdue':'');due.dateTime=x.due;due.textContent=dueLabel(x.due);copy.appendChild(due)}row.append(check,copy);if(reordering){var order=document.createElement('div');order.className='order';var up=button('↑',x.name+'を上へ',function(){move(x.id,-1)}),down=button('↓',x.name+'を下へ',function(){move(x.id,1)});li.baniUp=up;li.baniDown=down;up.disabled=index===0;down.disabled=index===visible.length-1;order.append(up,down);row.appendChild(order)}row.appendChild(button('編集',x.name+'を編集',function(){editing=editing===x.id?null:x.id;render()}));li.appendChild(row);
 if(editing===x.id){var form=document.createElement('form'),input=document.createElement('input');form.className='edit-form';input.value=x.name;input.required=true;input.maxLength=300;input.setAttribute('aria-label','項目名を編集');form.appendChild(input);var date;if(x.type==='todo'){var label=document.createElement('label');label.textContent='日時（任意）';date=document.createElement('input');date.type='datetime-local';date.value=x.due&&x.due.length===10?x.due+'T00:00':x.due||'';date.setAttribute('aria-label','日時を編集（任意）');label.appendChild(date);form.appendChild(label)}var actions=document.createElement('div');actions.className='edit-actions';var done=document.createElement('button');done.type='submit';done.className='primary';done.textContent='保存';actions.append(done,button('閉じる','編集を閉じる',function(){editing=null;render()}),button('削除',x.name+'を削除',function(){editing=null;removeIds([x.id])}));form.appendChild(actions);form.addEventListener('submit',function(e){e.preventDefault();var value=input.value.trim();if(!value)return; x.name=value;if(date)x.due=date.value;if(save()){editing=null;status('変更したバニ。')}render()});li.appendChild(form)}list.appendChild(li)});
 // Commit once, retaining unchanged item nodes to avoid mobile scroll/focus jumps.
@@ -266,13 +267,18 @@ function requestPointExchange(){
   if(pointsExchanging)return;
   if(sharedPaused||!sharedExchange){status('共有バニPの接続を確認してから交換してほしいバニ。');return}
   var ids=data.filter(function(x){return x.type===type&&x.done}).map(function(x){return x.id});if(!ids.length)return;
-  pointsExchanging=true;sharedExchange(ids).then(sharedReward).catch(function(){status('共有バニPを交換できなかったバニ。接続を確認してもう一度押してほしいバニ。')}).finally(function(){pointsExchanging=false});return;
+  pointsExchanging=true;var pending={key:key,ids:ids},exchange=sharedExchange;pendingPointExchange=pending;render();
+  Promise.resolve().then(function(){return exchange(ids)}).then(function(result){
+   if(pendingPointExchange!==pending||key!==pending.key)return;
+   if(!result.skip){data=data.filter(function(x){return !result.removed.includes(x.id)});lastSaved=JSON.stringify(data);try{localStorage.setItem(key,lastSaved)}catch(ignore){}sharedReward(result)}
+  }).catch(function(){if(pendingPointExchange===pending&&key===pending.key)status('共有バニPを交換できなかったバニ。項目を戻したので、接続を確認してもう一度押してほしいバニ。')}).finally(function(){if(pendingPointExchange===pending){pendingPointExchange=null;pointsExchanging=false;render()}});return;
  }
 
  if(pointsExchanging)return;pointsExchanging=true;
  var requestedKey=key,requestedType=type,requestedIds=data.filter(function(x){return x.type===type&&x.done}).map(function(x){return x.id});
- function run(){try{if(key!==requestedKey||type!==requestedType){status('リストが切り替わったバニ。内容を確認してから、もう一度交換してほしいバニ。');return}exchangeCompleted(requestedIds)}finally{pointsExchanging=false}}
- if(navigator.locks&&navigator.locks.request)navigator.locks.request('bani-points-exchange',run).catch(function(){pointsExchanging=false;status('交換を始められなかったバニ。もう一度押してほしいバニ。')});else run();
+ var localPending={key:key,ids:requestedIds};pendingPointExchange=localPending;render();
+ function run(){try{if(key!==requestedKey||type!==requestedType){status('リストが切り替わったバニ。内容を確認してから、もう一度交換してほしいバニ。');return}exchangeCompleted(requestedIds)}finally{if(pendingPointExchange===localPending)pendingPointExchange=null;pointsExchanging=false;render()}}
+ if(navigator.locks&&navigator.locks.request)navigator.locks.request('bani-points-exchange',run).catch(function(){if(pendingPointExchange===localPending)pendingPointExchange=null;pointsExchanging=false;render();status('交換を始められなかったバニ。もう一度押してほしいバニ。')});else run();
 }
 try{el('undo').hidden=!localStorage.getItem(undoKey)}catch(e){}
 el('undo').addEventListener('click',function(){try{var backup=deletionBackup||JSON.parse(localStorage.getItem(undoKey)||'null');if(!backup||!Array.isArray(backup.items)||!Array.isArray(backup.removed))return;backup.items.forEach(function(x,i){if(backup.removed.includes(x.id)&&!data.some(function(y){return y.id===x.id}))data.splice(Math.min(i,data.length),0,x)});if(save()){deletionBackup=null;try{localStorage.removeItem(undoKey)}catch(e){}el('undo').hidden=true;status('削除を取り消したバニ。')}render()}catch(e){status('取り消しデータを読み込めなかったバニ。')}});
@@ -393,7 +399,7 @@ el('chat-form').addEventListener('submit',function(e){e.preventDefault();var inp
 window.BaniFamily={
  exchanged:function(result){if(!result.removed.length)return;deletionBackup={items:result.before,removed:result.removed};try{localStorage.setItem(undoKey,JSON.stringify(deletionBackup))}catch(ignore){}el('undo').hidden=false},
  localPoints:function(){readPoints();if(!pointsReadable)throw Error('invalid-local-points');return validatePoints(baniPoints)},
- configurePoints:function(handler){sharedExchange=handler;if(!handler)sharedPointValue=null;renderPoints()},
+ configurePoints:function(handler){sharedExchange=handler;if(!handler){pendingPointExchange=null;pointsExchanging=false;}if(!handler)sharedPointValue=null;renderPoints()},
  sharedPoints:function(points){sharedPointValue=validatePoints(points);renderPoints()},
  snapshot:function(){return JSON.parse(lastSaved)},
  notice:speak,
@@ -425,7 +431,7 @@ el('family-state').addEventListener('click',function(){el('family-panel').open=t
 var invitedHouse=new URLSearchParams(location.hash.slice(1)).get('family');
 var hasFamilyInvite=!!invitedHouse&&/^[A-Za-z0-9]{20}$/.test(invitedHouse);
 if(hasFamilyInvite){el('family-panel').open=true;el('family-state').textContent='家族からの招待・参加手続きを確認';}
-function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261028-shared-points-v2').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
+function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261029-instant-exchange').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
 el('sync-start').addEventListener('click',startFamily);
 try{if(hasFamilyInvite||localStorage.getItem('bani-family-enabled')==='1')startFamily()}catch(ignore){}
 if(window.history&&'scrollRestoration' in window.history)window.history.scrollRestoration='manual';
