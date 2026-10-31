@@ -1,4 +1,4 @@
-import {empty as emptySharedPoints,valid as validSharedPoints,credit,migrate} from './shared-points.mjs?v=20261028-v2';
+import {empty as emptySharedPoints,valid as validSharedPoints,credit,migrate} from './shared-points.mjs?v=20261031-50';
 import config from './firebase-config.mjs';
 import {validateItems,mergeChanges} from './sync-merge.mjs';
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';

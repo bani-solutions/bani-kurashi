@@ -29,7 +29,7 @@ main{padding-top:calc(var(--host-height,164px) + 20px)}
 <p>文章でも頼めます。例：「牛乳を買うものに追加して」「買うものは何が残ってる？」「牛乳を削除して」。返事は上の吹き出しに表示されます。実行の確認には「お願い」、取り消しには「やめとく」と送ります。</p>
 <h3>3. チェックしてバニPと交換</h3>
 <p>買ったもの・終わった用事にチェックを付けると、リスト下に「完了分をバニPと交換」が現れます。押すと、表示中のリストのチェック済み項目が消え、1件につき1バニPがたまります。チェックだけではポイントは増えません。交換を押すと対象はすぐ画面から消えます。共有への保存に失敗した場合は、項目を戻してお知らせします。</p>
-<p>100バニPごとにねぎらいの言葉を届け、超過分は持ち越します。例：103バニPなら3バニP。95〜99バニPへの加算時には「あともうちょっとバニ！」と声をかけます。</p>
+<p>50バニPごとにねぎらいの言葉を届け、超過分は持ち越します。例：53バニPなら3バニP。以前の残高が50バニP以上の場合も、次の交換時に50バニPごとに精算して超過分を持ち越します。45〜49バニPへの加算時には「あともうちょっとバニ！」と声をかけます。</p>
 <p>普通の削除ではポイントは増えません。「削除を取り消す」で項目を戻しても、交換済みの項目には再加算されません。家族共有中の交換には通信が必要です。</p>
 <h3>4. 編集・並べ替え・コピー</h3>
 <p>項目の「編集」で名前・ToDoの日時を変更し、「保存」を押します。削除も編集画面からできます。「リストの操作」→「並べ替え」で↑↓を押し、終わったら「並べ替えを終了」を押します。</p>
@@ -148,16 +148,16 @@ function readPoints(){try{var raw=localStorage.getItem(pointsKey);baniPoints=raw
 function renderPoints(){el('bani-points').textContent=sharedMode?(sharedPointValue?sharedPointValue.balance+' バニP（家族共有）':'共有バニP確認中'):pointsReadable?baniPoints.balance+' バニP':'バニP読込エラー'}
 readPoints();
 var pointRewards=[
- '100バニP達成バニ！いつも暮らしを支えてくれてありがとうバニ。ひとつずつ片づけた頑張り、ちゃんと見ているバニ！',
- '100バニP、おめでとうバニ！毎日の小さな積み重ねが、こんなに大きくなったバニ。今日は自分にも「お疲れさま」を届けてほしいバニ。',
- 'いつも家族のために頑張ってくれてありがとうバニ！100バニPぶん、ありがとうをぎゅっと詰めて贈るバニ。',
- '100バニP達成バニ！忙しい日も、ひとつずつ進めていて立派バニ。今は少し肩の力を抜いて、ひと息ついてほしいバニ。',
- 'お買い物も、やることも、お疲れさまバニ！100バニPは頑張った証バニ。バニ平から大きな拍手を送るバニ！',
- '100バニPたまったバニ！いつもありがとうバニ。お祝いの拍手に張り切ったら、耳までぴょんと跳ねちゃったバニ！',
- '目立たない用事も、暮らしを支える大切な仕事バニ。100バニPぶんの頑張りに、心からありがとうバニ！',
- '100バニP達成バニ！うまくいかない日があっても、ここまで積み重ねてきたことは消えないバニ。今日もよく頑張ったバニ。',
- 'いつも一緒に暮らしを整えてくれてありがとうバニ！100バニPのお祝いに、ふわふわのねぎらいをいっぱい届けるバニ。',
- '100バニP、お見事バニ！やることを片づけた分だけ、毎日を支えてきたバニ。頑張った自分を、たっぷりほめてほしいバニ！'
+ '50バニP達成バニ！いつも暮らしを支えてくれてありがとうバニ。ひとつずつ片づけた頑張り、ちゃんと見ているバニ！',
+ '50バニP、おめでとうバニ！毎日の小さな積み重ねが、こんなに大きくなったバニ。今日は自分にも「お疲れさま」を届けてほしいバニ。',
+ 'いつも家族のために頑張ってくれてありがとうバニ！50バニPぶん、ありがとうをぎゅっと詰めて贈るバニ。',
+ '50バニP達成バニ！忙しい日も、ひとつずつ進めていて立派バニ。今は少し肩の力を抜いて、ひと息ついてほしいバニ。',
+ 'お買い物も、やることも、お疲れさまバニ！50バニPは頑張った証バニ。バニ平から大きな拍手を送るバニ！',
+ '50バニPたまったバニ！いつもありがとうバニ。お祝いの拍手に張り切ったら、耳までぴょんと跳ねちゃったバニ！',
+ '目立たない用事も、暮らしを支える大切な仕事バニ。50バニPぶんの頑張りに、心からありがとうバニ！',
+ '50バニP達成バニ！うまくいかない日があっても、ここまで積み重ねてきたことは消えないバニ。今日もよく頑張ったバニ。',
+ 'いつも一緒に暮らしを整えてくれてありがとうバニ！50バニPのお祝いに、ふわふわのねぎらいをいっぱい届けるバニ。',
+ '50バニP、お見事バニ！やることを片づけた分だけ、毎日を支えてきたバニ。頑張った自分を、たっぷりほめてほしいバニ！'
 ];
 var startupMessage='',deletionBackup=null,storageReadable=true,lastSaved='[]';try{var raw=localStorage.getItem(key);if(raw){var parsed=JSON.parse(raw);if(!Array.isArray(parsed))throw Error('invalid');data=parsed;lastSaved=raw}}catch(e){storageReadable=false;startupMessage='以前のリストを読み込めないバニ。保存設定を確認してほしいバニ。';el('add').disabled=true}
 var looks=[['いつもの','banihei-illustration.png'],['うれしい','banihei-happy.png'],['考え中','banihei-think.png'],['聞いてる','banihei-listen.png'],['応援','banihei-cheer.png'],['ありがとう','banihei-thanks.png'],['びっくり','banihei-surprise.png'],['ひと休み','banihei-rest.png'],['メモする','banihei-note.png'],['またね','banihei-bye.png'],['くすぐったい','banihei-ticklish.png'],['照れている','banihei-shy.png'],['大喜び','banihei-delighted.png'],['楽しんでいる','banihei-playful.png']];
@@ -246,12 +246,12 @@ function exchangeCompleted(expectedIds){
  var completed=data.filter(function(x){return x.type===type&&x.done&&(!expectedIds||expectedIds.includes(x.id))});if(!completed.length)return;
  var next=validatePoints(baniPoints),claimed=new Set(next.claimed),added=0;
  completed.forEach(function(x){var tag=JSON.stringify(x.id);if(!claimed.has(tag)){claimed.add(tag);next.claimed.push(tag);added++}});
- var total=next.balance+added,rewards=Math.floor(total/100),messages=[];
+ var total=next.balance+added,rewards=Math.floor(total/50),messages=[];
  for(var i=0;i<Math.min(rewards,10);i++)messages.push(pointRewards[(next.nextReward+i)%10]);
- next.balance=total%100;next.nextReward=(next.nextReward+rewards)%10;
+ next.balance=total%50;next.nextReward=(next.nextReward+rewards)%10;
  if(!removeIds(completed.map(function(x){return x.id}),next))return;
  var text=added?completed.length+'件を片づけて、'+added+'バニPたまったバニ！':completed.length+'件を片づけたバニ。交換済みの項目なのでバニPの再加算はないバニ。';
- if(rewards){text+='\n\n'+messages.join('\n\n');if(rewards>1)text+='\n100バニPを'+rewards+'回達成したバニ！';text+='\n持ち越しは'+next.balance+'バニPになるバニ。'}else {text+=' 今は'+next.balance+'バニPになるバニ。';if(added&&next.balance>=95)text+=' あともうちょっとバニ！100バニPまであと'+(100-next.balance)+'バニPバニ！'}
+ if(rewards){text+='\n\n'+messages.join('\n\n');if(rewards>1)text+='\n50バニPを'+rewards+'回達成したバニ！';text+='\n持ち越しは'+next.balance+'バニPになるバニ。'}else {text+=' 今は'+next.balance+'バニPになるバニ。';if(added&&next.balance>=45)text+=' あともうちょっとバニ！50バニPまであと'+(50-next.balance)+'バニPバニ！'}
  remember('bani',text,true);if(rewards)setLook(1);
 }
 var pointsExchanging=false;
@@ -259,7 +259,7 @@ function sharedReward(result){
  if(result.skip)return;
  var text=result.added+'バニPを家族で貯めたバニ！ 今は'+result.points.balance+'バニPになるバニ。';
  if(result.rewards){text+='\n'+pointRewards[result.rewardIndex]+'\n持ち越しは'+result.points.balance+'バニPになるバニ。'}
- else if(result.added&&result.points.balance>=95)text+=' あともうちょっとバニ！100バニPまであと'+(100-result.points.balance)+'バニPバニ！';
+ else if(result.added&&result.points.balance>=45)text+=' あともうちょっとバニ！50バニPまであと'+(50-result.points.balance)+'バニPバニ！';
  remember('bani',text,true);
 }
 function requestPointExchange(){
@@ -431,7 +431,7 @@ el('family-state').addEventListener('click',function(){el('family-panel').open=t
 var invitedHouse=new URLSearchParams(location.hash.slice(1)).get('family');
 var hasFamilyInvite=!!invitedHouse&&/^[A-Za-z0-9]{20}$/.test(invitedHouse);
 if(hasFamilyInvite){el('family-panel').open=true;el('family-state').textContent='家族からの招待・参加手続きを確認';}
-function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261029-instant-exchange').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
+function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261031-points-50').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
 el('sync-start').addEventListener('click',startFamily);
 try{if(hasFamilyInvite||localStorage.getItem('bani-family-enabled')==='1')startFamily()}catch(ignore){}
 if(window.history&&'scrollRestoration' in window.history)window.history.scrollRestoration='manual';

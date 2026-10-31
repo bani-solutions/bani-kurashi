@@ -3,8 +3,10 @@ import {empty,credit,migrate} from './shared-points.mjs';
 let p=migrate(empty(),{balance:94,claimed:[]},'husband');
 assert.equal(migrate(p,{balance:94,claimed:[]},'husband').balance,94);
 p=migrate(p,{balance:3,claimed:[]},'wife');assert.equal(p.balance,97);
-let result=credit(p,['a','b','c','d','e']);assert.equal(result.points.balance,2);assert.equal(result.rewards,1);
+let result=credit(p,['a','b','c','d','e']);assert.equal(result.points.balance,2);assert.equal(result.rewards,2);
 assert.equal(credit(result.points,['a','b','c','d','e']).added,0);
 result=credit(result.points,['f']);assert.equal(result.points.balance,3);
 assert.equal(credit(empty(),Array.from({length:205},(_,i)=>''+i)).points.balance,5);
 console.log('PASS: couple balance migration once per account, rollover, milestone, retry/undo deduplication');
+
+assert.equal(credit({...empty(),balance:49},['new']).points.balance,0);assert.equal(credit({...empty(),balance:80},['new']).points.balance,31);
