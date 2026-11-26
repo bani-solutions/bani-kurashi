@@ -1,4 +1,4 @@
-import {empty as emptySharedPoints,valid as validSharedPoints,credit,migrate} from './shared-points.mjs?v=20261031-50';
+import {empty as emptySharedPoints,valid as validSharedPoints,credit,migrate} from './shared-points.mjs?v=20261126-history';
 import config from './firebase-config.mjs';
 import {validateItems,mergeChanges} from './sync-merge.mjs';
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
@@ -52,7 +52,7 @@ async function connectPoints(gen){
    const [listSnap,pointSnap]=await Promise.all([tx.get(listRef),tx.get(ref)]);
    if(!listSnap.exists()||!pointSnap.exists())throw Error('missing-state');
    const state=listSnap.data(),items=validateItems(state.items),chosen=items.filter(x=>ids.includes(x.id)&&x.done);
-   result=credit(pointSnap.data().points,chosen.map(x=>x.id));result.before=items;result.removed=chosen.map(x=>x.id);result.state={items:items.filter(x=>!chosen.some(y=>y.id===x.id)),revision:state.revision+(chosen.length?1:0)};
+   result=credit(pointSnap.data().points,chosen.map(x=>x.id),chosen);result.before=items;result.removed=chosen.map(x=>x.id);result.state={items:items.filter(x=>!chosen.some(y=>y.id===x.id)),revision:state.revision+(chosen.length?1:0)};
    if(!chosen.length)return;
    tx.set(listRef,{items:items.filter(x=>!chosen.some(y=>y.id===x.id)),revision:state.revision+1,updatedBy:uid,updatedAt:serverTimestamp()});
    tx.set(ref,{points:result.points,updatedBy:uid,updatedAt:serverTimestamp()});
@@ -61,3 +61,4 @@ async function connectPoints(gen){
  });
  stopPoints=onSnapshot(ref,snap=>{if(gen===generation&&snap.exists()){try{bridge.sharedPoints(validSharedPoints(snap.data().points))}catch{bridge.notice('共有バニPを読み込めないバニ。再接続してほしいバニ。')}}},()=>{if(gen===generation)bridge.configurePoints(null)});
 }
+

@@ -6,5 +6,7 @@ const ctx={...merge,emptySharedPoints:points.empty,validSharedPoints:points.vali
 vm.createContext(ctx);vm.runInContext(fs.readFileSync('family-sync.mjs','utf8').slice(fs.readFileSync('family-sync.mjs','utf8').indexOf('async function connectPoints')),ctx);
 await ctx.connectPoints(1);const husband=handler;ctx.user={uid:'wife'};ctx.bridge.localPoints=()=>({balance:3,claimed:[]});await ctx.connectPoints(1);const wife=handler;
 const results=await Promise.all([husband(['a','b','c']),wife(['a','b','c'])]);assert.equal(results.reduce((n,r)=>n+r.added,0),3);assert.equal(docs.get('households/home/state/points').points.balance,0);assert.equal(docs.get('households/home/state/list').items.length,0);assert.equal(results.reduce((n,r)=>n+r.rewards,0),1);assert.equal((await husband(['a'])).added,0);
+assert.equal(docs.get('households/home/state/points').points.history.length,1);assert.equal(docs.get('households/home/state/points').points.history[0].items.length,3);
 console.log('PASS: actual shared exchange transaction, couple concurrent exchange, single credit/reward, atomic list deletion and retry');
 })();
+

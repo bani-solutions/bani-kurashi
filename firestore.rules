@@ -81,7 +81,8 @@ service cloud.firestore {
           && request.resource.data.keys().hasOnly(['points','updatedAt','updatedBy'])
           && request.resource.data.updatedBy == request.auth.uid
           && request.resource.data.updatedAt == request.time
-          && request.resource.data.points.keys().hasOnly(['version','balance','nextReward','claimed','imports'])
+          && request.resource.data.points.keys().hasOnly(['version','balance','nextReward','claimed','imports','history'])
+          && (!('history' in request.resource.data.points) || request.resource.data.points.history is list)
           && request.resource.data.points.version == 1
           && request.resource.data.points.balance is int
           && request.resource.data.points.balance >= 0 && request.resource.data.points.balance < 100
@@ -113,3 +114,4 @@ service cloud.firestore {
     }
   }
 }
+

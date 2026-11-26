@@ -17,7 +17,7 @@ main{padding-top:calc(var(--host-height,164px) + 20px)}
 .portrait{-webkit-user-select:none;user-select:none}.portrait img,.portrait span{pointer-events:none}.portrait img{-webkit-user-drag:none}
 #bani-points{font-size:11px;line-height:1.5;margin-top:2px;color:#526f55;font-weight:600;white-space:nowrap}
 .backup-help{margin-top:12px}.backup-help summary{font-size:13px;color:#667b68;cursor:pointer;padding:4px 0}
-#items{overflow-anchor:none}.item{overflow-anchor:none}.item-name.forget-prone{color:#b52e32;font-weight:600}.done .item-name.forget-prone{color:#916464}#clear-done{display:block;width:100%;margin:0 0 14px}.concierge-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:12px}.concierge-head h2{margin:0}.concierge-hint{font-size:11px;color:#587b5e;line-height:1.5}@media(max-width:420px){.concierge-head h2{font-size:16px}.concierge-hint{font-size:10px}}</style></head><body><main>
+#items{overflow-anchor:none}.item{overflow-anchor:none}.item-name.forget-prone{color:#b52e32;font-weight:600}.done .item-name.forget-prone{color:#916464}#clear-done{display:block;width:100%;margin:0 0 14px}.concierge-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:12px}.concierge-head h2{margin:0}.concierge-hint{font-size:11px;color:#587b5e;line-height:1.5}@media(max-width:420px){.concierge-head h2{font-size:16px}.concierge-hint{font-size:10px}}#exchange-history-list{list-style:none;padding:0;font-size:13px;line-height:1.7;max-height:320px;overflow:auto}#exchange-history-list>li{border-bottom:1px solid #edf0e9;padding:8px 0}#exchange-history-list p{margin:0 0 4px;font-weight:600}#exchange-history-list ul{padding-left:1.3em;overflow-wrap:anywhere}</style></head><body><main>
 <header class="host"><button type="button" class="portrait" id="host-pet" aria-label="バニ平をなでる"><img id="host-image" src="banihei-illustration.png" alt="案内役のバニ平" draggable="false" width="85" height="112"><span>バニ平</span><span id="bani-points" aria-live="polite" title="この端末・ブラウザのバニポイント">0 バニP</span></button><div><h1 class="brand-title" aria-label="バニ平のくらし管理"><span class="brand-name" aria-hidden="true">バニ平</span><span class="brand-life" aria-hidden="true">のくらし管理</span></h1><div class="speech"><p id="host-message" aria-live="polite">おかえりバニ！何をお手伝いするバニ？</p></div></div><details class="guide" id="usage-guide"><summary>使い方<span aria-hidden="true"> 📖</span></summary><div class="usage-guide">
 <p>この説明欄の中をスクロールすると、続きを読めます。</p>
 <h3>1. 1件ずつ追加する</h3>
@@ -31,7 +31,7 @@ main{padding-top:calc(var(--host-height,164px) + 20px)}
 <p>買ったもの・終わった用事にチェックを付けると、リスト下に「完了分をバニPと交換」が現れます。押すと、表示中のリストのチェック済み項目が消え、1件につき1バニPがたまります。チェックだけではポイントは増えません。交換を押すと対象はすぐ画面から消えます。共有への保存に失敗した場合は、項目を戻してお知らせします。</p>
 <p>50バニPごとにねぎらいの言葉を届け、超過分は持ち越します。例：53バニPなら3バニP。以前の残高が50バニP以上の場合も、次の交換時に50バニPごとに精算して超過分を持ち越します。45〜49バニPへの加算時には「あともうちょっとバニ！」と声をかけます。</p>
 <p>普通の削除ではポイントは増えません。「削除を取り消す」で項目を戻しても、交換済みの項目には再加算されません。家族共有中の交換には通信が必要です。</p>
-<h3>4. 編集・並べ替え・コピー</h3>
+<p>「最近のバニP交換履歴」で、更新後に交換した項目・日時・獲得ポイントを過去7日分確認できます。家族共有中は夫婦共通の履歴を表示します。以前の交換分は日時・品名の記録がないため表示できません。</p><h3>4. 編集・並べ替え・コピー</h3>
 <p>項目の「編集」で名前・ToDoの日時を変更し、「保存」を押します。削除も編集画面からできます。「リストの操作」→「並べ替え」で↑↓を押し、終わったら「並べ替えを終了」を押します。</p>
 <p>「リストをコピー」で、表示中のリストをメモアプリなどに貼り付けられます。「すべて一括削除」は「リストの操作」の中にあります。</p>
 <h3>5. 買い忘れを防ぐ・バニ平にタッチ</h3>
@@ -46,7 +46,7 @@ main{padding-top:calc(var(--host-height,164px) + 20px)}
 </div></details></header>
 <nav class="tabs" aria-label="リストを選ぶ"><button id="shopping" type="button" class="active" aria-pressed="true"><span id="shopping-tab-label">買うもの(0)</span><span aria-hidden="true"> 🛍️</span></button><button id="todo" type="button" aria-pressed="false"><span id="todo-tab-label">ToDo(0)</span><span aria-hidden="true"> ✅</span></button></nav>
 <section class="card" aria-labelledby="heading"><div class="list-head"><h2 id="heading" aria-label="買うもの">買うもの 🛍️</h2><div class="list-actions"><p id="count"></p><button type="button" id="copy-list" class="mini">リストをコピー</button></div></div><details class="tools"><summary>リストの操作</summary><div class="tools-panel"><button type="button" id="reorder" aria-pressed="false">並べ替え</button><button type="button" id="clear-all" class="danger">すべて一括削除</button></div></details><div id="copy-panel" hidden><label for="copy-text" class="help">長押しして「すべて選択」→「コピー」</label><textarea id="copy-text" readonly aria-label="手動コピー用のリスト" rows="5"></textarea><button type="button" id="copy-close" class="mini">閉じる</button></div><ul id="items"></ul><button type="button" id="clear-done" class="primary" hidden>完了分をバニPと交換</button><form id="form"><div class="add-row"><input id="entry" aria-label="追加する項目" placeholder="買うものを入力" maxlength="300" required><button class="primary" id="add" type="submit">追加</button></div><label id="due-wrap" hidden>日時（任意）<input type="datetime-local" id="due" aria-label="ToDoの日時（任意）"></label></form><p id="status" role="status"></p><button id="undo" type="button" hidden>削除を取り消す</button></section>
-<section class="card" aria-labelledby="concierge-heading"><div class="concierge-head"><h2 id="concierge-heading">バニコンシェルジュ<span aria-hidden="true"> 🐰</span></h2><span class="concierge-hint">たくさん追加するときはココ👌</span></div><div class="examples"><button id="chat-shopping-shortcut" type="button">◯◯を買うものに追加して</button><button id="chat-todo-shortcut" type="button">◯◯をToDoに追加して</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平にお願いする" maxlength="1000" required><button class="primary" type="submit">送信</button></form><div id="todo-date-panel" hidden><p id="todo-date-question" class="help"></p><label>日付<input id="todo-chat-date" type="date" aria-label="予定の日付"></label><div class="backup-actions"><button id="todo-date-save" type="button">この日付で登録</button><button id="todo-date-none" type="button">日付なし</button><button id="todo-date-cancel" type="button">残りをキャンセル</button></div></div><p id="chat-status" role="status"></p></section><section class="card" aria-labelledby="backup-heading"><h2 id="backup-heading">バックアップ<span aria-hidden="true"> 💾</span></h2><div class="backup-actions"><button id="backup-save" class="primary" type="button">バックアップを保存</button><button id="backup-open" type="button">バックアップから復元</button></div><input id="backup-file" type="file" accept=".json,application/json" hidden><div id="restore-preview" hidden><p id="restore-summary" class="help"></p><p class="help">端末内データを置き換えます。旧ファイルにバニPがなければ今の残高を保ちます。「復元前に戻す」で取り消せます。</p><div class="backup-actions"><button id="restore-confirm" type="button" class="primary">この内容で復元</button><button id="restore-cancel" type="button">キャンセル</button></div></div><button id="restore-undo" type="button" hidden>復元前に戻す</button><p id="backup-status" class="help" role="status"></p><details id="backup-help" class="backup-help"><summary>説明</summary><p class="help">表示中のリストとバニPを保存します（会話記録も含む）。ファイルは「ファイル」アプリなどに保管してください。</p><p class="help">復元は共有を終了してから。端末内データを置き換えますが、「復元前に戻す」で取り消せます。</p></details></section><section class="card" aria-labelledby="sharing-heading"><h2 id="sharing-heading">共有<span aria-hidden="true"> 🔗</span></h2><button id="family-state" type="button" class="mini" style="width:100%;margin-top:10px">この端末のみ・共有設定を開く</button><details id="family-panel"><summary>共有設定</summary><p id="sync-status" class="help" role="status">この端末だけで利用中</p><div id="sync-controls" class="tools-panel"><button id="sync-start" type="button">共有設定を開く</button></div><p class="help">共有するのは買うもの・ToDoです。バニPも家族で共有し、会話はこの端末に残ります。元の端末内リストも保管します。</p></details></section><p class="bottom-note">端末のみのリストと会話はこのブラウザに保存されます。共有中のリストは家族と同期します。</p></main>
+<section class="card" aria-labelledby="concierge-heading"><div class="concierge-head"><h2 id="concierge-heading">バニコンシェルジュ<span aria-hidden="true"> 🐰</span></h2><span class="concierge-hint">たくさん追加するときはココ👌</span></div><div class="examples"><button id="chat-shopping-shortcut" type="button">◯◯を買うものに追加して</button><button id="chat-todo-shortcut" type="button">◯◯をToDoに追加して</button></div><form id="chat-form" class="chat-form"><input id="chat-input" aria-label="バニ平へのメッセージ" placeholder="バニ平にお願いする" maxlength="1000" required><button class="primary" type="submit">送信</button></form><div id="todo-date-panel" hidden><p id="todo-date-question" class="help"></p><label>日付<input id="todo-chat-date" type="date" aria-label="予定の日付"></label><div class="backup-actions"><button id="todo-date-save" type="button">この日付で登録</button><button id="todo-date-none" type="button">日付なし</button><button id="todo-date-cancel" type="button">残りをキャンセル</button></div></div><p id="chat-status" role="status"></p></section><section class="card" aria-labelledby="exchange-history-heading"><h2 id="exchange-history-heading">最近のバニP交換履歴<span aria-hidden="true"> 📜</span></h2><p id="exchange-history-note" class="help"></p><ul id="exchange-history-list"></ul></section><section class="card" aria-labelledby="backup-heading"><h2 id="backup-heading">バックアップ<span aria-hidden="true"> 💾</span></h2><div class="backup-actions"><button id="backup-save" class="primary" type="button">バックアップを保存</button><button id="backup-open" type="button">バックアップから復元</button></div><input id="backup-file" type="file" accept=".json,application/json" hidden><div id="restore-preview" hidden><p id="restore-summary" class="help"></p><p class="help">端末内データを置き換えます。旧ファイルにバニPがなければ今の残高を保ちます。「復元前に戻す」で取り消せます。</p><div class="backup-actions"><button id="restore-confirm" type="button" class="primary">この内容で復元</button><button id="restore-cancel" type="button">キャンセル</button></div></div><button id="restore-undo" type="button" hidden>復元前に戻す</button><p id="backup-status" class="help" role="status"></p><details id="backup-help" class="backup-help"><summary>説明</summary><p class="help">表示中のリストとバニPを保存します（会話記録も含む）。ファイルは「ファイル」アプリなどに保管してください。</p><p class="help">復元は共有を終了してから。端末内データを置き換えますが、「復元前に戻す」で取り消せます。</p></details></section><section class="card" aria-labelledby="sharing-heading"><h2 id="sharing-heading">共有<span aria-hidden="true"> 🔗</span></h2><button id="family-state" type="button" class="mini" style="width:100%;margin-top:10px">この端末のみ・共有設定を開く</button><details id="family-panel"><summary>共有設定</summary><p id="sync-status" class="help" role="status">この端末だけで利用中</p><div id="sync-controls" class="tools-panel"><button id="sync-start" type="button">共有設定を開く</button></div><p class="help">共有するのは買うもの・ToDoです。バニPも家族で共有し、会話はこの端末に残ります。元の端末内リストも保管します。</p></details></section><p class="bottom-note">端末のみのリストと会話はこのブラウザに保存されます。共有中のリストは家族と同期します。</p></main>
 <script>
 /* conversation-v2:start — deterministic local intent and short-lived dialogue state. */
 var BaniConversationV2={create:function(api){
@@ -138,14 +138,33 @@ var lastSharedKey='bani-kurashi-last-shared-v1';
 var el=function(id){return document.getElementById(id)};
 var sharedPointValue=null,sharedExchange=null,pendingPointExchange=null;
 function displayItems(){return pendingPointExchange&&pendingPointExchange.key===key&&!sharedPaused?data.filter(function(x){return !pendingPointExchange.ids.includes(x.id)}):data}
+function historyOf(value){
+ if(value===undefined)return [];
+ if(!Array.isArray(value)||value.some(e=>!e||!Number.isSafeInteger(e.at)||e.at<0||!Array.isArray(e.items)||!e.items.length||e.items.some(x=>!x||typeof x.id!=='string'||typeof x.name!=='string'||!['shopping','todo'].includes(x.type)||![0,1].includes(x.points))))throw Error('invalid-exchange-history');
+ return value.map(e=>({at:e.at,items:e.items.map(x=>({id:x.id,name:x.name,type:x.type,points:x.points}))}));
+}
+function recentHistory(value,now=Date.now()){return historyOf(value).filter(e=>e.at>=now-7*86400000&&e.at<=now).sort((a,b)=>b.at-a.at)}
+function appendHistory(value,items,claimed,now=Date.now()){
+ const history=recentHistory(value,now);if(!items.length)return history;
+ return [{at:now,items:items.map(x=>({id:x.id,name:x.name,type:x.type,points:claimed.includes(JSON.stringify(x.id))?0:1}))},...history];
+}
+
 var pointsKey='bani-kurashi-points-v1',baniPoints,pointsReadable=true;
 function emptyPoints(){return {version:1,balance:0,nextReward:0,claimed:[]}}
 function validatePoints(value){
  if(!value||value.version!==1||!Number.isInteger(value.balance)||value.balance<0||value.balance>=100||!Number.isInteger(value.nextReward)||value.nextReward<0||value.nextReward>=10||!Array.isArray(value.claimed)||value.claimed.length>100000||value.claimed.some(function(x){return typeof x!=='string'||x.length>700})||new Set(value.claimed).size!==value.claimed.length)throw Error('invalid-points');
- return {version:1,balance:value.balance,nextReward:value.nextReward,claimed:value.claimed.slice()};
+ return {version:1,balance:value.balance,nextReward:value.nextReward,claimed:value.claimed.slice(),history:historyOf(value.history)};
 }
 function readPoints(){try{var raw=localStorage.getItem(pointsKey);baniPoints=raw===null?emptyPoints():validatePoints(JSON.parse(raw));pointsReadable=true}catch(e){pointsReadable=false;if(!baniPoints)baniPoints=emptyPoints()}}
-function renderPoints(){el('bani-points').textContent=sharedMode?(sharedPointValue?sharedPointValue.balance+' バニP（家族共有）':'共有バニP確認中'):pointsReadable?baniPoints.balance+' バニP':'バニP読込エラー'}
+function renderExchangeHistory(){
+ var list=el('exchange-history-list');list.textContent='';
+ var source=sharedMode?sharedPointValue:baniPoints;
+ el('exchange-history-note').textContent=sharedMode?'家族共有の過去7日間の交換履歴です。':'この端末の過去7日間の交換履歴です。';
+ if(!source){list.textContent='共有の交換履歴を確認中です。';return}
+ var entries=recentHistory(source.history);if(!entries.length){list.textContent='まだ交換履歴はありません。更新後の交換から記録します。';return}
+ entries.forEach(function(entry){var row=document.createElement('li'),title=document.createElement('p'),names=document.createElement('ul');title.textContent=new Date(entry.at).toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+' ／ +'+entry.items.reduce(function(n,x){return n+x.points},0)+'バニP';row.appendChild(title);entry.items.forEach(function(x){var item=document.createElement('li');item.textContent=(x.type==='shopping'?'買うもの：':'ToDo：')+x.name+(x.points?'':'（交換済み・再加算なし）');names.appendChild(item)});row.appendChild(names);list.appendChild(row)});
+}
+function renderPoints(){renderExchangeHistory();el('bani-points').textContent=sharedMode?(sharedPointValue?sharedPointValue.balance+' バニP（家族共有）':'共有バニP確認中'):pointsReadable?baniPoints.balance+' バニP':'バニP読込エラー'}
 readPoints();
 var pointRewards=[
  '50バニP達成バニ！いつも暮らしを支えてくれてありがとうバニ。ひとつずつ片づけた頑張り、ちゃんと見ているバニ！',
@@ -244,7 +263,7 @@ function exchangeCompleted(expectedIds){
  if(sharedPaused||!storageReadable){status('接続や保存設定を確認してから交換してほしいバニ。');return}
  readPoints();if(!pointsReadable){render();status('バニPを読み込めないため交換を止めたバニ。保存データは消さずに保管しているバニ。');return}
  var completed=data.filter(function(x){return x.type===type&&x.done&&(!expectedIds||expectedIds.includes(x.id))});if(!completed.length)return;
- var next=validatePoints(baniPoints),claimed=new Set(next.claimed),added=0;
+ var next=validatePoints(baniPoints);next.history=appendHistory(next.history,completed,next.claimed);var claimed=new Set(next.claimed),added=0;
  completed.forEach(function(x){var tag=JSON.stringify(x.id);if(!claimed.has(tag)){claimed.add(tag);next.claimed.push(tag);added++}});
  var total=next.balance+added,rewards=Math.floor(total/50),messages=[];
  for(var i=0;i<Math.min(rewards,10);i++)messages.push(pointRewards[(next.nextReward+i)%10]);
@@ -431,7 +450,7 @@ el('family-state').addEventListener('click',function(){el('family-panel').open=t
 var invitedHouse=new URLSearchParams(location.hash.slice(1)).get('family');
 var hasFamilyInvite=!!invitedHouse&&/^[A-Za-z0-9]{20}$/.test(invitedHouse);
 if(hasFamilyInvite){el('family-panel').open=true;el('family-state').textContent='家族からの招待・参加手続きを確認';}
-function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261031-points-50').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
+function startFamily(){el('sync-start').disabled=true;try{localStorage.setItem('bani-family-enabled','1')}catch(ignore){}import('./family-sync.mjs?v=20261126-exchange-history').then(function(m){return m.start(window.BaniFamily)}).catch(function(){el('sync-start').disabled=false;window.BaniFamily.suspend();el('sync-status').textContent='共有機能を読み込めませんでした。最後の共有リストは保管しています。通信を確認して再度お試しください。'})}
 el('sync-start').addEventListener('click',startFamily);
 try{if(hasFamilyInvite||localStorage.getItem('bani-family-enabled')==='1')startFamily()}catch(ignore){}
 if(window.history&&'scrollRestoration' in window.history)window.history.scrollRestoration='manual';
@@ -439,3 +458,4 @@ function openAtTop(){window.scrollTo({top:0,left:0,behavior:'instant'})}
 if(window.scrollTo){openAtTop();if(window.addEventListener){window.addEventListener('pageshow',openAtTop);window.addEventListener('load',openAtTop,{once:true})}}
 })();
 </script></body></html>
+
